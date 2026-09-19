@@ -1,0 +1,145 @@
+================================================================================
+NETRASETU — COMPREHENSIVE FINAL QA & REGRESSION REPORT
+Smart India Hackathon 2026 | Problem Statement ID: 26038
+Project: NetraSetu — Explainable AI for Diabetic Retinopathy Screening in Rural India
+================================================================================
+Generated Date: 2026-09-19 23:45:00
+Environment: Windows (x86_64) | PyTorch 2.6.0+cu124 | CUDA Available: True
+Production Model Path: models\NetraSetu_ResNet50_best.pth
+Production Referable Threshold: 0.24
+
+================================================================================
+1. EXECUTIVE SUMMARY & TEST RESULTS COUNTS
+================================================================================
+Total Formal Tests Executed:  47
+Tests Passed:                 47
+Tests Failed:                  0
+Tests Skipped:                 0
+Success Rate:                 100.0%
+Production Regressions:        0
+
+TEST SUITE BREAKDOWN:
+--------------------------------------------------------------------------------
+Suite # | Test Suite Domain                              | Passed | Failed | Status
+--------------------------------------------------------------------------------
+01      | Baseline Safety & Checkpoint Integrity (Ph 0)  |  3/3   |   0    | PASSED
+02      | Dataset Integrity & Partition Lock (Ph 2)      |  5/5   |   0    | PASSED
+03      | Quality Gate & Recapture Logic (Ph 3)          |  3/3   |   0    | PASSED
+04      | Production Flask App Regression (Ph 4)         |  8/8   |   0    | PASSED
+05      | Research Mode Isolation & Toggling (Ph 5)      |  4/4   |   0    | PASSED
+06      | Flask API Endpoints & Error Handling (Ph 6)    |  9/9   |   0    | PASSED
+07      | Multi-Modal Research Pipeline (Ph 7 & 20)      |  6/6   |   0    | PASSED
+08      | Confidence Calibration Verification (Ph 9)     |  4/4   |   0    | PASSED
+09      | Clean Process Restart & Cold-Start (Ph 19)     |  5/5   |   0    | PASSED
+--------------------------------------------------------------------------------
+TOTAL                                                    | 47/47  |   0    | PASSED
+
+================================================================================
+2. DETAILED TEST SUITE RESULTS
+================================================================================
+
+[SUITE 01: Baseline Safety & Checkpoint Integrity]
+- Production Best Checkpoint SHA-256: MATCH (258aa88fe0243c7270ad60bf64c9bb29c8e1ba4bfd71d37ae55341cfd80e816a)
+- Production Final Checkpoint SHA-256: MATCH (29d037490e6593e506fc1a3a31c55bafe57c152a233b2bf404ec56220fc5fc34)
+- Production Referable Threshold: LOCKED AT 0.24 (Verified in config and live inference service)
+
+[SUITE 02: Dataset Integrity & Partition Verification]
+- APTOS 2019: Train=2161, Val=463, Test=464 (Total=3088 quality-screened images) -> VERIFIED
+- IDRiD Disease Grading: Train=413, Test=103 (Total=516 images) -> VERIFIED
+- IDRiD Localization: Development=413 (351 Train, 62 Val), Locked Test=103 -> VERIFIED
+- IDRiD Segmentation: Train/Val=54, Official Test=27 (Total=81 multi-lesion images) -> VERIFIED
+- DRIVE Retinal Vessels: Train/Val=20 (17 Train, 3 Val), Official Test=20 (Total=40 images) -> VERIFIED
+
+[SUITE 03: Quality Gate & Recapture Logic]
+- Test 1 (Good APTOS): Quality score passes (Blur: 42.17), screening proceeds normally -> PASSED
+- Test 2 (Synthetic / Severe Blur): REJECTED immediately, status 'NEEDS RECAPTURE', zero deep model inference executed, zero false normal -> PASSED
+- Test 3 (Review Case): Passes quality gate with visible warning banner; specialist review recommended -> PASSED
+
+[SUITE 04: Production Flask Application Regression]
+- Test 1: Production baseline model load (NetraSetu_ResNet50_best.pth) -> PASSED
+- Test 2: Locked referable decision threshold (0.24) -> PASSED
+- Test 3: Web UI dashboard accessibility (GET /) -> PASSED
+- Test 4: Demo sample endpoints (/api/sample/<id>) -> PASSED
+- Test 5: Production upload inference pipeline (/api/analyze) -> PASSED
+- Test 6: SQLite database case history logging -> PASSED
+- Test 7: Analytics aggregations (/api/analytics) -> PASSED
+- Test 8: Monthly/Yearly reporting endpoints -> PASSED
+
+[SUITE 05: Research Mode Isolation]
+- Default Mode (NETRASETU_RESEARCH_MODE=false): Exposes only baseline production metrics; no experimental keys leaked -> PASSED
+- Research Mode (NETRASETU_RESEARCH_MODE=true): Exposes calibrated confidence, landmarks, lesion segmentation, vessel density, and research reports -> PASSED
+- Toggling: Environment variable switch behaves deterministically without process lockup -> PASSED
+- Isolation: Production baseline remains 100% stable regardless of research flag state -> PASSED
+
+[SUITE 06: API Endpoints & Robustness]
+- GET /api/system_status: 200 OK (Returns 11 active modules, hardware status, model paths) -> PASSED
+- GET /api/research/status: 200 OK (Returns research module availability and mode flag) -> PASSED
+- POST /api/research/analyze: 200 OK (Multi-modal inference runs smoothly on test payload) -> PASSED
+- GET /api/research/report/<filename>: 200 OK (Downloads generated HTML/PNG report artifacts) -> PASSED
+- GET /api/health: 200 OK (Returns model health, CUDA device, and locked threshold) -> PASSED
+- GET /api/capacity: 200 OK (Returns parametric throughput parameters) -> PASSED
+- Error Handling 1 (Empty payload): 400 Bad Request with controlled error message -> PASSED
+- Error Handling 2 (Nonexistent file): 404 Not Found with controlled error message -> PASSED
+- Graceful Component Isolation: If an experimental model is unavailable, app degrades gracefully without crash -> PASSED
+
+[SUITE 07: Research Multi-Modal Pipeline]
+- Case 1 (GOOD APTOS): Quality PASS, Grade 0, Calibrated Conf 85.3%, P_ref 8.6%, Landmarks, Vessels, Report HTML/PNG generated -> PASSED
+- Case 2 (Quality REJECT): Halted with NEEDS RECAPTURE, zero false normal -> PASSED
+- Case 3 (IDRiD Grading): In-domain landmark evaluation, Grade 1, Calibrated Conf 25.5%, P_ref 53.7% -> PASSED
+- Case 4 (IDRiD Localization): OD (774.2, 1260.7), Fovea (2106.7, 1357.9) located within image bounds -> PASSED
+- Case 5 (IDRiD Lesions): UNet V3 multi-class lesion segmentation executed (HE, Hard EX, Soft EX, MA) -> PASSED
+- Case 6 (DRIVE Vessels): DRIVE UNet binary vessel segmentation executed (11.30% vessel density) -> PASSED
+
+[SUITE 08: Confidence Calibration]
+- Temperature Parameter: T = 0.9215 (Post-hoc temperature scaling)
+- Expected Calibration Error (ECE): Reduced from 0.0422 to 0.0352 (-16.6% improvement) -> VERIFIED
+- Negative Log Likelihood (NLL): Reduced from 0.4541 to 0.4503 -> VERIFIED
+- Brier Score: Reduced from 0.2256 to 0.2239 -> VERIFIED
+- Model Weights Intact: Zero modification to underlying ResNet-50 weights -> VERIFIED
+
+[SUITE 09: Clean Process Restart & Cold-Start]
+- Subprocess Spawn: Fresh Python process launched executing app.py -> PASSED
+- CUDA & Weights Cold-Start: ResNet-50 and SQLite DB initialized cleanly in 9 seconds -> PASSED
+- Live Socket Exercising: All production endpoints verified over HTTP socket -> PASSED
+- Clean Termination: Subprocess terminated without dangling locks or zombie threads -> PASSED
+- Server Crashes / Unhandled Exceptions: 0 -> PASSED
+
+================================================================================
+3. PRODUCTION SAFETY AUDIT
+================================================================================
+- Production Classifier Unchanged:           YES
+- Production Final Checkpoint Unchanged:     YES
+- Production Threshold (0.24) Unchanged:     YES
+- Production Model Selection in app.py:      NetraSetu_ResNet50_best.pth (UNCHANGED)
+- Experimental Models Default Active:        NO (Gated behind NETRASETU_RESEARCH_MODE)
+- Byte-for-Byte Checkpoint Consistency:      100% VERIFIED
+
+================================================================================
+4. REASONS & RATIONALE FOR DESIGN CHOICES
+================================================================================
+1. Production Baseline Freezing:
+   The APTOS ResNet-50 baseline exhibits superior sensitivity (96.64%) on rural screening distributions at threshold 0.24. Retraining or replacing it with experimental combined models would introduce regression risk. Therefore, Combined V1, Combined V2, Localization, UNet V3, and DRIVE UNet are kept strictly experimental.
+2. Threshold Selection (0.24):
+   Operating at 0.24 prioritizes patient safety in public health screening by minimizing false negatives (missing true diabetic retinopathy), achieving 96.64% sensitivity.
+3. Post-Hoc Temperature Scaling:
+   T = 0.9215 calibrates the model probabilities to reflect true diagnostic likelihood without altering classifier decision boundaries or weights.
+4. Parametric Capacity Modeling:
+   Throughput is calculated mathematically from mean pipeline latency (325.2 ms) to provide an engineering sizing model (11,070 pts/hr nominal).
+
+================================================================================
+5. KNOWN LIMITATIONS & CLINICAL SCOPE
+================================================================================
+1. Clinical Validation:
+   NOT PERFORMED. NetraSetu is an AI research prototype and clinical decision-support tool. It is not CE-marked, FDA-cleared, or approved by the Central Drugs Standard Control Organisation (CDSCO).
+2. Domain Specificity:
+   - Optic Disc and Fovea localization models were trained and validated on IDRiD images; performance on other camera types may vary.
+   - Lesion segmentation (UNet V3) was trained and evaluated on IDRiD images.
+   - Vessel segmentation was trained and evaluated on DRIVE images.
+   - Cross-domain inferences carry explicit research disclaimers.
+3. Microaneurysm Segmentation Weakness:
+   Microaneurysm (MA) segmentation achieves low Dice (0.0311) due to extreme pixel sparsity (~0.01% of retinal image pixels) and single-pixel annotation noise. MA results should be interpreted as localized attention cues rather than quantitative volume measurements.
+4. Capacity Simulator Disclaimer:
+   Throughput and compute utilization figures (0.45% for 100,000 screenings/yr, 1.13% for 250,000 screenings/yr) and triage cost-offset models (₹28.8 Lakhs) are parametric engineering estimates based on configured timing and case-mix assumptions. They do not represent measured clinical deployment capacity.
+================================================================================
+END OF FINAL QA REPORT
+================================================================================

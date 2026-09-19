@@ -1,0 +1,28 @@
+================================================================================
+NETRASETU — RESEARCH MODE & PRODUCTION ISOLATION AUDIT
+================================================================================
+Audit Timestamp: 2026-09-19 23:35:27
+
+1. DEFAULT PRODUCTION MODE (NETRASETU_RESEARCH_MODE=false):
+   - Research Mode Flag:       False
+   - Message:                  Research mode disabled (operating in strict production baseline).
+   - Production Lock Verified: YES
+   - Baseline Model:           models/NetraSetu_ResNet50_best.pth
+   - Production Threshold:     0.24
+   - Status:                   PASSED [OK]
+
+2. RESEARCH MODE (NETRASETU_RESEARCH_MODE=true):
+   - Research Mode Flag:       True
+   - Message:                  Research mode enabled.
+   - Research Endpoint Test:   /api/research/analyze (Status 200)
+   - Features Exposed:
+     * Calibrated Confidence:   0.8526 (T=0.9215)
+     * Optic Disc / Fovea:      {'x': 311.0, 'y': 590.4}
+     * Lesion Segmentation:     ['Hard Exudate', 'Hemorrhage', 'Microaneurysm', 'Soft Exudate']
+     * Vessel Segmentation:     Density = 10.49%
+     * Generated Reports:       HTML=NS-research_test_retina_screening_report.html, PNG=NS-research_test_retina_composite_summary.png
+   - Production Model Swapped?: NO (Baseline preserved as ground truth)
+   - Status:                   PASSED [OK]
+
+OVERALL STATUS: ALL RESEARCH MODE TESTS PASSED
+================================================================================

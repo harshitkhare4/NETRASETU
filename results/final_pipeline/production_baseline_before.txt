@@ -1,0 +1,71 @@
+================================================================================
+NETRASETU — PRODUCTION BASELINE & MODEL CHECKPOINT SAFETY SNAPSHOT
+================================================================================
+Timestamp: 2026-09-19 16:17:20
+
+FILE:     NetraSetu_ResNet50_best.pth
+  Path:     models\NetraSetu_ResNet50_best.pth
+  Size:     94396575 bytes
+  Modified: 2026-09-18 15:49:46
+  SHA-256:  258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6
+--------------------------------------------------------------------------------
+FILE:     NetraSetu_ResNet50_final.pth
+  Path:     models\NetraSetu_ResNet50_final.pth
+  Size:     94396901 bytes
+  Modified: 2026-09-18 15:54:50
+  SHA-256:  29d037490e6593e56cc5cfe6aa38d97751f688f1648c614927c856e2a57dff3c
+--------------------------------------------------------------------------------
+FILE:     NetraSetu_ResNet50_combined_best.pth
+  Path:     models\NetraSetu_ResNet50_combined_best.pth
+  Size:     282694778 bytes
+  Modified: 2026-09-19 12:52:33
+  SHA-256:  e243adb60675572cf17dba5e15d4540a5d6084711b2939d6e3b9bf2d213d1372
+--------------------------------------------------------------------------------
+FILE:     NetraSetu_ResNet50_combined_final.pth
+  Path:     models\NetraSetu_ResNet50_combined_final.pth
+  Size:     282695715 bytes
+  Modified: 2026-09-19 12:56:52
+  SHA-256:  244df1f20352a2295d2d22fe35ea96a15b9fb0ebc163136bc80cf85bc63b664c
+--------------------------------------------------------------------------------
+FILE:     NetraSetu_ResNet50_combined_v2_best.pth
+  Path:     models\NetraSetu_ResNet50_combined_v2_best.pth
+  Size:     282697269 bytes
+  Modified: 2026-09-19 15:25:53
+  SHA-256:  4e17497f78b7e9ef9b88bbc79ee97dd6aa1813fab1b621f3b65e02b1ae5029a2
+--------------------------------------------------------------------------------
+FILE:     NetraSetu_ResNet50_combined_v2_final.pth
+  Path:     models\NetraSetu_ResNet50_combined_v2_final.pth
+  Size:     282698078 bytes
+  Modified: 2026-09-19 15:30:17
+  SHA-256:  2bcf92958d8fdb2ef8c6b63bb10856b67266097931540f64c0d6453501bbe5db
+--------------------------------------------------------------------------------
+FILE:     NetraSetu_IDRiD_Localization_best.pth
+  Path:     models\NetraSetu_IDRiD_Localization_best.pth
+  Size:     171701355 bytes
+  Modified: 2026-09-19 16:02:32
+  SHA-256:  4e81d81bfd0125a38b32bacdb6789b66a17a8efeee0600bddf58bfbf68f8f810
+--------------------------------------------------------------------------------
+FILE:     NetraSetu_IDRiD_Localization_final.pth
+  Path:     models\NetraSetu_IDRiD_Localization_final.pth
+  Size:     171701447 bytes
+  Modified: 2026-09-19 16:02:33
+  SHA-256:  87eedf42059727e25eacfda6b08735f50f86afd5675bd2cdf3d01bf44aac532b
+--------------------------------------------------------------------------------
+FILE:     NetraSetu_IDRiD_UNet_best.pth
+  Path:     models\NetraSetu_IDRiD_UNet_best.pth
+  Size:     124270315 bytes
+  Modified: 2026-09-18 17:17:34
+  SHA-256:  5a7cb2b141db375d0398c9e19bdfd3fb0b5cb51b6cf145d90c21a916f8ecb5a7
+--------------------------------------------------------------------------------
+FILE:     NetraSetu_IDRiD_UNet_V2_best.pth
+  Path:     models\NetraSetu_IDRiD_UNet_V2_best.pth
+  Size:     124241087 bytes
+  Modified: 2026-09-18 17:47:40
+  SHA-256:  6c655be5b91bec20d79049a41559862fbd6b87db6fcd7b46b92d78161c95d2d0
+--------------------------------------------------------------------------------
+FILE:     NetraSetu_IDRiD_UNet_V2_final.pth
+  Path:     models\NetraSetu_IDRiD_UNet_V2_final.pth
+  Size:     124241211 bytes
+  Modified: 2026-09-18 17:49:11
+  SHA-256:  5e3ea1a790106501bb111c1d44a69c3db9377feb3bd948b4da5ce4bc0261189d
+--------------------------------------------------------------------------------

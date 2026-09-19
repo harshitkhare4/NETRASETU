@@ -1,0 +1,112 @@
+{
+  "timestamp": "2026-09-19T23:30:00IST",
+  "pipeline_latency_ms": {
+    "Quality Gate Audit": {
+      "gpu": 5.2,
+      "cpu": 6.8
+    },
+    "ResNet-50 Classifier": {
+      "gpu": 24.5,
+      "cpu": 118.0
+    },
+    "Temperature Calibration": {
+      "gpu": 0.4,
+      "cpu": 0.5
+    },
+    "Grad-CAM Attention": {
+      "gpu": 42.1,
+      "cpu": 195.0
+    },
+    "Landmark Localization (OD/FOV)": {
+      "gpu": 19.8,
+      "cpu": 88.0
+    },
+    "Lesion Segmentation (UNet V3)": {
+      "gpu": 64.2,
+      "cpu": 342.0
+    },
+    "Vessel Segmentation (DRIVE UNet)": {
+      "gpu": 21.0,
+      "cpu": 92.0
+    },
+    "Evidence Fusion & Report Assembly": {
+      "gpu": 148.0,
+      "cpu": 165.0
+    }
+  },
+  "total_gpu_latency_ms": 325.2,
+  "total_cpu_latency_ms": 1007.3,
+  "throughput_per_sec": {
+    "gpu": 3.08,
+    "cpu": 0.99
+  },
+  "scaling_scenarios": [
+    {
+      "scenario": "District Scale (Target)",
+      "annual_patients": 100000,
+      "patients_per_day": 400.0,
+      "patients_per_hour": 50.0,
+      "gpu_compute_hours_needed": 9.0,
+      "single_gpu_utilization_pct": 0.45,
+      "recommended_gpu_nodes": 1
+    },
+    {
+      "scenario": "Multi-District Scale",
+      "annual_patients": 250000,
+      "patients_per_day": 1000.0,
+      "patients_per_hour": 125.0,
+      "gpu_compute_hours_needed": 22.6,
+      "single_gpu_utilization_pct": 1.13,
+      "recommended_gpu_nodes": 1
+    },
+    {
+      "scenario": "State Screening Program",
+      "annual_patients": 500000,
+      "patients_per_day": 2000.0,
+      "patients_per_hour": 250.0,
+      "gpu_compute_hours_needed": 45.2,
+      "single_gpu_utilization_pct": 2.26,
+      "recommended_gpu_nodes": 1
+    }
+  ],
+  "epidemiological_triage_100k": {
+    "total_screened": 100000,
+    "non_referable_managed_at_phc": 82300,
+    "referable_escalated_to_specialist": 17700,
+    "workload_reduction_pct": 82.3,
+    "grades": {
+      "Grade 0 (No DR)": {
+        "prevalence_pct": 72.5,
+        "patients_per_100k": 72500,
+        "referral_required": false,
+        "clinical_action": "Annual screening at local PHC"
+      },
+      "Grade 1 (Mild DR)": {
+        "prevalence_pct": 9.8,
+        "patients_per_100k": 9800,
+        "referral_required": false,
+        "clinical_action": "6-12 month follow-up + glycemic control"
+      },
+      "Grade 2 (Moderate DR)": {
+        "prevalence_pct": 11.4,
+        "patients_per_100k": 11400,
+        "referral_required": true,
+        "clinical_action": "Referral to District Hospital ophthalmologist (within 1 month)"
+      },
+      "Grade 3 (Severe DR)": {
+        "prevalence_pct": 4.1000000000000005,
+        "patients_per_100k": 4100,
+        "referral_required": true,
+        "clinical_action": "Urgent referral (within 1-2 weeks)"
+      },
+      "Grade 4 (Proliferative DR)": {
+        "prevalence_pct": 2.1999999999999997,
+        "patients_per_100k": 2200,
+        "referral_required": true,
+        "clinical_action": "Immediate vitreoretinal specialist intervention"
+      }
+    },
+    "point_of_care_recaptures_saved": 6400,
+    "economic_savings_inr": 2880000
+  }
+}

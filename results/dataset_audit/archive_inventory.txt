@@ -1,0 +1,24 @@
+NETRASETU - ARCHIVE INSPECTION & OVERLAP INVENTORY
+Generated on: 2026-09-19 15:15:08
+
+1. DATASETS.ZIP:
+- Path:         data_sources/datasets.zip
+- Size:         29344248 bytes (~28 MB)
+- Archive Type: Standard ZIP containing 'test.zip' and 'training.zip'
+- True Identity:DRIVE (Digital Retinal Images for Vessel Extraction) dataset
+- Contents:     20 training retinal photographs + manual vessel segmentations + FOV masks
+                20 testing retinal photographs + manual vessel segmentations + FOV masks
+- Task:         Retinal blood vessel tree segmentation
+- Overlap Check:NO filename overlap with APTOS, IDRiD, or Messidor.
+
+2. IMAGES.ZIP & MULTI-PART ARCHIVES (IMAGES.zip.001 - .004):
+- Split Files:  IMAGES.zip.001 (700 MB), .002 (700 MB), .003 (700 MB), .004 (241 MB)
+- Extracted:    Directory 'IMAGES.zip/IMAGES'
+- File Count:   697 PNG fundus photographs
+- True Identity:Messidor-2 unlabelled fundus photographs
+- Overlap Check:Filenames match messidor-2.csv (e.g., 20051202_55735_0400_PP.png).
+                Zero overlap with APTOS (hash-style alphanumeric stems) or IDRiD (IDRiD_XXX.jpg).
+
+3. SUMMARY:
+Neither archive contains verified 5-class diabetic retinopathy disease grading labels.
+Both archives are preserved intact and safely excluded from model training.

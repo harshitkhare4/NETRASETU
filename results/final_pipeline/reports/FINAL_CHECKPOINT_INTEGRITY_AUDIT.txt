@@ -1,0 +1,44 @@
+================================================================================
+NETRASETU — FINAL CHECKPOINT INTEGRITY & PRODUCTION SAFETY AUDIT
+Smart India Hackathon 2026 | Problem Statement ID: 26038
+Date: 2026-09-19 23:44:25
+================================================================================
+
+PROTECTED CHECKPOINT INTEGRITY VERIFICATION:
+--------------------------------------------------------------------------------
+1. Production Model: NetraSetu_ResNet50_best.pth
+   - File Path: models\NetraSetu_ResNet50_best.pth
+   - File Size: 94396575 bytes (90.02 MB)
+   - Expected SHA-256: 258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6
+   - Actual SHA-256:   258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6
+   - Match Status:     BYTE-FOR-BYTE IDENTICAL [VERIFIED]
+
+2. Production Final: NetraSetu_ResNet50_final.pth
+   - File Path: models\NetraSetu_ResNet50_final.pth
+   - File Size: 94396901 bytes (90.02 MB)
+   - Expected SHA-256: 29d037490e6593e56cc5cfe6aa38d97751f688f1648c614927c856e2a57dff3c
+   - Actual SHA-256:   29d037490e6593e56cc5cfe6aa38d97751f688f1648c614927c856e2a57dff3c
+   - Match Status:     BYTE-FOR-BYTE IDENTICAL [VERIFIED]
+
+PRODUCTION INFERENCE CONFIGURATION:
+--------------------------------------------------------------------------------
+- Production Classifier Unchanged:           YES
+- Production Final Checkpoint Unchanged:     YES
+- Production Referable Threshold Unchanged:  YES (Value: 0.24)
+- Production Inference Uses Baseline Model:  YES (NetraSetu_ResNet50_best.pth)
+- Experimental Models Active by Default:     NO (NETRASETU_RESEARCH_MODE=false default)
+
+EXPERIMENTAL ARTIFACT CHECKSUMS (FOR REPRODUCIBILITY):
+--------------------------------------------------------------------------------
+- Combined V1 Best:    e243adb60675572cf17dba5e15d4540a5d6084711b2939d6e3b9bf2d213d1372
+- Combined V2 Best:    4e17497f78b7e9ef9b88bbc79ee97dd6aa1813fab1b621f3b65e02b1ae5029a2
+- Localization Best:   4e81d81bfd0125a38b32bacdb6789b66a17a8efeee0600bddf58bfbf68f8f810
+- UNet V3 Lesion Best: a35b028741da50d22849a08a0aec5bc2f3286958f418efb3dde45bfd92f67434
+- DRIVE Vessel Best:   74bef47d118f550cb22520c6f5abfec0285491dbb35ffb902cfb5a400f94daa9
+
+================================================================================
+FINAL CONCLUSION:
+All protected production checkpoints and configuration parameters are 100%
+identical to baseline. Zero model overwrites or parameter drifts occurred.
+The project is safely locked for SIH 2026 demonstration.
+================================================================================

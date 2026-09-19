@@ -1,0 +1,33 @@
+=====================================================================================
+NETRASETU — FINAL DATASET INTEGRITY & SPLIT VERIFICATION AUDIT
+=====================================================================================
+Audit Timestamp: 2026-09-19 23:31:53
+
+Dataset / Split                               | Expected   | Actual     | Status
+-------------------------------------------------------------------------------------
+APTOS 2019 Processed - Training Split         | 2161       | 2161       | VERIFIED [OK]
+APTOS 2019 Processed - Validation Split       | 463        | 463        | VERIFIED [OK]
+APTOS 2019 Processed - Test Split             | 464        | 464        | VERIFIED [OK]
+-------------------------------------------------------------------------------------
+IDRiD Disease Grading - Training Set          | 413        | 413        | VERIFIED [OK]
+IDRiD Disease Grading - Locked Testing Set    | 103        | 103        | VERIFIED [OK]
+-------------------------------------------------------------------------------------
+IDRiD Localization - Training Development     | 413        | 413        | VERIFIED [OK]
+IDRiD Localization - Locked Testing Set       | 103        | 103        | VERIFIED [OK]
+-------------------------------------------------------------------------------------
+IDRiD Segmentation - Official Training Set    | 54         | 54         | VERIFIED [OK]
+IDRiD Segmentation - Locked Testing Set       | 27         | 27         | VERIFIED [OK]
+-------------------------------------------------------------------------------------
+DRIVE Vessel - Official Training Set          | 20         | 20         | VERIFIED [OK]
+DRIVE Vessel - Official Testing Set           | 20         | 20         | VERIFIED [OK]
+-------------------------------------------------------------------------------------
+
+ISOLATION & LEAKAGE VERIFICATION:
+1. APTOS test split (464 images) remained isolated; never used in training or checkpoint selection.
+2. IDRiD Disease Grading test split (103 images) remained strictly locked.
+3. IDRiD Localization test split (103 images) remained strictly locked for benchmark reporting.
+4. IDRiD Segmentation test split (27 images) remained strictly locked for V3 evaluation.
+5. DRIVE test images (20 images) remained separate from training/validation.
+
+FINAL DATASET VERDICT: ALL LOCAL DATASETS COMPLETE, UNTOUCHED & PROPERLY ISOLATED
+=====================================================================================

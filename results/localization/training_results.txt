@@ -1,0 +1,55 @@
+============================================================
+NETRASETU — IDRiD LOCALIZATION TRAINING REPORT
+============================================================
+Timestamp:              2026-09-19 16:02:34
+Dataset:                IDRiD C. Localization
+Train Development Pool: 413 images
+Training Split:         351 images (85%)
+Validation Split:       62 images (15%)
+Locked Test Set:        103 images (strictly withheld)
+
+PREPROCESSING & GEOMETRY:
+Original Resolution:    4288 x 2848
+Processed Resolution:   512 x 512 (letterboxed with aspect ratio preserved)
+Letterbox Scale:        0.119403
+Letterbox Padding:      pad_x = 0.0 px, pad_y = 86.0 px
+Heatmap Resolution:     128 x 128 (Gaussian sigma = 3.5 px)
+
+AUGMENTATION (TRAIN ONLY):
+  - HorizontalFlip (p=0.5, coordinated x-coordinate inversion)
+  - Small Rotation (+/- 10 deg, p=0.5, affine transformation matching coordinates)
+  - Brightness/Contrast (+/- 15%, p=0.5)
+
+ARCHITECTURE & HYPERPARAMETERS:
+Architecture:           KeypointResNet18 (ImageNet Pretrained Encoder + Bilinear Skip Decoder)
+Loss Function:          MSE Heatmap Loss
+Optimizer:              AdamW (lr=3e-4, weight_decay=1e-4)
+Scheduler:              ReduceLROnPlateau (mode=min, factor=0.5, patience=3)
+Batch Size:             8
+Max Epochs:             25
+Early Stopping:         Patience = 6
+Hardware / AMP:         cuda (NVIDIA GeForce RTX 3050 6GB Laptop GPU) / PyTorch AMP enabled
+Total Training Time:    357.8s (5.96 min)
+
+BEST VALIDATION CHECKPOINT PERFORMANCE:
+Best Epoch:             25
+Train Loss:             0.000043
+Validation Loss:        0.000108
+Combined Norm Error:    0.00477 (0.477% of diagonal)
+
+VALIDATION OPTIC DISC METRICS (AT BEST EPOCH):
+  Mean Pixel Error:     15.73 px
+  Median Pixel Error:   13.27 px
+  Mean Normalized Error:0.00306
+  PCK @ 1% (<= 51.5 px):98.39%
+  PCK @ 2% (<=103.0 px):100.00%
+  PCK @ 5% (<=257.4 px):100.00%
+
+VALIDATION FOVEA METRICS (AT BEST EPOCH):
+  Mean Pixel Error:     33.37 px
+  Median Pixel Error:   22.85 px
+  Mean Normalized Error:0.00648
+  PCK @ 1% (<= 51.5 px):85.48%
+  PCK @ 2% (<=103.0 px):95.16%
+  PCK @ 5% (<=257.4 px):100.00%
+============================================================

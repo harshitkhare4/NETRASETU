@@ -1,0 +1,41 @@
+NETRASETU IDRiD U-NET V2 OPTIMIZED TEST
+Thresholds selected using validation set only
+
+Microaneurysm
+Threshold : 0.34
+Dice      : 0.0862
+IoU       : 0.0471
+Precision : 0.1059
+Recall    : 0.1051
+
+Hemorrhage
+Threshold : 0.30
+Dice      : 0.3167
+IoU       : 0.2057
+Precision : 0.4437
+Recall    : 0.3371
+
+Hard Exudate
+Threshold : 0.64
+Dice      : 0.4196
+IoU       : 0.2947
+Precision : 0.4948
+Recall    : 0.4885
+
+Soft Exudate
+Threshold : 0.64
+Dice      : 0.3098
+IoU       : 0.2626
+Precision : 0.2348
+Recall    : 0.1447
+
+============================================
+Mean Dice: 0.2831
+Mean IoU : 0.2025
+============================================
+
+Locked thresholds:
+Microaneurysm: 0.34
+Hemorrhage: 0.30
+Hard Exudate: 0.64
+Soft Exudate: 0.64

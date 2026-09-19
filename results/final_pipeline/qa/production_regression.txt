@@ -1,0 +1,25 @@
+================================================================================
+NETRASETU — PRODUCTION APPLICATION REGRESSION TEST AUDIT
+================================================================================
+Audit Timestamp: 2026-09-19 23:34:43
+
+1. BASELINE MODEL & CONFIGURATION:
+   Active Model:         models\NetraSetu_ResNet50_best.pth
+   Referable Threshold:  0.24
+   Classifier Loaded:    True
+   Baseline Locked:      YES (NetraSetu_ResNet50_best.pth)
+
+2. ENDPOINTS VERIFICATION:
+   - GET / (UI Dashboard):             200 (PASSED [OK])
+   - GET /api/health:                  200 (PASSED [OK])
+   - GET /api/samples:                 200 (PASSED [OK] - 4 samples available)
+   - POST /api/sample/moderate-dr:     200 (PASSED [OK] - Result: 2, Conf: 55.18)
+   - POST /api/analyze (Image Upload): 200 (PASSED [OK] - Result: 0, Conf: 96.85)
+   - GET /api/history:                 200 (PASSED [OK] - 21 records retrieved)
+   - GET /api/analytics:               200 (PASSED [OK])
+   - GET /api/reports/monthly:         200 (PASSED [OK])
+   - GET /api/reports/yearly:          200 (PASSED [OK])
+
+OVERALL STATUS: ALL PRODUCTION TESTS PASSED (8/8)
+SAFETY LOCK VERIFIED: Production baseline remained 100% active, threshold locked at 0.24, and zero overwrites.
+================================================================================

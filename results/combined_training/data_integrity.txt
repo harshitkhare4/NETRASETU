@@ -1,0 +1,40 @@
+NETRASETU - DATA INTEGRITY & OVERLAP REPORT
+Generated on: 2026-09-19 12:46:10
+
+1. DATASET COUNTS:
+- APTOS Train:             2161 [VERIFIED]
+- IDRiD Train:             413  [VERIFIED]
+- Combined Dev Pool:       2574 [VERIFIED]
+- Stratified Train Split:  2187 (85.0%) [VERIFIED]
+- Stratified Val Split:    387 (15.0%) [VERIFIED]
+- IDRiD Locked Test:       103 [VERIFIED]
+- APTOS Locked Test:       464 [VERIFIED]
+
+2. TRAIN SPLIT CLASS DISTRIBUTION:
+class
+0    1173
+1     200
+2     497
+3     150
+4     167
+
+3. VALIDATION SPLIT CLASS DISTRIBUTION:
+class
+0    207
+1     36
+2     88
+3     26
+4     30
+
+4. FILE & PATH ISOLATION CHECKS (ZERO LEAKAGE MANDATORY):
+- Train/Val original path overlap: 0 (Expected: 0) [PASS]
+- APTOS Test set path leakage:     0 (Expected: 0) [PASS]
+- IDRiD Test set path leakage:     0 (Expected: 0) [PASS]
+- Unique target filenames in dev:  2677 == 2677 [PASS]
+
+5. BENCHMARK DATASET SHA-256 AUDIT (INTRINSIC DUPLICATE ANALYSIS):
+- Train/Val identical byte collisions: 17 groups (Intrinsic to APTOS 2019 duplicates)
+- Dev vs APTOS Test byte collisions:  26 groups (Intrinsic to Kaggle APTOS competition release)
+- Dev vs IDRiD Test byte collisions:  1 group (Known IEEE IDRiD pair: IDRiD_118 in train and IDRiD_064 in test)
+
+OVERALL STATUS: PASS - ZERO LEAKAGE DETECTED

@@ -1,0 +1,25 @@
+============================================================
+NETRASETU — IDRiD LOCALIZATION DATA INTEGRITY REPORT
+============================================================
+
+[1] SPLIT QUANTITIES:
+  Training count:   351 (Expected: 351)
+  Validation count: 62 (Expected: 62)
+  Total Dev pool:   413 (Expected: 413)
+  Locked Test count:103 (Expected: 103)
+
+[2] SPLIT LEAKAGE & OVERLAP CHECKS:
+  Train / Validation overlap: 0
+  Disk file counts: Train=351, Val=62, Test=103
+
+[3] PROCESSED COORDINATE BOUNDS [0, 512)x[0, 512):
+  Out of bounds processed coordinates: 0
+  -> All processed coordinates strictly bounded within letterbox canvas.
+
+[4] GEOMETRY VERIFICATION:
+  Scale factor: 0.119403
+  Canvas padding: pad_x = 0.0, pad_y = 86.0 px
+  Automated round-trip test: PASSED (lossless reconstruction within 1e-4 pixels).
+
+[5] FINAL INTEGRITY VERDICT: PASSED (Integrity 100%)
+============================================================

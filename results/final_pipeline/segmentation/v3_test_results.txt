@@ -1,0 +1,51 @@
+=================================================================
+NETRASETU — IDRiD LESION SEGMENTATION V3 LOCKED TEST REPORT
+=================================================================
+Official Test Images: 27 images (strictly locked)
+Model Checkpoint:     models/NetraSetu_IDRiD_UNet_V3_best.pth
+Threshold Selection:  Validation set only (frozen)
+
+PER-LESION CLASS TEST RESULTS (V3):
+-----------------------------------------------------------------
+  MICROANEURYSM:
+    Threshold:   0.28
+    Dice Score:  0.0311 (V2: 0.0862 | Delta: -0.0551)
+    IoU Score:   0.0159 (V2: 0.0471)
+    Precision:   0.0182 (V2: 0.1059)
+    Recall:      0.1653 (V2: 0.1051)
+
+  HEMORRHAGE:
+    Threshold:   0.70
+    Dice Score:  0.3727 (V2: 0.3167 | Delta: +0.0560)
+    IoU Score:   0.2516 (V2: 0.2057)
+    Precision:   0.3881 (V2: 0.4437)
+    Recall:      0.4697 (V2: 0.3371)
+
+  HARD EXUDATE:
+    Threshold:   0.70
+    Dice Score:  0.4660 (V2: 0.4196 | Delta: +0.0464)
+    IoU Score:   0.3138 (V2: 0.2947)
+    Precision:   0.4209 (V2: 0.4948)
+    Recall:      0.6952 (V2: 0.4885)
+
+  SOFT EXUDATE:
+    Threshold:   0.70
+    Dice Score:  0.3161 (V2: 0.3098 | Delta: +0.0063)
+    IoU Score:   0.2453 (V2: 0.2626)
+    Precision:   0.3440 (V2: 0.2348)
+    Recall:      0.8207 (V2: 0.1447)
+
+-----------------------------------------------------------------
+MACRO METRICS COMPARISON:
+  V3 Macro Mean Dice: 0.2965 | V2 Macro Mean Dice: 0.2831 | Delta: +0.0134
+  V3 Macro Mean IoU:  0.2066 | V2 Macro Mean IoU:  0.2025 | Delta: +0.0041
+
+DECISION RULE ASSESSMENT:
+  V3 Better than V2:               YES
+  Preferred Experimental Version:  V3 (NetraSetu_IDRiD_UNet_V3_best.pth)
+
+SCIENTIFIC / HONEST INTERPRETATION:
+  - Microaneurysm (MA) segmentation remains the most challenging lesion due to microscopic pixel diameter (<15px) and extreme rarity.
+  - Hard Exudates and Hemorrhages show strongest spatial coherence and Dice overlap.
+  - All segmentation outputs are designated for research explainability only (not clinical diagnostic use).
+=================================================================

@@ -1,0 +1,30 @@
+{
+  "Microaneurysm": {
+    "threshold": 0.28,
+    "val_dice": 0.04191863435563688,
+    "val_iou": 0.021841848103106954,
+    "val_precision": 0.033868275849385426,
+    "val_recall": 0.10466404945872987
+  },
+  "Hemorrhage": {
+    "threshold": 0.7,
+    "val_dice": 0.3578852564384648,
+    "val_iou": 0.239036186642167,
+    "val_precision": 0.4072919837210185,
+    "val_recall": 0.45603470983530303
+  },
+  "Hard Exudate": {
+    "threshold": 0.7,
+    "val_dice": 0.47218032050263603,
+    "val_iou": 0.31974131226097513,
+    "val_precision": 0.42726570288708904,
+    "val_recall": 0.6233025822359859
+  },
+  "Soft Exudate": {
+    "threshold": 0.7,
+    "val_dice": 0.4095666555281982,
+    "val_iou": 0.316577500352127,
+    "val_precision": 0.4106641829291005,
+    "val_recall": 0.8342052571799127
+  }
+}

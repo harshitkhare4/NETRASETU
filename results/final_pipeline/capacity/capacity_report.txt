@@ -1,0 +1,73 @@
+================================================================================
+NETRASETU CAPACITY PLANNING & RURAL DEPLOYMENT REPORT
+Smart India Hackathon 2026 | Problem Statement ID: 26038
+Project: NetraSetu — Explainable AI for Diabetic Retinopathy Screening in Rural India
+================================================================================
+
+1. EXECUTIVE SUMMARY:
+NetraSetu has been architected to address the acute shortage of vitreoretinal specialists 
+in rural India (where the doctor-to-patient ratio exceeds 1:100,000 in rural districts).
+By combining an automated Image Quality Gate, calibrated ResNet-50 classification, 
+lesion/vessel segmentation, and multi-modal explainability reports, NetraSetu enables 
+accredited healthcare workers (ASHA/ANM workers and PHC medical officers) to triage 
+retinal screenings locally with sub-second turnaround time.
+
+2. COMPONENT LATENCY BREAKDOWN (Single Patient Inference):
+--------------------------------------------------------------------------------
+Pipeline Component                     | GPU Latency (ms) | CPU Fallback (ms)
+--------------------------------------------------------------------------------
+1. Quality Gate Audit                  |              5.2 |               6.8
+2. ResNet-50 Classifier (Baseline)    |             24.5 |             118.0
+3. Temperature Scaling Calibration     |              0.4 |               0.5
+4. Grad-CAM Visual Attention           |             42.1 |             195.0
+5. Landmark Localization (OD/FOV)      |             19.8 |              88.0
+6. Lesion Segmentation (UNet V3)       |             64.2 |             342.0
+7. Retinal Vessel Segmentation (DRIVE) |             21.0 |              92.0
+8. Evidence Fusion & Report Assembly   |            148.0 |             165.0
+--------------------------------------------------------------------------------
+TOTAL PIPELINE LATENCY                 |            325.2 ms |           1007.3 ms
+THROUGHPUT                             |           3.08 pts/sec |            0.99 pts/sec
+HOURLY CAPACITY                        |         11,070 pts/hr  |           3,574 pts/hr
+--------------------------------------------------------------------------------
+
+3. SCALABILITY & INFRASTRUCTURE SIZING (2,000 Operating Hours/Year):
+--------------------------------------------------------------------------------
+Scale Scenario         | Patients/Yr | Pts/Day | Pts/Hr | Nominal Modeled Utilization | Required Nodes
+--------------------------------------------------------------------------------
+District Scale         |     100,000 |   400.0 |   50.0 |                       0.45% | 1 Edge Workstation
+Multi-District Scale   |     250,000 | 1,000.0 |  125.0 |                       1.13% | 1 Edge Workstation / Cloud
+State Screening Prog.  |     500,000 | 2,000.0 |  250.0 |                       2.26% | 1-2 Cloud GPU Instances
+--------------------------------------------------------------------------------
+Key Engineering Finding: A single standard workstation with an entry-level GPU operates
+at approximately 0.45% nominal modeled compute utilization to process 100,000 screenings annually.
+
+ENGINEERING DISCLOSURE:
+These figures are parametric engineering estimates based on configured timing assumptions
+and do not represent measured production deployment capacity.
+
+4. CLINICAL WORKLOAD REDUCTION & TRIAGE FUNNEL (Illustrative Scenario-Based Planning Estimate):
+[Assumed Population Case Mix: 72.5% Grade 0, 9.8% Grade 1, 11.4% Grade 2, 4.1% Grade 3, 2.2% Grade 4]
+(Note: These are illustrative scenario-based planning estimates, not observed clinical deployment data)
+- Total Patients Screened:                    100,000 (100.0%)
+- Non-Referable Patients (Grade 0: No DR):     72,500 (72.5%) -> Modeled for PHC routine follow-up
+- Low-Risk Early DR (Grade 1: Mild DR):         9,800  (9.8%) -> Modeled for 1-year follow-up
+- Subtotal Non-Referable (Routine Filtered):   82,300 (82.3%)
+- Referable Moderate DR (Grade 2):             11,400 (11.4%) -> Modeled for specialist referral
+- Severe Non-Proliferative DR (Grade 3):        4,100  (4.1%) -> Modeled for priority referral
+- Proliferative DR (Grade 4):                   2,200  (2.2%) -> Modeled for urgent referral
+- Total Referrals Escalated to Specialist:     17,700 (17.7%)
+
+OPHTHALMOLOGIST WORKLOAD REDUCTION: Modeled 82.3% routine filtering under the assumed epidemiological
+case mix, allowing specialist consultation capacity to prioritize referable pathology.
+
+5. ECONOMIC & ACCESS IMPACT (Illustrative Scenario-Based Planning Estimate):
+[Assumed Optical Recapture Rate: 6.4% | Assumed Transit + Day Wage Savings: Rs. 450 INR per patient]
+- Immediate Point-of-Care Recaptures: 6,400 patients (6.4%) alerted to blurry/dark images
+  while still present at the screening station, eliminating estimated return journeys.
+- Estimated Direct Travel & Wage Loss Saved: Rs. 2,880,000 INR per 100,000 screened patients
+  (illustrative planning estimate; actual savings depend on local transit and regional wage scales).
+- Modeled Compute Latency: Sub-second turnaround (325.2 ms on GPU).
+
+================================================================================
+End of Capacity Planning Report
+================================================================================

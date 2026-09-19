@@ -1,0 +1,55 @@
+================================================================================
+NETRASETU RESEARCH PIPELINE — REGRESSION TEST SUITE RESULTS
+Smart India Hackathon 2026 | Problem Statement 26038
+Date: 2026-09-19 23:43:27
+================================================================================
+
+OVERALL STATUS: ALL PASSED (6/6)
+
+SUMMARY TABLE:
+--------------------------------------------------------------------------------
+Case # | Description                                    | Status  | Time (s)
+--------------------------------------------------------------------------------
+1      | Valid GOOD APTOS Image (End-to-End)            | PASSED  | 4.0s
+2      | Quality REJECTED Image (NEEDS RECAPTURE)       | PASSED  | 0.01s
+3      | IDRiD Disease Grading Image (In-Domain)        | PASSED  | 5.46s
+4      | IDRiD Anatomical Landmark Localization (OD/FOV)| PASSED  | 4.7s
+5      | IDRiD UNet V3 Lesion Segmentation              | PASSED  | 5.16s
+6      | DRIVE Retinal Vessel Segmentation              | PASSED  | 0.75s
+--------------------------------------------------------------------------------
+
+DETAILED EXECUTION NOTES:
+
+Case 1 (GOOD APTOS):
+- Predicted Grade: No DR (Grade 0)
+- Calibrated Confidence: 85.3% (T=0.9215)
+- Referral Status: NON-REFERABLE (Risk < 24%) (Risk: 8.6%)
+- Generated HTML Report: results\final_pipeline\qa\regression_outputs\REG-CASE-1-APTOS_screening_report.html
+- Generated Composite PNG: results\final_pipeline\qa\regression_outputs\REG-CASE-1-APTOS_composite_summary.png
+
+Case 2 (Safety Gate Rejection):
+- Quality Gate Status: REJECT
+- Reasons for Halt: Severe motion/optical blur, Severely low contrast, Severely underexposed / dark, Non-retinal or severely clipped field of view
+- Downstream Inference Halted: YES (Zero deep model overhead)
+
+Case 3 (IDRiD Grading):
+- Predicted Grade: Mild DR (Grade 1)
+- In-Domain Localization Tag: True
+
+Case 4 (Landmark Localization):
+- Optic Disc (x, y): (774.2, 1260.7)
+- Fovea (x, y): (2106.7, 1357.9)
+
+Case 5 (Lesion Segmentation):
+- Hemorrhages: detected (27981 px)
+- Hard Exudates: detected (116620 px)
+- Soft Exudates: detected (45032 px)
+- Microaneurysms: detected (52223 px)
+
+Case 6 (Vessel Segmentation):
+- Retinal Vessel Density: 11.30%
+- Domain Validated: True
+
+================================================================================
+End of Regression Report
+================================================================================

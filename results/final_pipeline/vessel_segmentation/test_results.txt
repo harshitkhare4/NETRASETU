@@ -1,0 +1,30 @@
+============================================================
+NETRASETU — DRIVE RETINAL VESSEL SEGMENTATION REPORT
+============================================================
+Dataset:              DRIVE (Digital Retinal Images for Vessel Extraction)
+Training Pool:        20 official training images (IDs 21-40)
+  Train Split:        17 images (85%)
+  Validation Split:   3 images (15%)
+Locked Test Set:      20 official test images (IDs 01-20)
+Model Checkpoint:     models/NetraSetu_DRIVE_Vessel_UNet_best.pth
+Best Checkpoint Epoch:5
+
+HELD-OUT VALIDATION SET METRICS (WITH OFFICIAL GROUND TRUTH):
+  Dice Score:         0.6780
+  IoU (Jaccard):      0.5132
+  Pixel Accuracy:     0.9373
+  Precision:          0.6338
+  Recall/Sensitivity: 0.7370
+  Specificity:        0.9579
+  ROC-AUC:            0.9450
+
+LOCKED TEST SET (20 IMAGES) INFERENCE AUDIT:
+  Evaluated images:   20 images (IDs 01-20)
+  Mean Vessel Density:13.41% of retinal FOV
+  Mean Confidence:    0.4284
+  Overlays generated: 12 high-resolution visual overlays in examples/
+
+RESEARCH STATUS:
+  - Dedicated standalone retinal vessel segmentation module.
+  - Evaluated on DRIVE benchmark. Not claimed as clinical validation on outside datasets.
+============================================================

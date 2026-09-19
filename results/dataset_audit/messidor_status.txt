@@ -1,0 +1,20 @@
+NETRASETU - MESSIDOR-2 STATUS & USABILITY REPORT
+Generated on: 2026-09-19 15:15:08
+
+1. DATASET OVERVIEW:
+- Name:                     Messidor-2 Fundus Archive
+- CSV Location:             data_sources/messidor-2.csv
+- Image Folder:             data_sources/IMAGES.zip\IMAGES
+
+2. INSPECTION FINDINGS:
+- CSV Rows:                 874 patient visit records
+- CSV Columns:              ['left', 'right']
+- Unique Images in CSV:     1748 (mapped as 'left' and 'right ' eye per visit)
+- Discovered Images:        697 PNG images in IMAGES.zip/IMAGES
+- DR Severity Labels:       NONE (No 5-class ICDR grading labels present)
+- Referable DR Labels:      NONE (No referable/non-referable binary labels present)
+
+3. USABILITY ASSESSMENT:
+- 5-Class Classifier:       Not suitable for current 5-class classifier training without verified labels.
+- Referable Screening:      Not suitable without verified adjudication labels.
+- Decision:                 EXCLUDED from NetraSetu classifier development pool.

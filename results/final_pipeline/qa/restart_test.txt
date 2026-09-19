@@ -1,0 +1,25 @@
+================================================================================
+NETRASETU — CLEAN PROCESS RESTART & REPRODUCIBILITY AUDIT
+================================================================================
+Audit Timestamp: 2026-09-19 23:42:20
+
+RESTART SIMULATION PROCEDURE:
+1. Launched fresh Python process executing app.py.
+2. Verified cold-start model weights loading, CUDA initialization, and SQLite connection.
+3. Exercised production screening endpoints via live HTTP socket.
+4. Cleanly terminated background server process.
+
+VERIFICATION RESULTS:
+--------------------------------------------------------------------------------
+Test Description                                 | Status  | Details
+--------------------------------------------------------------------------------
+GET /api/system_status                           | PASSED  | Status 200, 11 modules
+GET / (UI & Static Assets)                       | PASSED  | HTML template rendered successfully
+POST /api/sample/moderate-dr                     | PASSED  | Grade Level 2 - Moderate DR
+POST /api/analyze (Upload)                       | PASSED  | Grade Level 0 - No DR
+GET /api/history (SQLite DB)                     | PASSED  | 23 records
+--------------------------------------------------------------------------------
+OVERALL STATUS: ALL RESTART TESTS PASSED (100% REPRODUCIBILITY)
+SERVER CRASHES DETECTED: 0
+UNHANDLED PROCESS EXCEPTIONS: 0
+================================================================================

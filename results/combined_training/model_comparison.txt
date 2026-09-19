@@ -1,0 +1,86 @@
+NETRASETU - MODEL COMPARISON & CROSS-DATASET BENCHMARK REPORT
+Generated on: 2026-09-19 12:58:23
+
+================================================================================
+EXPERIMENT SUMMARY
+================================================================================
+Model A (Production Baseline):
+- Checkpoint:  NetraSetu_ResNet50_best.pth
+- Training:    APTOS 2019 train set only (2,161 images)
+- Status:      Active Production / Demo Model (UNTOUCHED)
+
+Model B (Combined Experimental Model):
+- Checkpoint:  NetraSetu_ResNet50_combined_best.pth
+- Training:    Combined APTOS (2,161) + IDRiD Disease Grading (413) = 2,574 images
+- Status:      Experimental Research Evaluation (Locked test sets)
+
+================================================================================
+1. APTOS OFFICIAL TEST SET BENCHMARK (464 locked images)
+================================================================================
+Metric                           Baseline (Model A)    Combined (Model B)    Delta
+--------------------------------------------------------------------------------
+5-Class Accuracy                 82.97%               79.96%             -3.02%
+Macro Precision                  65.48%               61.08%             -4.40%
+Macro Recall                     65.39%               59.77%             -5.62%
+Macro F1-Score                   65.30%               60.14%             -5.17%
+Weighted F1-Score                —                     79.72%             —
+Referable DR Threshold           0.24 (Production)     0.41 (Val-Tuned)      —
+Referable Sensitivity            96.64%               86.58%             -10.07%
+Referable Specificity            88.89%               93.33%             +4.44%
+Referable F1-Score               87.80%               86.29%             -1.52%
+Referable ROC-AUC                0.9778                0.9675              -0.0102
+
+APTOS Per-Class Breakdown (Combined Model B):
+Class 0 (No DR):            Prec=95.5%, Rec=95.9%, F1=95.7%
+Class 1 (Mild DR):          Prec=52.8%, Rec=59.6%, F1=56.0%
+Class 2 (Moderate DR):      Prec=67.0%, Rec=67.7%, F1=67.4%
+Class 3 (Severe DR):        Prec=40.0%, Rec=27.3%, F1=32.4%
+Class 4 (Proliferative DR): Prec=50.0%, Rec=48.4%, F1=49.2%
+
+APTOS Confusion Matrix:
+[[257   9   1   0   1]
+ [  4  28  13   0   2]
+ [  7  12  65   6   6]
+ [  0   1   9   6   6]
+ [  1   3   9   3  15]]
+
+================================================================================
+2. IDRiD OFFICIAL TEST SET EVALUATION (103 locked images)
+================================================================================
+Note: Cross-dataset evaluation on locked IDRiD test set.
+Metric                           Baseline (Model A)                      Combined (Model B)
+--------------------------------------------------------------------------------
+5-Class Accuracy                 Not evaluated in baseline experiment    46.60%
+Macro Precision                  Not evaluated in baseline experiment    40.51%
+Macro Recall                     Not evaluated in baseline experiment    37.40%
+Macro F1-Score                   Not evaluated in baseline experiment    38.00%
+Weighted F1-Score                Not evaluated in baseline experiment    46.94%
+Referable Sensitivity            Not evaluated in baseline experiment    89.06% (T_opt=0.41)
+Referable Specificity            Not evaluated in baseline experiment    53.85%
+Referable F1-Score               Not evaluated in baseline experiment    82.01%
+Referable ROC-AUC                Not evaluated in baseline experiment    0.9014
+
+IDRiD Per-Class Breakdown (Combined Model B):
+Class 0 (No DR):            Prec=64.0%, Rec=47.1%, F1=54.2%
+Class 1 (Mild DR):          Prec=0.0%, Rec=0.0%, F1=0.0%
+Class 2 (Moderate DR):      Prec=41.3%, Rec=59.4%, F1=48.7%
+Class 3 (Severe DR):        Prec=61.5%, Rec=42.1%, F1=50.0%
+Class 4 (Proliferative DR): Prec=35.7%, Rec=38.5%, F1=37.0%
+
+IDRiD Confusion Matrix:
+[[16  5 13  0  0]
+ [ 3  0  2  0  0]
+ [ 4  0 19  4  5]
+ [ 0  0  7  8  4]
+ [ 2  0  5  1  5]]
+
+================================================================================
+3. INTERPRETATION & RECOMMENDATION
+================================================================================
+- Production model checkpoint remained completely untouched: YES
+- Production inference service and web frontend remained active: YES
+- Baseline model accuracy on APTOS test confirmed: 82.97%
+- Experimental model accuracy on APTOS test: 79.96%
+- Cross-dataset accuracy on IDRiD test: 46.60%
+- This is a research evaluation and cross-dataset experiment on locked test sets;
+  it does NOT constitute clinical validation or diagnosis guarantee.

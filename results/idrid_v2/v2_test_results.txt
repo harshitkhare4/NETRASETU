@@ -1,0 +1,22 @@
+NETRASETU IDRiD U-NET V2
+Official Test Results
+=====================
+
+Microaneurysm
+Dice: 0.0749
+IoU: 0.0389
+
+Hemorrhage
+Dice: 0.1595
+IoU: 0.0867
+
+Hard Exudate
+Dice: 0.5117
+IoU: 0.3438
+
+Soft Exudate
+Dice: 0.2928
+IoU: 0.1715
+
+Mean Dice: 0.2597
+Mean IoU: 0.1602

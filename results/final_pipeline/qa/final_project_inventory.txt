@@ -1,0 +1,107 @@
+==========================================================================================
+NETRASETU — COMPLETE FINAL PROJECT INVENTORY
+==========================================================================================
+Generated: 2026-09-19 23:28:34
+
+DIRECTORY: models
+------------------------------------------------------------------------------------------
+Filename                                   | Size       | Modified            | Purpose and Status
+------------------------------------------------------------------------------------------
+NetraSetu_DRIVE_Vessel_UNet_best.pth       | 89.0 MB    | 2026-09-19 22:35:22 | DRIVE Retinal Vessel UNet (Dice 0.6780, Acc 93.7%) [Research Deliverable]
+NetraSetu_DRIVE_Vessel_UNet_final.pth      | 29.7 MB    | 2026-09-19 22:36:06 | DRIVE Retinal Vessel UNet final [Research Deliverable]
+NetraSetu_IDRiD_Localization_best.pth      | 163.7 MB   | 2026-09-19 16:02:32 | ResNet-18 OD & Fovea heatmap regression [Research Ready]
+NetraSetu_IDRiD_Localization_final.pth     | 163.7 MB   | 2026-09-19 16:02:33 | Localization final epoch [Research Ready]
+NetraSetu_IDRiD_UNet_V2_best.pth           | 118.5 MB   | 2026-09-18 17:47:40 | IDRiD Lesion UNet V2 [Historical Research]
+NetraSetu_IDRiD_UNet_V2_final.pth          | 118.5 MB   | 2026-09-18 17:49:11 | IDRiD Lesion UNet V2 final [Historical Research]
+NetraSetu_IDRiD_UNet_V3_best.pth           | 159.5 MB   | 2026-09-19 22:24:39 | IDRiD Lesion ResUNet V3 (Macro Dice 0.2965) [Research Deliverable]
+NetraSetu_IDRiD_UNet_V3_final.pth          | 53.2 MB    | 2026-09-19 22:25:02 | IDRiD Lesion ResUNet V3 final [Research Deliverable]
+NetraSetu_IDRiD_UNet_best.pth              | 118.5 MB   | 2026-09-18 17:17:34 | IDRiD Lesion UNet V1 [Historical Research]
+NetraSetu_ResNet50_best.pth                | 90.0 MB    | 2026-09-18 15:49:46 | Production baseline 5-class classifier [PROTECTED / LOCKED]
+NetraSetu_ResNet50_combined_best.pth       | 269.6 MB   | 2026-09-19 12:52:33 | Combined V1 APTOS+IDRiD classifier [Research Comparison]
+NetraSetu_ResNet50_combined_final.pth      | 269.6 MB   | 2026-09-19 12:56:52 | Combined V1 final epoch [Research Comparison]
+NetraSetu_ResNet50_combined_v2_best.pth    | 269.6 MB   | 2026-09-19 15:25:53 | Combined V2 quality-filtered classifier [Research Comparison]
+NetraSetu_ResNet50_combined_v2_final.pth   | 269.6 MB   | 2026-09-19 15:30:17 | Combined V2 final epoch [Research Comparison]
+NetraSetu_ResNet50_final.pth               | 90.0 MB    | 2026-09-18 15:54:50 | Production baseline final epoch [PROTECTED / LOCKED]
+
+
+DIRECTORY: src
+------------------------------------------------------------------------------------------
+Filename                                   | Size       | Modified            | Purpose and Status
+------------------------------------------------------------------------------------------
+audit_all_datasets.py                      | 33.5 KB    | 2026-09-19 15:13:42 | Project file [Active]
+calibrate_resnet50.py                      | 8.6 KB     | 2026-09-19 22:50:55 | Temperature scaling confidence calibrator (T=0.9215) [Calibration Tool]
+capacity_simulator.py                      | 16.6 KB    | 2026-09-19 23:17:25 | 100k-250k rural patient capacity and triage simulator [Planning Engine]
+db.py                                      | 26.8 KB    | 2026-09-19 12:04:44 | SQLite screening history, analytics and audit store [Production DB]
+evaluate.py                                | 9.7 KB     | 2026-09-18 15:59:08 | Project file [Active]
+evaluate_combined.py                       | 23.6 KB    | 2026-09-19 12:57:36 | Project file [Active]
+evaluate_combined_v2.py                    | 26.6 KB    | 2026-09-19 15:32:44 | Project file [Active]
+evaluate_drive_vessel.py                   | 8.6 KB     | 2026-09-19 22:34:42 | Held-out DRIVE validation evaluator and overlay exporter [Evaluation Tool]
+evaluate_idrid_localization.py             | 19.0 KB    | 2026-09-19 16:04:12 | Project file [Active]
+evaluate_segmentation.py                   | 15.4 KB    | 2026-09-18 22:02:46 | Project file [Active]
+evaluate_segmentation_v3.py                | 7.6 KB     | 2026-09-19 22:18:04 | Official 27-image test evaluator for UNet V3 [Evaluation Tool]
+evaluate_threshold.py                      | 9.0 KB     | 2026-09-18 16:05:21 | Project file [Active]
+explainability_engine.py                   | 15.5 KB    | 2026-09-19 22:56:01 | Unified 9-component explainability engine [Research Engine]
+export_explainability_layers.py            | 11.8 KB    | 2026-09-19 22:56:26 | Batch 5-layer visual evidence exporter [Research Tool]
+generate_explainable_report.py             | 23.8 KB    | 2026-09-19 22:57:36 | Printable HTML and 1080p composite PNG report generator [Reporting Engine]
+gradcam.py                                 | 9.2 KB     | 2026-09-18 16:51:31 | Project file [Active]
+inference.py                               | 28.0 KB    | 2026-09-19 09:42:51 | Core baseline inference functions and preprocessing [Production Core]
+inference_service.py                       | 25.1 KB    | 2026-09-19 09:43:12 | Flask inference service singleton and caching [Production Service]
+lesion_segmentation.py                     | 0 B        | 2026-09-18 16:53:22 | Project file [Active]
+optimize_segmentation_thresholds.py        | 10.4 KB    | 2026-09-18 22:01:18 | Project file [Active]
+optimize_segmentation_v3.py                | 4.1 KB     | 2026-09-19 22:26:21 | Validation threshold optimizer for UNet V3 [Evaluation Tool]
+optimize_threshold.py                      | 6.1 KB     | 2026-09-18 16:01:39 | Project file [Active]
+optimize_threshold_v2.py                   | 7.5 KB     | 2026-09-18 16:07:36 | Project file [Active]
+prepare_combined_grading.py                | 15.0 KB    | 2026-09-19 12:45:00 | Project file [Active]
+prepare_combined_grading_v2.py             | 18.1 KB    | 2026-09-19 15:20:46 | Project file [Active]
+prepare_drive_vessel.py                    | 5.5 KB     | 2026-09-19 22:33:49 | DRIVE dataset extractor and preprocessor [Preprocessing Tool]
+prepare_idrid.py                           | 11.5 KB    | 2026-09-18 17:08:12 | Project file [Active]
+prepare_idrid_localization.py              | 12.2 KB    | 2026-09-19 15:51:48 | Project file [Active]
+research_pipeline.py                       | 7.8 KB     | 2026-09-19 23:07:09 | End-to-end research screening pipeline CLI [Research Pipeline]
+snapshot_checkpoints.py                    | 3.3 KB     | 2026-09-19 16:16:58 | Project file [Active]
+train.py                                   | 14.3 KB    | 2026-09-18 15:44:45 | Project file [Active]
+train_drive_vessel.py                      | 9.4 KB     | 2026-09-19 22:34:25 | Binary vessel segmentation UNet trainer [Training Code]
+train_idrid_localization.py                | 25.9 KB    | 2026-09-19 15:55:48 | Project file [Active]
+train_resnet50_combined.py                 | 16.4 KB    | 2026-09-19 12:46:54 | Project file [Active]
+train_resnet50_combined_v2.py              | 16.2 KB    | 2026-09-19 15:23:05 | Project file [Active]
+train_unet.py                              | 13.8 KB    | 2026-09-18 17:09:42 | Project file [Active]
+train_unet_v2.py                           | 22.8 KB    | 2026-09-18 21:56:27 | Project file [Active]
+train_unet_v3.py                           | 15.9 KB    | 2026-09-19 22:17:37 | ResUNet V3 multi-class lesion training script [Training Code]
+verify_checkpoints_after.py                | 4.9 KB     | 2026-09-19 23:19:52 | SHA-256 post-execution integrity auditor [Safety QA Tool]
+verify_idrid_grading.py                    | 8.5 KB     | 2026-09-19 12:37:04 | Project file [Active]
+verify_idrid_localization.py               | 9.9 KB     | 2026-09-19 15:51:08 | Project file [Active]
+
+
+DIRECTORY: ROOT
+------------------------------------------------------------------------------------------
+Filename                                   | Size       | Modified            | Purpose and Status
+------------------------------------------------------------------------------------------
+85%                                        | 0 B        | 2026-09-18 16:07:00 | Project file [Active]
+90%                                        | 0 B        | 2026-09-18 16:07:00 | Project file [Active]
+app.py                                     | 26.2 KB    | 2026-09-19 23:18:39 | Flask web application with /api/system_status and research mode [Production App]
+notepad                                    | 0 B        | 2026-09-18 22:13:55 | Project file [Active]
+patch_analytics.py                         | 2.1 KB     | 2026-09-19 11:42:36 | Project file [Active]
+prepare_aptos.py                           | 14.1 KB    | 2026-09-18 11:53:52 | Project file [Active]
+python                                     | 0 B        | 2026-09-18 22:13:53 | Project file [Active]
+requirements.txt                           | 340 B      | 2026-09-18 22:31:22 | Project file [Active]
+
+
+RESULTS & QA ARTIFACTS DIRECTORIES:
+------------------------------------------------------------------------------------------
+results/final_pipeline/calibration              | Directory (3 files) | Active Artifacts
+results/final_pipeline/capacity                 | Directory (3 files) | Active Artifacts
+results/final_pipeline/explainability           | Directory (61 files) | Active Artifacts
+results/final_pipeline/integration              | Directory (0 files) | Active Artifacts
+results/final_pipeline/production_baseline_after.txt | File (5295 bytes) | Safety Snapshot
+results/final_pipeline/production_baseline_before.txt | File (3964 bytes) | Safety Snapshot
+results/final_pipeline/qa                       | Directory (19 files) | Active Artifacts
+results/final_pipeline/reports                  | Directory (12 files) | Active Artifacts
+results/final_pipeline/screening_output         | Directory (3 files) | Active Artifacts
+results/final_pipeline/segmentation             | Directory (7 files) | Active Artifacts
+results/final_pipeline/vessel_segmentation      | Directory (13 files) | Active Artifacts
+
+
+BACKUP DIRECTORIES:
+------------------------------------------------------------------------------------------
+backup/final_integration_backup             | 5 items | Archived Baseline
+
+==========================================================================================

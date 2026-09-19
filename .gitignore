@@ -1,0 +1,68 @@
+# ==============================================================================
+# NetraSetu .gitignore
+# Smart India Hackathon 2026 | Problem Statement 26038
+# ==============================================================================
+
+# --- Model Checkpoints (Heavy Binaries excluded from Git) ---
+*.pth
+*.pt
+*.onnx
+*.bin
+*.tar.gz
+models/*.pth
+models/*.pt
+models/*.onnx
+
+# --- Datasets (Excluded from Git, refer to data/README.md) ---
+data/*
+!data/README.md
+
+# --- Local Databases & Runtime Storage ---
+*.db
+*.sqlite
+*.sqlite3
+data/*.db
+
+# --- Uploads & Temporary Screening Outputs ---
+uploads/
+results/inference/
+results/final_pipeline/temp_uploads/
+results/final_pipeline/screening_output/
+results/final_pipeline/qa/regression_outputs/
+results/final_pipeline/explainability/
+results/final_pipeline/reports/sample_screening_reports/
+results/idrid/test_outputs/
+results/idrid_v2/test_outputs/
+results/idrid_v2/test_outputs_optimized/
+results/localization/examples/
+
+# --- Backup Directory ---
+backup/
+
+# --- Python & Cache Artifacts ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+
+# --- Environment Configurations ---
+.env
+.env.*
+!.env.example
+
+# --- Virtual Environments ---
+venv/
+.venv/
+env/
+ENV/
+
+# --- IDE & OS Junk ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+*.zip

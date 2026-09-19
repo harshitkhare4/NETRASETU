@@ -1,0 +1,54 @@
+NETRASETU - RESNET-50 COMBINED TRAINING REPORT
+Generated on: 2026-09-19 12:56:53
+
+1. SYSTEM & DEVICE:
+- Device:                 cuda
+- GPU Model:              NVIDIA GeForce RTX 3050 6GB Laptop GPU
+- CUDA Memory:            6.0 GB
+- Mixed Precision (AMP):  True
+
+2. DATASET CONFIGURATION:
+- Training Split Size:    2187 images (85.0%)
+- Validation Split Size:  387 images (15.0%)
+- Total Combined Pool:    2574 images
+- Image Input Resolution: 224x224
+- Batch Size:             16
+
+3. CLASS DISTRIBUTION (TRAIN SPLIT):
+- Class 0 (No DR):            1173 (Weight: 0.3729)
+- Class 1 (Mild DR):          200 (Weight: 2.1870)
+- Class 2 (Moderate DR):      497 (Weight: 0.8801)
+- Class 3 (Severe DR):        150 (Weight: 2.9160)
+- Class 4 (Proliferative DR): 167 (Weight: 2.6192)
+
+4. TRAINING HYPERPARAMETERS:
+- Optimizer:              AdamW (lr=0.0001, weight_decay=0.0001)
+- Loss Function:          Weighted CrossEntropyLoss
+- Learning Rate Schedule: ReduceLROnPlateau(mode='min', factor=0.5, patience=2)
+- Augmentations:          HorizontalFlip(0.5), Rotate(±10°), RandomBrightnessContrast(±15%)
+- Total Epochs:           12
+
+5. TRAINING HISTORY (EPOCH-BY-EPOCH):
+Epoch 01: Train Loss = 1.2914, Train Acc = 61.59%, Val Loss = 0.7200, Val Acc = 70.54%, LR = 0.000100
+Epoch 02: Train Loss = 0.9271, Train Acc = 74.39%, Val Loss = 0.6450, Val Acc = 74.42%, LR = 0.000100
+Epoch 03: Train Loss = 0.7522, Train Acc = 79.06%, Val Loss = 0.7968, Val Acc = 66.41%, LR = 0.000100
+Epoch 04: Train Loss = 0.6208, Train Acc = 82.81%, Val Loss = 0.5992, Val Acc = 75.71%, LR = 0.000100
+Epoch 05: Train Loss = 0.4523, Train Acc = 87.43%, Val Loss = 0.5819, Val Acc = 80.62%, LR = 0.000100
+Epoch 06: Train Loss = 0.4288, Train Acc = 87.75%, Val Loss = 0.6552, Val Acc = 72.35%, LR = 0.000100
+Epoch 07: Train Loss = 0.3321, Train Acc = 90.81%, Val Loss = 0.6458, Val Acc = 76.74%, LR = 0.000100
+Epoch 08: Train Loss = 0.2741, Train Acc = 92.55%, Val Loss = 0.7465, Val Acc = 77.52%, LR = 0.000100
+Epoch 09: Train Loss = 0.1886, Train Acc = 94.83%, Val Loss = 0.6908, Val Acc = 79.59%, LR = 0.000050
+Epoch 10: Train Loss = 0.1251, Train Acc = 96.48%, Val Loss = 0.7696, Val Acc = 78.29%, LR = 0.000050
+Epoch 11: Train Loss = 0.1301, Train Acc = 96.80%, Val Loss = 0.7339, Val Acc = 78.04%, LR = 0.000050
+Epoch 12: Train Loss = 0.0834, Train Acc = 97.90%, Val Loss = 0.7365, Val Acc = 81.40%, LR = 0.000025
+
+6. BEST CHECKPOINT SUMMARY:
+- Best Epoch:             5
+- Best Validation Loss:   0.5819
+- Best Validation Acc:    80.62%
+- Training Duration:      458.3s (7.6 minutes)
+- Best Model Path:        models\NetraSetu_ResNet50_combined_best.pth
+- Final Model Path:       models\NetraSetu_ResNet50_combined_final.pth
+
+PRODUCTION INTEGRITY STATUS:
+- Production baseline model (NetraSetu_ResNet50_best.pth) remained 100% UNTOUCHED.

@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetraSetu | Healthcare AI Screening Platform</title>
+    <meta name="description" content="NetraSetu - Explainable AI for Diabetic Retinopathy Screening in Rural India. Smart India Hackathon 2026 PS 26038.">
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <!-- TOP ANNOUNCEMENT / CONTEXT BAR -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="top-bar-left">
+                <span class="badge badge-sih">SIH 2026</span>
+                <span class="text-muted">• Problem Statement ID: <strong>26038</strong></span>
+                <span class="badge badge-subtle" style="background: #e0f2fe; color: #0369a1; border-color: #bae6fd; font-weight: 700;">RESEARCH / DEMO PROTOTYPE</span>
+            </div>
+            <div class="top-bar-right">
+                <!-- LIVE / DEMO MODE INDICATOR -->
+                <div class="mode-indicator" id="modeIndicator" title="Current data mode">
+                    <span class="mode-dot" id="modeDot"></span>
+                    <span id="modeLabelText">LIVE MODE</span>
+                    <button type="button" class="btn-mode-reset" id="btnResetDemoData" title="Remove all synthetic/seeded demo records from database" style="display:none;">
+                        Reset Demo Data
+                    </button>
+                </div>
+                <div class="system-status" id="systemStatusBadge">
+                    <span class="status-dot"></span>
+                    <span id="systemStatusText">Initializing System...</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MAIN SITE HEADER -->
+    <header class="site-header">
+        <div class="container header-content">
+            <div class="logo-group">
+                <div class="logo-icon">
+                    <svg width="36" height="36" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="24" cy="24" r="22" stroke="url(#logoGrad)" stroke-width="2.5" fill="#f0fdfa"/>
+                        <ellipse cx="24" cy="24" rx="14" ry="9" stroke="#0284c7" stroke-width="2.2" stroke-linecap="round"/>
+                        <circle cx="24" cy="24" r="5" fill="#0284c7"/>
+                        <circle cx="25.5" cy="22.5" r="1.5" fill="#ffffff"/>
+                        <path d="M10 24C14 17 34 17 38 24" stroke="#0d9488" stroke-width="2" stroke-dasharray="2 3"/>
+                        <path d="M16 34C20 30 28 30 32 34" stroke="#0284c7" stroke-width="2" stroke-linecap="round"/>
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#0284c7"/>
+                                <stop offset="1" stop-color="#0d9488"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <div class="brand-title">
+                        <span class="brand-netra">Netra</span><span class="brand-setu">Setu</span>
+                        <span class="brand-tag">Research Prototype</span>
+                    </div>
+                    <p class="brand-subtitle">Demo-Ready Healthcare AI Research Prototype for Diabetic Retinopathy Screening in Rural India</p>
+                </div>
+            </div>
+
+            <!-- PRIMARY PLATFORM NAVIGATION -->
+            <nav class="header-nav">
+                <button class="nav-tab active" data-tab="homeTab" id="navHomeBtn">Home</button>
+                <button class="nav-tab" data-tab="screeningTab" id="navScreeningBtn">Screening</button>
+                <button class="nav-tab" data-tab="servicesTab" id="navServicesBtn">Services</button>
+                <button class="nav-tab" data-tab="reportsTab" id="navReportsBtn">Reports</button>
+                <button class="nav-tab" data-tab="reviewTab" id="navReviewBtn">
+                    Review Queue
+                    <span class="nav-count-badge" id="navReviewCountBadge">--</span>
+                </button>
+                <button class="nav-tab" data-tab="analyticsTab" id="navAnalyticsBtn">Analytics</button>
+                <button class="nav-tab" data-tab="explainabilityTab" id="navExplainabilityBtn">Explainability</button>
+                <button class="nav-tab" data-tab="insightsTab" id="navInsightsBtn">Model Insights</button>
+                <button class="nav-tab" data-tab="aboutTab" id="navAboutBtn">About & Coverage</button>
+                <button class="nav-tab" data-tab="statusTab" id="navStatusBtn">System Status</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="container main-content">
+
+        <!-- ============================================================
+             TAB 1: HOME (LANDING PAGE)
+             ============================================================ -->
+        <section id="homeTab" class="tab-pane active">
+            <!-- Hero Banner -->
+            <div class="card home-hero-card">
+                <div class="home-hero-content">
+                    <div class="hero-badge-pill">
+                        <span>Smart India Hackathon 2026 • Problem Statement 26038</span>
+                    </div>
+                    <h1 class="home-hero-title">
+                        Connecting Rural India with <span class="text-gradient">Explainable Retinal AI</span>
+                    </h1>
+                    <p class="home-hero-desc">
+                        NetraSetu is an AI-assisted screening decision-support platform engineered for primary health centers and rural vision camps. It performs automated image quality triage, ICDR Level 0–4 grading, 0.24 locked threshold referral screening, and Grad-CAM visual attention mapping in under 150 milliseconds.
+                    </p>
+                    <div class="home-hero-cta-group">
+                        <button type="button" class="btn btn-primary btn-lg" id="btnHomeStartScreening">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+                            Start Retinal Screening
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-lg" id="btnHomeStartCamera">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                            Live Camera Screening
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-lg" id="btnHomeExploreServices">
+                            Explore Services
+                        </button>
+                    </div>
+
+                    <!-- Impact Key Indicators -->
+                    <div class="home-stats-strip">
+                        <div class="home-stat-item">
+                            <span class="stat-num">77M+</span>
+                            <span class="stat-label">Diabetic Population in India</span>
+                        </div>
+                        <div class="home-stat-item">
+                            <span class="stat-num">1 : 100k</span>
+                            <span class="stat-label">Ophthalmologist-to-Patient Ratio in Rural Areas</span>
+                        </div>
+                        <div class="home-stat-item">
+                            <span class="stat-num">96.64%</span>
+                            <span class="stat-label">Referable Sensitivity (Locked 0.24 Threshold)</span>
+                        </div>
+                        <div class="home-stat-item">
+                            <span class="stat-num">&lt; 150ms</span>
+                            <span class="stat-label">GPU Inference Latency (RTX 3050)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Workflow Pipeline -->
+            <div class="card workflow-card">
+                <div class="card-header">
+                    <div>
+                        <span class="card-tag">SYSTEM ARCHITECTURE</span>
+                        <h3>End-to-End Clinical Screening Workflow</h3>
+                        <p class="section-desc">From fundus image acquisition to ophthalmologist referral and audit logging.</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="workflow-steps-horizontal">
+                        <div class="wf-step">
+                            <div class="wf-step-circle">1</div>
+                            <strong>Capture / Upload</strong>
+                            <span>Fundus Image or Live Webcam</span>
+                        </div>
+                        <div class="wf-arrow">→</div>
+                        <div class="wf-step">
+                            <div class="wf-step-circle">2</div>
+                            <strong>Quality Check</strong>
+                            <span>Laplacian Blur & Illumination</span>
+                        </div>
+                        <div class="wf-arrow">→</div>
+                        <div class="wf-step">
+                            <div class="wf-step-circle">3</div>
+                            <strong>Enhancement</strong>
+                            <span>Retinal Crop & CLAHE</span>
+                        </div>
+                        <div class="wf-arrow">→</div>
+                        <div class="wf-step">
+                            <div class="wf-step-circle">4</div>
+                            <strong>ResNet-50 AI</strong>
+                            <span>224×224 Normalized Tensor</span>
+                        </div>
+                        <div class="wf-arrow">→</div>
+                        <div class="wf-step">
+                            <div class="wf-step-circle">5</div>
+                            <strong>DR Grade (0–4)</strong>
+                            <span>ICDR Classification</span>
+                        </div>
+                        <div class="wf-arrow">→</div>
+                        <div class="wf-step">
+                            <div class="wf-step-circle">6</div>
+                            <strong>Explainability</strong>
+                            <span>Grad-CAM Attention Map</span>
+                        </div>
+                        <div class="wf-arrow">→</div>
+                        <div class="wf-step">
+                            <div class="wf-step-circle">7</div>
+                            <strong>Referral Triage</strong>
+                            <span>0.24 Locked Threshold</span>
+                        </div>
+                        <div class="wf-arrow">→</div>
+                        <div class="wf-step">
+                            <div class="wf-step-circle">8</div>
+                            <strong>Clinical Report</strong>
+                            <span>SQLite Log & Specialist Queue</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6 Core Feature Cards -->
+            <div class="home-features-grid">
+                <div class="feature-card">
+                    <div class="feat-icon feat-blue">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h4>Image Quality Assessment</h4>
+                    <p>Automated blur detection via Laplacian variance, contrast evaluation, brightness bounds, and retinal field-of-view ratio. Triage prevents ungradable examinations from skewing screening.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feat-icon feat-teal">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/><circle cx="12" cy="12" r="4"/></svg>
+                    </div>
+                    <h4>ICDR DR Severity Grading</h4>
+                    <p>Standardized 5-class staging: Level 0 (No DR), Level 1 (Mild), Level 2 (Moderate), Level 3 (Severe), Level 4 (Proliferative DR) with full softmax probability distribution.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feat-icon feat-amber">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                    </div>
+                    <h4>Referable DR Screening</h4>
+                    <p>Sum of probabilities P(Level 2)+P(Level 3)+P(Level 4) compared against the locked 0.24 threshold, achieving 96.64% test sensitivity to minimize missed sight-threatening retinopathy.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feat-icon feat-purple">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+                    </div>
+                    <h4>Explainable AI (Grad-CAM)</h4>
+                    <p>Generates gradient-weighted visual activation maps highlighting image regions influencing the prediction, fostering clinical trust among ophthalmologists and community healthcare workers.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feat-icon feat-green">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                    </div>
+                    <h4>Clinical-Style Reporting</h4>
+                    <p>Automated clinical reports with anonymous Case IDs (NS-YYYY-MM-DD-XXX), print-ready A4 formatting, downloadable TXT summaries, and JSON payloads for telemedicine integration.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feat-icon feat-rose">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="19" r="2"/></svg>
+                    </div>
+                    <h4>Experimental Lesion Analysis</h4>
+                    <p>Research localization module utilizing IDRiD-trained U-Net V2 to visualize microaneurysms, hemorrhages, and exudates (Mean Dice 0.2831; experimental research visualization only).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 2: SCREENING (DUAL MODE: UPLOAD + LIVE CAMERA)
+             ============================================================ -->
+        <section id="screeningTab" class="tab-pane" style="display: none;">
+            
+            <!-- SCREENING MODE SWITCHER -->
+            <div class="screening-mode-container">
+                <div class="mode-switch-card">
+                    <span class="sub-label">Select Screening Acquisition Mode</span>
+                    <div class="mode-switch-group">
+                        <button type="button" class="btn-mode-switch active" id="btnModeUpload">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            Upload Fundus Image
+                        </button>
+                        <button type="button" class="btn-mode-switch" id="btnModeCamera">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                            Live Camera Acquisition
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODE A: UPLOAD HERO SECTION -->
+            <div class="card hero-card" id="uploadCardSection">
+                <div class="card-header">
+                    <div class="hero-title-wrap">
+                        <span class="hero-icon-pill">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                        </span>
+                        <div>
+                            <h2>Screen a Retinal Fundus Photograph</h2>
+                            <p class="section-desc">Upload a fundus photograph for automated quality triage, ResNet-50 grading, and Grad-CAM explainability.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-body">
+                    <div class="upload-grid">
+                        <div class="dropzone" id="dropzone">
+                            <input type="file" id="fileInput" accept=".jpg,.jpeg,.png" style="display:none;">
+                            <div class="dropzone-content" id="dropzonePrompt">
+                                <div class="dropzone-icon-circle">
+                                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                </div>
+                                <h3 class="dropzone-heading">Drag & Drop Retinal Image</h3>
+                                <p class="dropzone-sub">or click to browse from local computer</p>
+                                <span class="format-tag">Supported: JPG, JPEG, PNG (Max 16MB)</span>
+                            </div>
+
+                            <div class="dropzone-preview" id="dropzonePreview" style="display: none;">
+                                <img id="previewImage" src="" alt="Retinal Fundus Preview">
+                                <div class="preview-meta">
+                                    <span id="previewFilename" class="preview-filename">image.jpg</span>
+                                    <button type="button" class="btn btn-secondary btn-sm" id="btnChangeImage">Change Image</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="demo-samples-panel">
+                            <div class="samples-header">
+                                <span class="samples-title">Or Choose a Curated Demo Sample</span>
+                                <span class="badge badge-subtle">Instant Test</span>
+                            </div>
+                            
+                            <div class="samples-chips-grid">
+                                <button type="button" class="sample-chip" data-sample-id="moderate-dr" id="sampleModerateBtn">
+                                    <span class="sample-chip-badge badge-amber">Level 2</span>
+                                    <div class="sample-chip-info">
+                                        <strong>Moderate DR Demo</strong>
+                                        <span>Microaneurysms + Exudates (ff52392372d3)</span>
+                                    </div>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                                </button>
+
+                                <button type="button" class="sample-chip" data-sample-id="normal-retina" id="sampleNormalBtn">
+                                    <span class="sample-chip-badge badge-mint">Level 0</span>
+                                    <div class="sample-chip-info">
+                                        <strong>Normal Retina Demo</strong>
+                                        <span>Healthy macula & disc (005b95c28852)</span>
+                                    </div>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                                </button>
+
+                                <button type="button" class="sample-chip" data-sample-id="proliferative-dr" id="sampleProliferativeBtn">
+                                    <span class="sample-chip-badge badge-rose">Level 4</span>
+                                    <div class="sample-chip-info">
+                                        <strong>Proliferative DR Demo</strong>
+                                        <span>Neovascularization (02dda30d3acf)</span>
+                                    </div>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                                </button>
+
+                                <button type="button" class="sample-chip" data-sample-id="raw-fundus" id="sampleRawBtn">
+                                    <span class="sample-chip-badge badge-blue">Raw</span>
+                                    <div class="sample-chip-info">
+                                        <strong>Raw Fundus Pipeline</strong>
+                                        <span>Full crop + CLAHE (000c1434d8d7)</span>
+                                    </div>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                                </button>
+                            </div>
+
+                            <div class="analyze-cta-box">
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAnalyze" disabled>
+                                    <span class="btn-spinner" id="btnSpinner" style="display: none;"></span>
+                                    <span id="btnAnalyzeText">Analyze Retina</span>
+                                </button>
+                                <p class="cta-hint" id="ctaHint">Select or upload a fundus photograph to begin screening.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODE B: LIVE CAMERA ACQUISITION SECTION -->
+            <div class="card hero-card" id="cameraCardSection" style="display: none;">
+                <div class="card-header">
+                    <div class="hero-title-wrap">
+                        <span class="hero-icon-pill">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                        </span>
+                        <div>
+                            <h2>Live Camera Acquisition</h2>
+                            <p class="section-desc">Acquire live camera frame. <em>Notice: The prototype supports camera-frame acquisition. In a real rural deployment, the acquisition layer would connect to a compatible retinal/fundus imaging device.</em></p>
+                        </div>
+                    </div>
+                    <div class="camera-status-pill" id="cameraStatusPill">
+                        <span class="status-dot" id="cameraDot"></span>
+                        <span id="cameraStatusText">Camera Disconnected</span>
+                    </div>
+                </div>
+
+                <div class="hero-body">
+                    <div class="camera-layout-grid">
+                        <div class="camera-viewport-card">
+                            <div class="video-container" id="videoContainer">
+                                <video id="webcamVideo" autoplay playsinline></video>
+                                <canvas id="webcamCanvas" style="display:none;"></canvas>
+                                
+                                <div class="camera-reticle-overlay" id="cameraReticle">
+                                    <div class="reticle-circle"></div>
+                                    <span class="reticle-hint">Center Retinal Macula / Optic Disc</span>
+                                </div>
+
+                                <div class="camera-captured-view" id="cameraCapturedView" style="display:none;">
+                                    <img id="cameraCapturedImg" src="" alt="Captured Retinal Frame">
+                                    <div class="captured-tag">Captured Frame (Ready for AI Analysis)</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="camera-controls-card">
+                            <h4>Camera Operation Controls</h4>
+                            <p class="text-sm text-muted">Position ophthalmoscope securely. Freeze a sharp frame before running AI analysis.</p>
+
+                            <div class="camera-buttons-stack">
+                                <button type="button" class="btn btn-secondary btn-block" id="btnStartCamera">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+                                    Start Camera Feed
+                                </button>
+
+                                <button type="button" class="btn btn-primary btn-block" id="btnCaptureFrame" disabled>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+                                    Capture Frame
+                                </button>
+
+                                <button type="button" class="btn btn-secondary btn-block" id="btnRetakeFrame" style="display:none;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                                    Retake Frame
+                                </button>
+
+                                <button type="button" class="btn btn-primary btn-lg btn-block" id="btnAnalyzeCameraCapture" style="display:none;">
+                                    <span class="btn-spinner" id="camSpinner" style="display: none;"></span>
+                                    <span id="btnAnalyzeCameraText">Analyze Captured Image</span>
+                                </button>
+                            </div>
+
+                            <div class="camera-guidelines-box">
+                                <strong>Clinical Capture Guidelines:</strong>
+                                <ul>
+                                    <li>Ensure stable patient head positioning.</li>
+                                    <li>Avoid direct reflections or eyelid obscuration.</li>
+                                    <li>Maintain focal distance until retinal vessels are crisp.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INFERENCE RESULTS CONTAINER (SHARED FOR UPLOAD & CAMERA) -->
+            <div id="resultsContainer" style="display: none;">
+
+                <!-- QUALITY STATUS BANNER -->
+                <div class="card quality-card" id="qualityCard">
+                    <div class="quality-header">
+                        <div class="quality-title-group">
+                            <span class="card-tag">STEP 1 • TRIAGE</span>
+                            <h3>Image Quality Assessment</h3>
+                        </div>
+                        <div class="quality-status-badge" id="qualityBadge">
+                            <span id="qualityStatusText">GOOD</span>
+                        </div>
+                    </div>
+
+                    <div class="quality-body">
+                        <div class="metrics-grid">
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Laplacian Blur Score</span>
+                                <strong class="metric-chip-value" id="blurScoreVal">--</strong>
+                                <span class="metric-chip-sub">Threshold: &gt; 20.0</span>
+                            </div>
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Mean Brightness</span>
+                                <strong class="metric-chip-value" id="brightnessVal">--</strong>
+                                <span class="metric-chip-sub">Normal: 20 – 240</span>
+                            </div>
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Contrast (Std Dev)</span>
+                                <strong class="metric-chip-value" id="contrastVal">--</strong>
+                                <span class="metric-chip-sub">Threshold: &gt; 15.0</span>
+                            </div>
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Retinal FOV Coverage</span>
+                                <strong class="metric-chip-value" id="fovVal">--</strong>
+                                <span class="metric-chip-sub">Normal: &gt; 15%</span>
+                            </div>
+                        </div>
+
+                        <div class="quality-alert-box" id="qualityAlertBox" style="display: none;">
+                            <div class="quality-alert-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            </div>
+                            <div class="quality-alert-text">
+                                <strong>Quality Warning / Recapture Recommendation</strong>
+                                <p id="recaptureAdviceText">Image quality may affect screening reliability. Please recapture with better focus and illumination.</p>
+                            </div>
+                        </div>
+
+                        <div class="pipeline-note">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                            <span id="preprocessingNoteText">Safe preprocessing pipeline executed.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QUALITY GATE REJECTION CARD (STOPS PRIMARY SCREENING) -->
+                <div class="card quality-rejection-card" id="qualityRejectionCard" style="display: none; border-left: 5px solid #f59e0b; background: #fffbeb; padding: 22px; border-radius: 12px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);">
+                    <div style="display: flex; align-items: flex-start; gap: 16px;">
+                        <div style="background: #fef3c7; color: #b45309; padding: 12px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                                <h4 style="margin: 0; color: #92400e; font-size: 18px; font-weight: 700;">Quality Gate Triggered: Needs Recapture</h4>
+                                <span class="badge" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a; font-weight:700; font-size: 11px;">PRIMARY SCREENING HALTED</span>
+                            </div>
+                            <p style="margin: 10px 0 14px 0; color: #78350f; font-size: 14px; line-height: 1.5;">
+                                This retinal image failed the pre-screening quality gate (<strong id="rejectionReasonsList">Inadequate focus or retinal area</strong>). 
+                                To eliminate false-negative or false-positive errors on ungradeable captures, primary AI classification and referral analysis have been halted.
+                            </p>
+                            <div style="background: #ffffff; border: 1px solid #fde68a; padding: 14px 16px; border-radius: 8px; margin-bottom: 16px;">
+                                <strong style="color: #92400e; font-size: 13px;">Clinical Recapture Protocol:</strong>
+                                <p id="rejectionAdviceText" style="margin: 6px 0 0 0; color: #475569; font-size: 13px; line-height: 1.4;"></p>
+                            </div>
+                            <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                                <button type="button" class="btn btn-secondary btn-sm" id="btnRetakeFromRejection">
+                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                    Recapture / Upload New Image
+                                </button>
+                                <button type="button" class="btn btn-outline btn-sm" id="btnAnalyzeAnyway" style="border-color: #f59e0b; color: #b45309; font-weight: 600;">
+                                    ⚠️ Analyze Anyway (Research / Demo Override)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OVERRIDE WARNING BANNER -->
+                <div class="override-warning-banner" id="overrideWarningBanner" style="display: none; background: #fff7ed; border: 1.5px solid #fdba74; color: #c2410c; padding: 14px 18px; border-radius: 10px; margin-bottom: 24px; font-size: 13.5px; font-weight: 500; box-shadow: 0 2px 8px rgba(234, 88, 12, 0.08);">
+                    ⚠️ <strong>RESEARCH / DEMO OVERRIDE ACTIVE:</strong> This image failed the clinical quality gate. Primary screening confidence is unvalidated on ungradeable images and must not be used for diagnostic triage.
+                </div>
+
+                <!-- DUAL CORE CLINICAL RESULTS: DR SEVERITY & REFERABLE DR -->
+                <div class="dual-results-grid" id="coreResultsGrid">
+
+                    <!-- CARD 1: DR SEVERITY (ICDR LEVEL 0-4) -->
+                    <div class="card result-card" id="drSeverityCard">
+                        <div class="result-card-header">
+                            <span class="card-tag">STEP 2 • CLASSIFICATION</span>
+                            <h3>Diabetic Retinopathy Severity</h3>
+                        </div>
+
+                        <div class="severity-display">
+                            <div class="severity-badge-hero" id="severityHeroBadge">
+                                <span class="severity-level" id="drLevelText">Level 2</span>
+                                <span class="severity-name" id="drSeverityName">Moderate DR</span>
+                            </div>
+
+                            <div class="severity-meta-box">
+                                <div class="meta-row">
+                                    <span class="meta-label">ICDR Grade</span>
+                                    <strong class="meta-value" id="icdrGradeText">Level 2 - Moderate DR</strong>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-label">Class Confidence</span>
+                                    <strong class="meta-value confidence-highlight" id="classConfidenceText">55.18%</strong>
+                                </div>
+                                <div class="meta-row">
+                                    <span class="meta-label">Model Architecture</span>
+                                    <span class="meta-value">ResNet-50 (Transfer Learning)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="probability-distribution-section">
+                            <span class="sub-label">Model Class Probabilities (Softmax)</span>
+                            <div class="probability-bars-list" id="probabilityBarsList"></div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 2: REFERABLE DR SCREENING -->
+                    <div class="card result-card" id="referableCard">
+                        <div class="result-card-header">
+                            <span class="card-tag">STEP 3 • TRIAGE DECISION</span>
+                            <h3>Referable DR Screening</h3>
+                        </div>
+
+                        <div class="referable-display">
+                            <div class="referable-status-hero" id="referableStatusHero">
+                                <span class="referable-status-label" id="referableStatusText">REFERABLE</span>
+                                <span class="referable-status-desc" id="referableStatusDesc">Ophthalmologist review recommended.</span>
+                            </div>
+
+                            <div class="gauge-card">
+                                <div class="gauge-header">
+                                    <span class="meta-label">Referable Probability Score</span>
+                                    <strong class="gauge-score-value" id="referableScoreVal">82.06%</strong>
+                                </div>
+                                <div class="gauge-track">
+                                    <div class="gauge-fill" id="referableGaugeFill" style="width: 82%;"></div>
+                                    <div class="gauge-threshold-marker" style="left: 24%;" title="Locked Screening Threshold = 24%">
+                                        <span class="threshold-label">Threshold 0.24 (24%)</span>
+                                    </div>
+                                </div>
+                                <div class="gauge-footer">
+                                    <span>0% Non-Referable</span>
+                                    <span class="text-muted">P(Level 2) + P(Level 3) + P(Level 4)</span>
+                                    <span>100% High Risk</span>
+                                </div>
+                            </div>
+
+                            <div class="referral-advice-box" id="referralAdviceBox">
+                                <div class="advice-icon">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                </div>
+                                <div class="advice-content">
+                                    <strong>Screening Recommendation:</strong>
+                                    <p id="referralDetailText">Referable score meets or exceeds the screening threshold (0.24). Levels 2–4 indicate referable retinopathy in this protocol.</p>
+                                </div>
+                            </div>
+
+                            <div class="screening-protocol-note">
+                                <small><strong>Screening Protocol:</strong> Evaluated on APTOS 2019 test cohort (Sensitivity = 96.64%, Specificity = 88.89%, ROC-AUC = 0.9778). Protocol prioritizes high sensitivity to minimize missed rural referrals.</small>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- EXPLAINABILITY STUDIO (GRAD-CAM ATTENTION MAP) -->
+                <div class="card explainability-card" id="explainabilitySection">
+                    <div class="card-header">
+                        <div class="explainability-title-wrap">
+                            <span class="card-tag">STEP 4 • EXPLAINABLE AI</span>
+                            <h3>Explainability Studio: Why Did the AI Make This Prediction?</h3>
+                            <p class="section-desc">Grad-CAM (Gradient-weighted Class Activation Mapping) calculates gradients flowing into the final convolutional layer (<span class="code-pill">layer4[-1]</span>) to highlight the retinal regions that positively influenced the predicted DR grade.</p>
+                        </div>
+                        <div class="explainability-controls">
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnToggleSideBySide">Side-by-Side</button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnViewLargerModal">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6"/><path d="M9 21H3v-6"/><path d="M21 3l-7 7"/><path d="M3 21l7-7"/></svg>
+                                View Larger
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="comparison-grid" id="comparisonGrid">
+                            <div class="comparison-panel">
+                                <div class="panel-tag">Enhanced Retinal Image (Display 512×512)</div>
+                                <div class="image-wrapper">
+                                    <img id="enhancedResultImg" src="" alt="Enhanced Retinal Fundus">
+                                </div>
+                                <span class="image-caption">Preprocessed retinal field with CLAHE contrast enhancement and bilateral noise suppression.</span>
+                            </div>
+
+                            <div class="comparison-panel">
+                                <div class="panel-tag tag-gradcam">AI Attention Heatmap (Grad-CAM)</div>
+                                <div class="image-wrapper">
+                                    <img id="gradcamResultImg" src="" alt="Grad-CAM Attention Map">
+                                </div>
+                                <span class="image-caption">Model attention map. Warmer colors (red/orange) show regions that drove the model's confidence for the predicted grade.</span>
+                            </div>
+                        </div>
+
+                        <div class="scientific-note-box">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                            <div>
+                                <strong>Explainability Interpretation Note:</strong>
+                                <span>Grad-CAM highlights image regions that contributed to the model's predicted class. It is an explainability attention visualization tool, not a confirmed histology or lesion diagnosis.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EXPERIMENTAL LESION ANALYSIS (COLLAPSIBLE ACCORDION) -->
+                <div class="card accordion-card" id="lesionAccordionSection">
+                    <div class="accordion-header" id="lesionAccordionToggle">
+                        <div class="accordion-title-wrap">
+                            <div class="accordion-badge-pill">Experimental Research Module</div>
+                            <h4>IDRiD-Trained Lesion Segmentation Analysis</h4>
+                            <p class="text-muted text-xs">U-Net V2 multi-lesion localization (Microaneurysm, Hemorrhage, Hard Exudate, Soft Exudate)</p>
+                        </div>
+                        <div class="accordion-toggle-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="accordionArrow"><path d="m6 9 6 6 6-6"/></svg>
+                        </div>
+                    </div>
+
+                    <div class="accordion-content" id="lesionAccordionBody" style="display: none;">
+                        <div class="research-banner">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            <div>
+                                <strong>Experimental Research Disclosure:</strong>
+                                <p>This module is an experimental research prototype using an IDRiD-trained U-Net V2 architecture (Official Test Mean Dice = 0.2831). <strong>It is NOT used as the primary referral decision and is NOT clinically validated.</strong> Lesions are highlighted for research visualization only.</p>
+                            </div>
+                        </div>
+
+                        <div class="lesion-action-bar">
+                            <button type="button" class="btn btn-secondary" id="btnRunLesionAnalysis">
+                                <span class="btn-spinner" id="lesionSpinner" style="display: none;"></span>
+                                <span id="btnRunLesionText">Run Experimental Lesion Analysis</span>
+                            </button>
+                            <span class="text-xs text-muted">Lazy-loaded on demand to optimize GPU memory</span>
+                        </div>
+
+                        <div id="lesionResultsView" style="display: none;">
+                            <div class="lesion-display-grid">
+                                <div class="lesion-image-box">
+                                    <div class="panel-tag">Multi-Lesion Color Overlay (512×512)</div>
+                                    <img id="lesionsOverlayImg" src="" alt="Lesion Segmentation Overlay">
+                                </div>
+                                <div class="lesion-stats-box">
+                                    <h5>Detected Retinal Lesion Signatures</h5>
+                                    
+                                    <div class="lesion-legend-grid">
+                                        <div class="lesion-item" style="border-left: 4px solid #ef4444;">
+                                            <div class="lesion-item-head">
+                                                <span class="lesion-name"><span class="color-dot" style="background:#ef4444;"></span> Microaneurysm</span>
+                                                <span class="lesion-pill" id="lesionPillMA">Locked Thresh: 0.34</span>
+                                            </div>
+                                            <p class="lesion-desc">Earliest visible signs of capillary damage. (Test Dice: 0.0862 - Experimental / Weak)</p>
+                                            <span class="lesion-stat-val" id="lesionStatMA">Area: 0.00%</span>
+                                        </div>
+
+                                        <div class="lesion-item" style="border-left: 4px solid #22c55e;">
+                                            <div class="lesion-item-head">
+                                                <span class="lesion-name"><span class="color-dot" style="background:#22c55e;"></span> Hemorrhage</span>
+                                                <span class="lesion-pill" id="lesionPillHEM">Locked Thresh: 0.30</span>
+                                            </div>
+                                            <p class="lesion-desc">Intra-retinal blood extravasation from leaking capillary walls. (Test Dice: 0.3167)</p>
+                                            <span class="lesion-stat-val" id="lesionStatHEM">Area: 0.00%</span>
+                                        </div>
+
+                                        <div class="lesion-item" style="border-left: 4px solid #3b82f6;">
+                                            <div class="lesion-item-head">
+                                                <span class="lesion-name"><span class="color-dot" style="background:#3b82f6;"></span> Hard Exudate</span>
+                                                <span class="lesion-pill" id="lesionPillEX">Locked Thresh: 0.64</span>
+                                            </div>
+                                            <p class="lesion-desc">Lipid/protein deposits leaking from hyperpermeable capillaries. (Test Dice: 0.4196)</p>
+                                            <span class="lesion-stat-val" id="lesionStatEX">Area: 0.00%</span>
+                                        </div>
+
+                                        <div class="lesion-item" style="border-left: 4px solid #eab308;">
+                                            <div class="lesion-item-head">
+                                                <span class="lesion-name"><span class="color-dot" style="background:#eab308;"></span> Soft Exudate</span>
+                                                <span class="lesion-pill" id="lesionPillSE">Locked Thresh: 0.64</span>
+                                            </div>
+                                            <p class="lesion-desc">Cotton-wool spots reflecting nerve fiber layer ischemia. (Test Dice: 0.3098)</p>
+                                            <span class="lesion-stat-val" id="lesionStatSE">Area: 0.00%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CLINICAL SCREENING REPORT CARD & DOWNLOADS -->
+                <div class="card report-card" id="reportSection">
+                    <div class="card-header">
+                        <div>
+                            <span class="card-tag">STEP 5 • CLINICAL DOCUMENTATION</span>
+                            <h3>NetraSetu Standardized Screening Report</h3>
+                            <p class="section-desc">Standardized screening summary ready for electronic health records, tele-ophthalmology referral, or audit logging.</p>
+                        </div>
+                        <div class="report-actions-btn-group">
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnDownloadReportTxt">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                Download Report (.txt)
+                            </button>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnDownloadJson">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                                Download JSON
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm" id="btnPrintReport">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                                Print / Save PDF
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="clinical-paper" id="clinicalReportPaper">
+                            <div class="paper-header">
+                                <div class="paper-brand">
+                                    <h2>NETRASETU CLINICAL SCREENING REPORT</h2>
+                                    <span>Rural Diabetic Retinopathy AI Screening Initiative • SIH 2026 PS 26038</span>
+                                </div>
+                                <div class="paper-meta">
+                                    <div id="reportDateText">Date: 2026-09-18</div>
+                                    <div id="reportCaseIdText">Case ID: NS-2026-09-18-001</div>
+                                    <div id="reportImageIdText">Image: ff52392372d3.jpg</div>
+                                </div>
+                            </div>
+
+                            <hr class="paper-divider">
+
+                            <div class="paper-section">
+                                <h4>1. Retinal Image Quality Assessment</h4>
+                                <table class="paper-table">
+                                    <tr>
+                                        <td><strong>Status:</strong> <span id="repQualityStatus">GOOD</span></td>
+                                        <td><strong>Blur Variance:</strong> <span id="repBlurScore">196.07</span></td>
+                                        <td><strong>Brightness:</strong> <span id="repBrightness">118.57</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Contrast:</strong> <span id="repContrast">38.42</span></td>
+                                        <td><strong>Retinal FOV Ratio:</strong> <span id="repFov">0.9990</span></td>
+                                        <td><strong>Quality Alerts:</strong> <span id="repAlerts">None</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>2. Diabetic Retinopathy Severity Grading (ICDR Standard)</h4>
+                                <table class="paper-table">
+                                    <tr>
+                                        <td><strong>Predicted Grade:</strong> <span id="repIcdrGrade" class="paper-highlight">Level 2 - Moderate DR</span></td>
+                                        <td><strong>Severity:</strong> <span id="repSeverity">Moderate DR</span></td>
+                                        <td><strong>Class Confidence:</strong> <span id="repConfidence">55.18%</span></td>
+                                    </tr>
+                                </table>
+                                <div class="paper-prob-summary" id="repProbSummary"></div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>3. Triage & Referral Recommendation</h4>
+                                <table class="paper-table">
+                                    <tr>
+                                        <td><strong>Referable Score:</strong> <span id="repReferableScore">82.06%</span></td>
+                                        <td><strong>Locked Threshold:</strong> 0.24 (24%)</td>
+                                        <td><strong>Referable Status:</strong> <span id="repReferableStatus" class="paper-highlight">YES</span></td>
+                                    </tr>
+                                </table>
+                                <div class="paper-advice-box">
+                                    <strong>Recommendation:</strong> <span id="repRecommendation">Ophthalmologist review recommended.</span>
+                                </div>
+                            </div>
+
+                            <div class="paper-section">
+                                <h4>4. Explainable AI & Attestation</h4>
+                                <p class="text-xs">Grad-CAM explainability heatmap generated successfully for predicted DR class (ResNet-50 layer4[-1]).</p>
+                            </div>
+
+                            <div class="paper-disclaimer">
+                                <strong>MANDATORY DISCLAIMER:</strong> This is an AI-assisted screening research prototype evaluated on the APTOS 2019 dataset. It is not a clinical diagnosis and does not replace evaluation by a qualified ophthalmologist.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 3: SERVICES PAGE (8 HEALTHCARE CAPABILITIES)
+             ============================================================ -->
+        <section id="servicesTab" class="tab-pane" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <span class="card-tag">SERVICE SUITE</span>
+                        <h2>NetraSetu Healthcare Services</h2>
+                        <p class="section-desc">Comprehensive technological modules supporting rural community screening programs.</p>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="services-cards-grid">
+                        <div class="service-detail-card">
+                            <div class="serv-icon">🩺</div>
+                            <h4>1. AI Retinal Screening</h4>
+                            <p>Upload or capture digital fundus imagery and receive instant AI-assisted screening results within milliseconds to support field workers.</p>
+                            <span class="serv-badge">Primary Inference</span>
+                        </div>
+
+                        <div class="service-detail-card">
+                            <div class="serv-icon">🔍</div>
+                            <h4>2. Image Quality Assessment</h4>
+                            <p>Rigorous pre-flight quality check evaluating focus blur, brightness, contrast, and retinal field-of-view ratio to eliminate ungradable captures.</p>
+                            <span class="serv-badge">Triage Guard</span>
+                        </div>
+
+                        <div class="service-detail-card">
+                            <div class="serv-icon">📊</div>
+                            <h4>3. DR Severity Grading</h4>
+                            <p>Fine-grained 5-tier classification following the International Clinical Diabetic Retinopathy (ICDR) standard (Level 0 through 4).</p>
+                            <span class="serv-badge">ResNet-50 Model</span>
+                        </div>
+
+                        <div class="service-detail-card">
+                            <div class="serv-icon">⚠️</div>
+                            <h4>4. Referable DR Screening</h4>
+                            <p>High-sensitivity triage comparing cumulative Level 2–4 probability score against the locked 0.24 threshold (96.64% test sensitivity).</p>
+                            <span class="serv-badge">Locked 0.24 Threshold</span>
+                        </div>
+
+                        <div class="service-detail-card">
+                            <div class="serv-icon">💡</div>
+                            <h4>5. Explainable AI / Grad-CAM</h4>
+                            <p>Gradient-weighted class activation mapping detailing the salient retinal areas influencing the model's prediction for clinical transparency.</p>
+                            <span class="serv-badge">Visual Explainability</span>
+                        </div>
+
+                        <div class="service-detail-card">
+                            <div class="serv-icon">📄</div>
+                            <h4>6. Screening Reports</h4>
+                            <p>Generates case-level screening summaries, downloadable text reports, JSON tele-referral payloads, and A4 printouts.</p>
+                            <span class="serv-badge">Electronic Documentation</span>
+                        </div>
+
+                        <div class="service-detail-card">
+                            <div class="serv-icon">🔬</div>
+                            <h4>7. Experimental Lesion Analysis</h4>
+                            <p>Research localization module providing overlay visualizations for microaneurysms, hemorrhages, and exudates (Mean Dice = 0.2831).</p>
+                            <span class="serv-badge">U-Net V2 Research</span>
+                        </div>
+
+                        <div class="service-detail-card">
+                            <div class="serv-icon">🏥</div>
+                            <h4>8. Rural Screening Workflow</h4>
+                            <p>Optimized for outreach camps, primary health centers, and vision vans, pairing automated AI triage with a specialist review queue.</p>
+                            <span class="serv-badge">Telemedicine Workflow</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 4: REPORTS (HISTORY + MONTHLY + YEARLY)
+             ============================================================ -->
+        <section id="reportsTab" class="tab-pane" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <span class="card-tag">RECORDS & AUDIT</span>
+                        <h2>Clinical Screening Reports & History</h2>
+                        <p class="section-desc">Inspect past screening records, monthly audit breakdowns, and annual trends stored in the local SQLite database.</p>
+                    </div>
+                    <!-- Sub Tabs inside Reports -->
+                    <div class="reports-subnav">
+                        <button type="button" class="subnav-btn active" id="btnSubnavHistory">Screening History</button>
+                        <button type="button" class="subnav-btn" id="btnSubnavMonthly">Monthly Report</button>
+                        <button type="button" class="subnav-btn" id="btnSubnavYearly">Yearly Report</button>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <!-- DEMO/LIVE MODE DISCLOSURE BANNER (dynamic) -->
+                    <div id="reportsModeDisclosure" style="display:none; background:#fef3c7; border:1px solid #f59e0b; color:#92400e; padding:10px 14px; border-radius:8px; margin-bottom:18px; align-items:center; gap:10px; font-size:12.5px;">
+                        <span class="badge" style="background:#f59e0b; color:#fff; font-size:10px; font-weight:700; padding:3px 7px; border-radius:4px;">DEMO DATA</span>
+                        <span><strong>Notice:</strong> Reports shown in Demo Mode use simulated screening records for platform demonstration and represent test/demo activity where applicable.</span>
+                    </div>
+
+                    <!-- LIVE MODE EMPTY STATE NOTICE -->
+                    <div id="reportsLiveNotice" style="display:none; background:#f0fdf4; border:1px solid #86efac; color:#166534; padding:10px 14px; border-radius:8px; margin-bottom:18px; align-items:center; gap:10px; font-size:12.5px;">
+                        <span class="badge" style="background:#16a34a; color:#fff; font-size:10px; font-weight:700; padding:3px 7px; border-radius:4px;">LIVE MODE</span>
+                        <span>Only live screening activity (live/user image upload and live camera acquisition) is counted. Run your first screening to populate reports.</span>
+                    </div>
+
+                    <!-- SUB-VIEW 1: SCREENING HISTORY -->
+                    <div id="subviewHistory">
+                        <div class="history-filter-bar">
+                            <div class="filter-pill-group">
+                                <button type="button" class="filter-pill active" data-filter="all">All</button>
+                                <button type="button" class="filter-pill" data-filter="today">Today</button>
+                                <button type="button" class="filter-pill" data-filter="week">This Week</button>
+                                <button type="button" class="filter-pill" data-filter="month">This Month</button>
+                            </div>
+                            <div class="search-input-wrap">
+                                <input type="text" id="historySearchInput" placeholder="Search by Case ID or Grade...">
+                            </div>
+                            <button type="button" class="btn btn-secondary btn-sm" id="btnExportCsv">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                Export CSV
+                            </button>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="data-table history-table" id="historyTable">
+                                <thead>
+                                    <tr>
+                                        <th>Case ID</th>
+                                        <th>Date &amp; Time</th>
+                                        <th>Source</th>
+                                        <th>Image Quality</th>
+                                        <th>DR Grade</th>
+                                        <th>Confidence</th>
+                                        <th>Referable Score</th>
+                                        <th>Status</th>
+                                        <th>Review Queue</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyTableBody">
+                                    <!-- Populated via JS from SQLite -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- SUB-VIEW 2: MONTHLY REPORT -->
+                    <div id="subviewMonthly" style="display: none;">
+                        <div class="monthly-header-row">
+                            <h3 id="monthlyTitleText">Monthly Screening Report: September 2026</h3>
+                            <div class="month-selector-wrap">
+                                <label for="monthSelect">Month:</label>
+                                <select id="monthSelect" class="form-select">
+                                    <option value="9" selected>September 2026</option>
+                                    <option value="8">August 2026</option>
+                                    <option value="7">July 2026</option>
+                                    <option value="6">June 2026</option>
+                                    <option value="5">May 2026</option>
+                                    <option value="4">April 2026</option>
+                                    <option value="3">March 2026</option>
+                                    <option value="2">February 2026</option>
+                                    <option value="1">January 2026</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 5 Monthly KPI Cards -->
+                        <div class="metrics-grid">
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Total Screenings</span>
+                                <strong class="metric-chip-value" id="monthTotal">248</strong>
+                                <span class="metric-chip-sub">Registered cases</span>
+                            </div>
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Completed</span>
+                                <strong class="metric-chip-value text-teal" id="monthCompleted">141</strong>
+                                <span class="metric-chip-sub">Autonomous AI triage</span>
+                            </div>
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Needs Recapture</span>
+                                <strong class="metric-chip-value text-amber" id="monthRecapture">16</strong>
+                                <span class="metric-chip-sub">Quality check rejected</span>
+                            </div>
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Specialist Review</span>
+                                <strong class="metric-chip-value text-rose" id="monthReview">91</strong>
+                                <span class="metric-chip-sub">Referable flagged</span>
+                            </div>
+                        </div>
+
+                        <div class="content-split-grid">
+                            <div class="insights-box">
+                                <h4>Diabetic Retinopathy Distribution</h4>
+                                <div class="monthly-dist-list" id="monthDrDistList"></div>
+                            </div>
+                            <div class="insights-box">
+                                <h4>Quality & Referral Key Indicators</h4>
+                                <table class="paper-table">
+                                    <tr>
+                                        <td><strong>Good Quality Images:</strong> <span id="monthGoodQual">232</span></td>
+                                        <td><strong>Poor Quality Images:</strong> <span id="monthPoorQual">16</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Referable Cases:</strong> <span id="monthReferable">95</span></td>
+                                        <td><strong>Non-Referable:</strong> <span id="monthNonRef">153</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Average Confidence:</strong> <span id="monthAvgConf">74.4%</span></td>
+                                        <td><strong>Avg Processing Time:</strong> <span id="monthAvgTime">115.5 ms</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Quality Failure Rate:</strong> <span id="monthQualFailRate">6.45%</span></td>
+                                        <td><strong>Overall Referral Rate:</strong> <span id="monthRefRate">38.31%</span></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUB-VIEW 3: YEARLY REPORT -->
+                    <div id="subviewYearly" style="display: none;">
+                        <div class="monthly-header-row">
+                            <h3>Annual Screening Report: 2026</h3>
+                            <button type="button" class="btn btn-secondary btn-sm" onclick="window.print()">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+                                Print Annual Summary
+                            </button>
+                        </div>
+
+                        <div class="metrics-grid">
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Total Annual Screenings</span>
+                                <strong class="metric-chip-value" id="yearTotal">1,528</strong>
+                                <span class="metric-chip-sub">Year 2026 To Date</span>
+                            </div>
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Completed Screenings</span>
+                                <strong class="metric-chip-value text-teal" id="yearCompleted">980</strong>
+                                <span class="metric-chip-sub">Routine care advised</span>
+                            </div>
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Recapture Advised</span>
+                                <strong class="metric-chip-value text-amber" id="yearRecapture">104</strong>
+                                <span class="metric-chip-sub">Image quality warning</span>
+                            </div>
+                            <div class="metric-chip">
+                                <span class="metric-chip-label">Specialist Reviews</span>
+                                <strong class="metric-chip-value text-rose" id="yearReview">444</strong>
+                                <span class="metric-chip-sub">Ophthalmologist queue</span>
+                            </div>
+                        </div>
+
+                        <div class="insights-box" style="margin-top: 20px;">
+                            <h4>2026 Monthly Screening Volume & Referral Trends</h4>
+                            <div class="year-bars-container" id="yearBarsContainer"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 5: SPECIALIST REVIEW QUEUE
+             ============================================================ -->
+        <section id="reviewTab" class="tab-pane" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <span class="card-tag">HUMAN-IN-THE-LOOP</span>
+                        <h2>Specialist Review Queue (Ophthalmologist Decision Support)</h2>
+                        <p class="section-desc">Cases flagged as <strong>REQUIRES SPECIALIST REVIEW</strong> (referable score &ge; 0.24 or ICDR Level 2–4). Prototype review workflow.</p>
+                    </div>
+                    <div class="filter-pill-group">
+                        <button type="button" class="filter-pill active" data-review-filter="all">All Cases</button>
+                        <button type="button" class="filter-pill" data-review-filter="Pending Review">Pending Review</button>
+                        <button type="button" class="filter-pill" data-review-filter="Reviewed">Reviewed</button>
+                        <button type="button" class="filter-pill" data-review-filter="Needs Further Assessment">Needs Further Assessment</button>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="scientific-note-box" style="margin-bottom: 20px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        <div>
+                            <strong>Workflow Disclosure:</strong>
+                            <span>This review queue represents a human-in-the-loop tele-ophthalmology decision workflow. Marking a case as "Reviewed" demonstrates prototype protocol management and is not clinical proof of autonomous validation.</span>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="data-table" id="reviewTable">
+                            <thead>
+                                <tr>
+                                    <th>Case ID</th>
+                                    <th>Date</th>
+                                    <th>ICDR Grade</th>
+                                    <th>Referable Score</th>
+                                    <th>Confidence</th>
+                                    <th>Current Status</th>
+                                    <th>Specialist Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reviewTableBody">
+                                <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 6: ANALYTICS & RURAL CAPACITY PLANNING (100k PATIENTS)
+             ============================================================ -->
+        <section id="analyticsTab" class="tab-pane" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <span class="card-tag">HEALTHCARE ANALYTICS</span>
+                        <h2>Screening Analytics & System Throughput</h2>
+                        <p class="section-desc">Operational KPIs and 100,000+ patients/year rural vision center capacity calculator.</p>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <!-- DEMO/LIVE MODE DISCLOSURE BANNER FOR ANALYTICS (dynamic) -->
+                    <div id="analyticsModeDisclosure" style="display:none; background:#fef3c7; border:1px solid #f59e0b; color:#92400e; padding:10px 14px; border-radius:8px; margin-bottom:18px; align-items:center; gap:10px; font-size:12.5px;">
+                        <span class="badge" style="background:#f59e0b; color:#fff; font-size:10px; font-weight:700; padding:3px 7px; border-radius:4px;">DEMO DATA</span>
+                        <span><strong>Notice:</strong> Analytics displayed in Demo Mode use simulated screening records for platform demonstration and represent test/demo activity where applicable.</span>
+                    </div>
+
+                    <!-- LIVE MODE EMPTY NOTICE -->
+                    <div id="analyticsLiveNotice" style="display:none; background:#f0fdf4; border:1px solid #86efac; color:#166534; padding:10px 14px; border-radius:8px; margin-bottom:18px; align-items:center; gap:10px; font-size:12.5px;">
+                        <span class="badge" style="background:#16a34a; color:#fff; font-size:10px; font-weight:700; padding:3px 7px; border-radius:4px;">LIVE MODE</span>
+                        <span>Only live screening activity (live/user image upload and live camera acquisition) is counted in these analytics.</span>
+                    </div>
+
+                    <!-- Analytics KPI Grid — LIVE counts (upload+camera only) -->
+                    <div class="metrics-grid">
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">Live Screening Activity</span>
+                            <strong class="metric-chip-value" id="anTotalCount">0</strong>
+                            <span class="metric-chip-sub" id="anTotalSub">upload + camera only</span>
+                        </div>
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">Referable Case Ratio</span>
+                            <strong class="metric-chip-value text-rose" id="anReferralRatio">0%</strong>
+                            <span class="metric-chip-sub">High sensitivity triage</span>
+                        </div>
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">Average GPU Inference</span>
+                            <strong class="metric-chip-value text-teal" id="anAvgLatency">— ms</strong>
+                            <span class="metric-chip-sub">NVIDIA RTX 3050</span>
+                        </div>
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">Pending Specialist Review</span>
+                            <strong class="metric-chip-value text-amber" id="anPendingReview">0 cases</strong>
+                            <span class="metric-chip-sub">Live queue only</span>
+                        </div>
+                    </div>
+
+                    <!-- Source Breakdown Row: LIVE / SAMPLE / DEMO separate counters -->
+                    <div style="display:flex; gap:10px; margin-top:12px; margin-bottom:4px; flex-wrap:wrap;">
+                        <div style="flex:1; min-width:120px; background:#f0fdf4; border:1px solid #86efac; border-radius:8px; padding:10px 14px; text-align:center;">
+                            <div style="font-size:10px; font-weight:700; color:#16a34a; letter-spacing:0.05em; margin-bottom:4px;">LIVE SCREENING ACTIVITY</div>
+                            <div style="font-size:22px; font-weight:800; color:#166534;" id="anLiveCount">0</div>
+                            <div style="font-size:10.5px; color:#4ade80; margin-top:2px;">upload + camera</div>
+                        </div>
+                        <div style="flex:1; min-width:120px; background:#faf5ff; border:1px solid #d8b4fe; border-radius:8px; padding:10px 14px; text-align:center;">
+                            <div style="font-size:10px; font-weight:700; color:#7c3aed; letter-spacing:0.05em; margin-bottom:4px;">TEST / DEMO SAMPLES</div>
+                            <div style="font-size:22px; font-weight:800; color:#6d28d9;" id="anSampleCount">0</div>
+                            <div style="font-size:10.5px; color:#a78bfa; margin-top:2px;">test/demo activity</div>
+                        </div>
+                        <div style="flex:1; min-width:120px; background:#fefce8; border:1px solid #fde047; border-radius:8px; padding:10px 14px; text-align:center;">
+                            <div style="font-size:10px; font-weight:700; color:#a16207; letter-spacing:0.05em; margin-bottom:4px;">DEMO DATA</div>
+                            <div style="font-size:22px; font-weight:800; color:#854d0e;" id="anDemoCount">0</div>
+                            <div style="font-size:10.5px; color:#ca8a04; margin-top:2px;">synthetic simulated records</div>
+                        </div>
+                    </div>
+
+                    <!-- 100,000 Patients / Year Capacity Calculator -->
+                    <div class="capacity-planner-card">
+                        <div class="planner-header">
+                            <div class="planner-badge">PS 26038 Resource Planning</div>
+                            <h3>Rural Deployment Capacity Planner (100,000+ Patients/Year)</h3>
+                            <p class="text-muted text-xs">Parametric resource-planning model simulating screening throughput, daily required clinic workload, and specialist referral triage capacity.</p>
+                        </div>
+
+                        <div class="planner-body">
+                            <div class="planner-inputs-grid">
+                                <div class="planner-input-item">
+                                    <label for="inputTargetPatients">Annual Target Patients:</label>
+                                    <input type="number" id="inputTargetPatients" value="100000" step="5000">
+                                </div>
+                                <div class="planner-input-item">
+                                    <label for="inputWorkingDays">Operational Days / Year:</label>
+                                    <input type="number" id="inputWorkingDays" value="300" step="10">
+                                </div>
+                                <div class="planner-input-item">
+                                    <label for="inputClinics">Primary Health Centers / Vans:</label>
+                                    <input type="number" id="inputClinics" value="10" step="1">
+                                </div>
+                                <div class="planner-input-item">
+                                    <label for="inputLatency">Avg Inference Time (sec):</label>
+                                    <input type="number" id="inputLatency" value="0.12" step="0.01">
+                                </div>
+                            </div>
+
+                            <div class="planner-results-grid">
+                                <div class="planner-res-box">
+                                    <span class="res-lbl">Required Screenings / Day</span>
+                                    <strong class="res-val" id="calcReqDay">333</strong>
+                                    <span class="res-sub">Across all clinics</span>
+                                </div>
+                                <div class="planner-res-box">
+                                    <span class="res-lbl">Required per Clinic / Day</span>
+                                    <strong class="res-val" id="calcReqClinic">33.3</strong>
+                                    <span class="res-sub">Easily achievable</span>
+                                </div>
+                                <div class="planner-res-box">
+                                    <span class="res-lbl">Daily AI Capacity / Workstation</span>
+                                    <strong class="res-val text-teal" id="calcAiCapDay">28,800</strong>
+                                    <span class="res-sub">Based on 8 active hrs</span>
+                                </div>
+                                <div class="planner-res-box">
+                                    <span class="res-lbl">Est. Specialist Reviews / Day</span>
+                                    <strong class="res-val text-amber" id="calcSpecReviews">107</strong>
+                                    <span class="res-sub">Configurable assumption: 32%</span>
+                                </div>
+                            </div>
+
+                            <div class="planner-note">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                                <span><strong>Throughput Capacity Model:</strong> Demonstrates that screening 100,000 patients/year across 10 clinics requires ~33 patients/clinic/day, with ample local GPU inference headroom. <em>Notice: This is an architectural resource-planning calculation, not a claim of empirical clinical deployment.</em></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 7: DEDICATED EXPLAINABILITY PAGE
+             ============================================================ -->
+        <section id="explainabilityTab" class="tab-pane" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <span class="card-tag">TRANSPARENT AI</span>
+                        <h2>Explainable AI: Grad-CAM Methodology</h2>
+                        <p class="section-desc">Understanding how Gradient-weighted Class Activation Mapping creates visual interpretability for retinal clinicians.</p>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="explainability-pipeline-visual">
+                        <div class="exp-step">
+                            <div class="exp-icon">👁️</div>
+                            <strong>Original Fundus</strong>
+                            <p>Raw retinal photograph acquired via fundus camera or digital ophthalmoscope.</p>
+                        </div>
+                        <div class="exp-arrow">➔</div>
+                        <div class="exp-step">
+                            <div class="exp-icon">✨</div>
+                            <strong>Enhancement</strong>
+                            <p>Retinal cropping, bilateral denoising, and CLAHE illumination normalization.</p>
+                        </div>
+                        <div class="exp-arrow">➔</div>
+                        <div class="exp-step">
+                            <div class="exp-icon">🧠</div>
+                            <strong>Convolutional Gradients</strong>
+                            <p>Gradient flow computed back to ResNet-50 layer4[-1] for the predicted class.</p>
+                        </div>
+                        <div class="exp-arrow">➔</div>
+                        <div class="exp-step">
+                            <div class="exp-icon">🗺️</div>
+                            <strong>Grad-CAM Overlay</strong>
+                            <p>Heatmap resized to 512×512 display resolution without broadcasting mismatch.</p>
+                        </div>
+                    </div>
+
+                    <div class="content-split-grid" style="margin-top: 24px;">
+                        <div class="insights-box">
+                            <h4>Scientific Principles of Grad-CAM in NetraSetu</h4>
+                            <ul class="insights-list">
+                                <li><strong>Target Layer:</strong> <span class="code-pill">model.layer4[-1]</span> of ResNet-50, which captures rich spatial representations before global average pooling.</li>
+                                <li><strong>Resolution Harmony:</strong> ResNet-50 classifies at 224×224; Grad-CAM activation is bilinearly upsampled to 512×512 to preserve anatomical detail on high-res displays.</li>
+                                <li><strong>Targeted Class Gradients:</strong> Computes gradients strictly with respect to the argmax predicted DR class logit via ClassifierOutputTarget.</li>
+                            </ul>
+                        </div>
+
+                        <div class="insights-box">
+                            <h4>Clinical Interpretation Guidelines</h4>
+                            <ul class="insights-list">
+                                <li><strong>Attention Visualization:</strong> Warmer red/yellow colors indicate image regions that increased the model's confidence for the predicted severity.</li>
+                                <li><strong>Non-Histological:</strong> Grad-CAM demonstrates AI attention patterns; it does NOT constitute automated micro-histology or definitive lesion confirmation.</li>
+                                <li><strong>Auditability:</strong> Explainability heatmaps are stored alongside every screening for ophthalmologist retrospective validation.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 8: MODEL INSIGHTS & BENCHMARKS
+             ============================================================ -->
+        <section id="insightsTab" class="tab-pane" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <span class="card-tag">BENCHMARKS & EVALUATION</span>
+                        <h2>Model Performance & Research Metrics</h2>
+                        <p class="section-desc">Factual evaluation results obtained on independent APTOS 2019 test split (N=464). These metrics reflect research dataset evaluations and are not clinical validation trials.</p>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="metrics-grid">
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">5-Class Test Accuracy</span>
+                            <strong class="metric-chip-value text-primary">82.97%</strong>
+                            <span class="metric-chip-sub">APTOS 2019 Test Split</span>
+                        </div>
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">Referable Sensitivity</span>
+                            <strong class="metric-chip-value text-teal">96.64%</strong>
+                            <span class="metric-chip-sub">Locked Threshold: 0.24</span>
+                        </div>
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">Referable Specificity</span>
+                            <strong class="metric-chip-value text-teal">88.89%</strong>
+                            <span class="metric-chip-sub">Balanced FP / FN Trade-off</span>
+                        </div>
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">Binary ROC-AUC</span>
+                            <strong class="metric-chip-value text-primary">0.9778</strong>
+                            <span class="metric-chip-sub">Area Under ROC Curve</span>
+                        </div>
+                    </div>
+
+                    <div class="content-split-grid">
+                        <div class="insights-box">
+                            <h4>APTOS 2019 Per-Class Test Performance (ResNet-50)</h4>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ICDR Class</th>
+                                        <th>Precision</th>
+                                        <th>Recall</th>
+                                        <th>F1-Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Level 0 - No DR</strong></td>
+                                        <td>0.97</td>
+                                        <td>0.97</td>
+                                        <td>0.97</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Level 1 - Mild DR</strong></td>
+                                        <td>0.58</td>
+                                        <td>0.68</td>
+                                        <td>0.63</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Level 2 - Moderate DR</strong></td>
+                                        <td>0.74</td>
+                                        <td>0.73</td>
+                                        <td>0.74</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Level 3 - Severe DR</strong></td>
+                                        <td>0.47</td>
+                                        <td>0.41</td>
+                                        <td>0.44</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Level 4 - Proliferative DR</strong></td>
+                                        <td>0.50</td>
+                                        <td>0.48</td>
+                                        <td>0.49</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="insights-box">
+                            <h4>Locked Referable Screening Metrics (Threshold = 0.24)</h4>
+                            <div class="matrix-card">
+                                <p class="text-sm">Binary Classification: Non-Referable (Level 0–1) vs Referable (Level 2–4)</p>
+                                <div class="confusion-matrix-visual">
+                                    <div class="cm-cell cm-tn">
+                                        <span class="cm-val">280</span>
+                                        <span class="cm-lbl">True Negative</span>
+                                    </div>
+                                    <div class="cm-cell cm-fp">
+                                        <span class="cm-val">35</span>
+                                        <span class="cm-lbl">False Positive</span>
+                                    </div>
+                                    <div class="cm-cell cm-fn">
+                                        <span class="cm-val">5</span>
+                                        <span class="cm-lbl">False Negative</span>
+                                    </div>
+                                    <div class="cm-cell cm-tp">
+                                        <span class="cm-val">144</span>
+                                        <span class="cm-lbl">True Positive</span>
+                                    </div>
+                                </div>
+                                <ul class="insights-list">
+                                    <li><strong>High Sensitivity Focus:</strong> Only 5 false negatives out of 149 referable cases on test data.</li>
+                                    <li><strong>Precision:</strong> 80.45% • <strong>F1-Score:</strong> 87.80%</li>
+                                    <li><strong>Locked Threshold:</strong> 0.24 chosen from validation set optimization.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 9: ABOUT & PS 26038 COVERAGE MATRIX
+             ============================================================ -->
+        <section id="aboutTab" class="tab-pane" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <span class="card-tag">PROJECT SPECIFICATION</span>
+                        <h2>About NetraSetu & Problem Statement 26038 Coverage</h2>
+                        <p class="section-desc">Transparent mapping of hackathon requirements to current prototype implementation status.</p>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive" style="margin-bottom: 24px;">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>PS 26038 Requirement</th>
+                                    <th>Status</th>
+                                    <th>Implementation Details in NetraSetu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- 1. IMPLEMENTED CORE CAPABILITIES -->
+                                <tr style="background: #f0fdf4;">
+                                    <td colspan="3" style="font-weight: 700; color: #166534; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 16px;">
+                                        ✓ IMPLEMENTED CAPABILITIES (Executable in Prototype)
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Image Acquisition (Upload & Live Camera)</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>Dual acquisition: fundus upload, sample selector, and browser webcam single-frame acquisition.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Image Quality Assessment & Triage</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>Laplacian blur variance (&ge;20.0), brightness (40–220), contrast (&ge;15.0), and retinal FOV ratio (&ge;15%).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Quality Gate & Ungradeable Image Rejection</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>Halts primary AI screening for inadequate images; tags as NEEDS RECAPTURE with clinical recapture instructions.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Retinal Preprocessing & Enhancement</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>Automatic black-border retinal crop, bilateral edge-preserving smoothing, and CLAHE illumination normalization.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ICDR DR Severity Grading (Level 0–4)</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>ResNet-50 classifier predicting ICDR Levels 0–4 with 82.97% test accuracy on APTOS 2019 test split.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Referable DR Screening (Locked Threshold 0.24)</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>Level 2–4 cumulative probability score compared against locked 0.24 threshold (96.64% test sensitivity, 88.89% specificity).</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Explainable AI (Grad-CAM Visual Attention)</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>Activation mapping from ResNet-50 layer4[-1] upsampled to 512×512 side-by-side with enhanced retinal field.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Standardized Clinical Screening Reports</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>Anonymous Case IDs (NS-YYYY-MM-DD-XXX), print-ready A4 PDF format, downloadable TXT and JSON exports.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Screening History & Tracking Database</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>Local SQLite database (data/netrasetu.db) storing all triage decisions, processing statuses, and timestamps.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Specialist Review Queue Workflow</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>Referable case triage interface allowing status updates ('Pending Review', 'Reviewed', 'Needs Further Assessment').</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Monthly & Yearly Analytics Dashboards</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>Dynamic monthly KPI breakdowns (Sep 2026) and annual volume trend graphs computed from database records.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Rural Capacity Planning Simulator (100k/Year)</strong></td>
+                                    <td><span class="badge badge-mint">IMPLEMENTED</span></td>
+                                    <td>Parametric throughput model calculating daily screenings, clinic workloads, and specialist review demands.</td>
+                                </tr>
+
+                                <!-- 2. EXPERIMENTAL RESEARCH MODULES -->
+                                <tr style="background: #fffbeb;">
+                                    <td colspan="3" style="font-weight: 700; color: #92400e; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 16px;">
+                                        ⚠️ EXPERIMENTAL RESEARCH MODULES
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lesion-Level Segmentation (U-Net V2)</strong></td>
+                                    <td><span class="badge badge-amber">EXPERIMENTAL</span></td>
+                                    <td>IDRiD-trained U-Net V2 for microaneurysms, hemorrhages, and exudates (Mean Dice: 0.2831). Kept on-demand; not used for referral decision.</td>
+                                </tr>
+
+                                <!-- 3. ROADMAP & FUTURE WORK -->
+                                <tr style="background: #eff6ff;">
+                                    <td colspan="3" style="font-weight: 700; color: #1e40af; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 16px;">
+                                        📋 ROADMAP & FUTURE EXTENSIONS
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Dedicated Optic Disc & Fovea Landmarking</strong></td>
+                                    <td><span class="badge badge-subtle">ROADMAP</span></td>
+                                    <td>Retinal field area computed; dedicated deep anatomical landmarking model planned for next release.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Formally Calibrated Probabilities</strong></td>
+                                    <td><span class="badge badge-subtle">ROADMAP</span></td>
+                                    <td>Softmax confidence scores utilized; post-hoc temperature scaling calibration planned with clinical partner datasets.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Ophthalmologist Clinical Validation</strong></td>
+                                    <td><span class="badge badge-blue">SIMULATED WORKFLOW</span></td>
+                                    <td>Triage workflow implemented; prospective clinical validation in hospital clinics requires formal institutional ethics clearance.</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>MATLAB / Simulink System Implementation</strong></td>
+                                    <td><span class="badge badge-subtle">MATHEMATICAL MODEL</span></td>
+                                    <td>Executable prototype is Python/PyTorch. System capacity simulation provides mathematical resource approximation.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="about-grid">
+                        <div class="about-card-item">
+                            <h4>Problem Statement (ID 26038)</h4>
+                            <p>Diabetic Retinopathy is a leading cause of preventable blindness in India. With over 77 million diabetic individuals and a severe shortage of ophthalmologists in rural regions, NetraSetu bridges this diagnostic gap by providing rapid, explainable AI screening at the point of care.</p>
+                        </div>
+                        <div class="about-card-item">
+                            <h4>MATLAB / Simulink Disclosure</h4>
+                            <p>The original problem statement references MATLAB/Simulink. <strong>Our current executable prototype is implemented in Python/PyTorch + Flask.</strong> MATLAB and Simulink system-level workflow models can be represented separately for data throughput, hardware latency, and pipeline analysis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             TAB 10: SYSTEM STATUS & TELEMETRY
+             ============================================================ -->
+        <section id="statusTab" class="tab-pane" style="display: none;">
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <span class="card-tag">SYSTEM TELEMETRY</span>
+                        <h2>Hardware Health & Workstation Telemetry</h2>
+                        <p class="section-desc">Active hardware status, GPU resource allocation, and local inference server configuration.</p>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="metrics-grid">
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">Compute Device</span>
+                            <strong class="metric-chip-value text-teal" id="statDevice">CUDA</strong>
+                            <span class="metric-chip-sub" id="statGpuName">NVIDIA GeForce RTX 3050</span>
+                        </div>
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">Classifier Model</span>
+                            <strong class="metric-chip-value text-primary" id="statClassifierStatus">Loaded (Active)</strong>
+                            <span class="metric-chip-sub">ResNet-50 Best Checkpoint</span>
+                        </div>
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">Grad-CAM Status</span>
+                            <strong class="metric-chip-value text-teal">Ready</strong>
+                            <span class="metric-chip-sub">layer4[-1] target layer</span>
+                        </div>
+                        <div class="metric-chip">
+                            <span class="metric-chip-label">SQLite Database</span>
+                            <strong class="metric-chip-value text-teal">Connected</strong>
+                            <span class="metric-chip-sub">C:\NetraSetu\data\netrasetu.db</span>
+                        </div>
+                    </div>
+
+                    <div class="insights-box" style="margin-top: 20px;">
+                        <h4>Rural Outreach & Low-Bandwidth Mode</h4>
+                        <p class="text-sm text-muted" style="margin-bottom: 12px;">NetraSetu supports edge execution on portable laptops with local NVIDIA GPUs, requiring zero internet access during community screening camps.</p>
+                        <div class="low-bandwidth-toggle-row">
+                            <div>
+                                <strong>Enable Low-Bandwidth Network Mode</strong>
+                                <p class="text-xs text-muted">Compresses image uploads and suppresses raw uncompressed image transfers to cloud backends.</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="checkLowBandwidth">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FULLSCREEN IMAGE MODAL (LIGHTBOX) -->
+    <div class="modal" id="imageModal" style="display: none;">
+        <div class="modal-backdrop" id="modalBackdrop"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h4 id="modalTitle">Grad-CAM Visual Attention Comparison</h4>
+                <button type="button" class="btn-close" id="btnCloseModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-images-row">
+                    <div class="modal-img-col">
+                        <span class="badge badge-subtle">Enhanced Retina</span>
+                        <img id="modalEnhancedImg" src="" alt="Enhanced Retinal Image">
+                    </div>
+                    <div class="modal-img-col">
+                        <span class="badge badge-subtle">Grad-CAM Attention Map</span>
+                        <img id="modalGradcamImg" src="" alt="Grad-CAM Map">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SPECIALIST REVIEW MODAL -->
+    <div class="modal" id="reviewModal" style="display: none;">
+        <div class="modal-backdrop" id="reviewModalBackdrop"></div>
+        <div class="modal-dialog" style="max-width: 520px;">
+            <div class="modal-header">
+                <h4>Ophthalmologist Case Review</h4>
+                <button type="button" class="btn-close" id="btnCloseReviewModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="review-modal-info">
+                    <p><strong>Case ID:</strong> <span id="revModalCaseId">--</span></p>
+                    <p><strong>ICDR Grade:</strong> <span id="revModalGrade">--</span></p>
+                    <p><strong>Referable Score:</strong> <span id="revModalScore">--</span></p>
+                </div>
+                <div class="review-modal-form">
+                    <label for="revModalStatusSelect">Updated Review Decision:</label>
+                    <select id="revModalStatusSelect" class="form-select">
+                        <option value="Reviewed">Reviewed - Referral Confirmed</option>
+                        <option value="Needs Further Assessment">Needs Further Slit-Lamp Assessment</option>
+                        <option value="Pending Review">Keep as Pending Review</option>
+                    </select>
+
+                    <label for="revModalNotes" style="margin-top: 12px;">Specialist Clinical Notes:</label>
+                    <textarea id="revModalNotes" class="form-textarea" rows="3" placeholder="Enter clinical observations, dilation notes, or appointment scheduling details..."></textarea>
+
+                    <div style="margin-top: 18px; display: flex; justify-content: flex-end; gap: 8px;">
+                        <button type="button" class="btn btn-secondary" id="btnCancelReviewModal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="btnSaveReviewModal">Save Review Status</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SITE FOOTER WITH PERSISTENT DISCLAIMER -->
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <div class="footer-disclaimer-box">
+                <div class="disclaimer-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0284c7" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <p class="disclaimer-text">
+                    <strong>Medical Disclaimer:</strong> NetraSetu is an AI-assisted research prototype evaluated on research datasets. It is not a clinical diagnosis and does not replace evaluation by a qualified ophthalmologist.
+                </p>
+            </div>
+            <div class="footer-bottom-row">
+                <span>NetraSetu • Smart India Hackathon 2026 • Problem Statement ID 26038</span>
+                <span>Powered by PyTorch • ResNet-50 • Grad-CAM • Flask • SQLite</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT CONTROLLER -->
+    <script src="/static/js/app.js?v=4"></script>
+</body>
+</html>

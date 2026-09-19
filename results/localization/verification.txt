@@ -1,0 +1,51 @@
+============================================================
+NETRASETU — IDRiD LOCALIZATION DATASET VERIFICATION AUDIT
+============================================================
+
+[1] IMAGE FILE COUNTS ON DISK:
+  Training images found: 413 (Expected: 413)
+  Testing images found:  103 (Expected: 103)
+  -> Image counts on disk match exact specification.
+
+[2] IMAGE NAME DUPLICATE CHECK:
+  Unique training image stems: 413 / 413
+  Unique testing image stems:  103 / 103
+  Note: Train and test sets both use official IDRiD numbering (IDRiD_001..IDRiD_413 and IDRiD_001..IDRiD_103), strictly segregated in respective folders.
+
+[3] IMAGE DIMENSION AUDIT:
+  Training dimension distribution: {(4288, 2848): 413}
+  Testing dimension distribution:  {(4288, 2848): 103}
+    Train size (W=4288, H=2848): 413 images
+    Test size  (W=4288, H=2848): 103 images
+
+[4] GROUND TRUTH CSV PARSING & CLEANING:
+  a. IDRiD_OD_Center_Training Set_Markups.csv: 413 valid entries parsed (Expected: 413)
+  IDRiD_Fovea_Center_Training Set_Markups.csv: 413 valid entries parsed (Expected: 413)
+  b. IDRiD_OD_Center_Testing Set_Markups.csv: 103 valid entries parsed (Expected: 103)
+  IDRiD_Fovea_Center_Testing Set_Markups.csv: 103 valid entries parsed (Expected: 103)
+  Merged training annotations: 413 / 413
+  Merged testing annotations:  103 / 103
+
+[5] MISSING FILE CHECK:
+  Training images in CSV missing on disk: 0
+  Testing images in CSV missing on disk:  0
+
+[6] COORDINATE BOUNDARY VALIDATION:
+  Training out-of-bounds coordinates: 0
+  Testing out-of-bounds coordinates:  0
+  -> All 413 training coordinates and 103 testing coordinates are strictly within valid image bounds [0, W) x [0, H).
+
+[7] GROUND TRUTH SUMMARY STATISTICS (PIXELS):
+  TRAINING SET:
+    OD X:    Min=479.0, Max=3477.0, Mean=1943.1
+    OD Y:    Min=696.0, Max=2146.0, Mean=1381.2
+    Fovea X: Min=1093.0, Max=2776.0, Mean=1964.6
+    Fovea Y: Min=711.0, Max=2243.0, Mean=1525.8
+  TESTING SET:
+    OD X:    Min=520.0, Max=3316.0, Mean=1863.7
+    OD Y:    Min=1044.0, Max=1884.0, Mean=1416.7
+    Fovea X: Min=1322.0, Max=2604.0, Mean=1981.1
+    Fovea Y: Min=1153.0, Max=1932.0, Mean=1559.1
+
+[8] FINAL AUDIT VERDICT: PASSED (Integrity 100%)
+============================================================

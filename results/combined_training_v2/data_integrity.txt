@@ -1,0 +1,50 @@
+NETRASETU - COMBINED V2 DATA INTEGRITY & OVERLAP REPORT
+Generated on: 2026-09-19 15:22:08
+
+1. DATASET COUNTS:
+- APTOS Processed Train Images:        2161 (Expected: 2161)
+- IDRiD GOOD Audited Images:           320 (Expected: 320)
+- IDRiD REVIEW Audited Images:         81 (Expected: 81)
+- IDRiD REJECT Preserved (Excluded):   12 (Expected: 12)
+- Total V2 Development Pool:           2562 (Expected: 2562)
+- V2 Training Split Count (85%):       2177 (Expected: 2177)
+- V2 Validation Split Count (15%):     385 (Expected: 385)
+- APTOS Official Locked Test Count:    464 (Expected: 464)
+- IDRiD Official Locked Test Count:    103 (Expected: 103)
+
+2. CLASS DISTRIBUTIONS:
+Training Split (2177 images):
+class
+0    1171
+1     200
+2     492
+3     148
+4     166
+
+Validation Split (385 images):
+class
+0    207
+1     36
+2     87
+3     26
+4     29
+
+Quality Status Breakdown in V2 Pool:
+- APTOS accepted:                      2161 (Train: 1844, Val: 317)
+- IDRiD GOOD:                          320  (Train: 266, Val: 54)
+- IDRiD REVIEW:                        81   (Train: 67, Val: 14)
+- IDRiD REJECT:                        12   (EXCLUDED: 0 present in train or val)
+
+3. INTEGRITY & ZERO-LEAKAGE VERIFICATION:
+- Train/Val Original Path Overlap:     0 (PASS: 0)
+- Train/Val Filename Collision:        0 (PASS: 0)
+- APTOS Test Leakage into Dev Pool:    0 (PASS: 0)
+- IDRiD Test Leakage into Dev Pool:    0 (PASS: 0)
+- IDRiD REJECT Leakage into Dev Pool:  0 (PASS: 0)
+- Train/Val Hash Collisions:           16 (PASS: 0)
+- Dev Pool vs APTOS Test Hash Leakage: 26 (PASS: 0)
+- Dev Pool vs IDRiD Test Hash Leakage: 1 (PASS: 0)
+
+4. AUDIT DECISION:
+ALL INTEGRITY CHECKS PASSED. ZERO DATA LEAKAGE DETECTED.
+DATASET IS READY FOR RESEARCH RESNET-50 V2 TRAINING.

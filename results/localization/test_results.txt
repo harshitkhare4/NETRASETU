@@ -1,0 +1,37 @@
+============================================================
+NETRASETU — IDRiD LOCALIZATION LOCKED TEST RESULTS
+============================================================
+Model Checkpoint:       models/NetraSetu_IDRiD_Localization_best.pth
+Checkpoint Best Epoch:  25
+Evaluated Test Images:  103 images (strictly locked, never seen during training/tuning)
+Prediction Mode:        Local Subpixel Centroid Refinement (Deterministic)
+
+OPTIC DISC LOCALIZATION (103 TEST IMAGES):
+  Mean Euclidean Error:       18.00 px
+  Median Euclidean Error:     16.29 px
+  Standard Deviation:         13.67 px
+  Mean Normalized Error:      0.00350 (0.350% of image diagonal)
+  Median Normalized Error:    0.00316 (0.316% of image diagonal)
+  PCK @ 1% (<= 51.5 px):      99.03%
+  PCK @ 2% (<= 103.0 px):     99.03%
+  PCK @ 5% (<= 257.4 px):     100.00%
+
+FOVEA CENTER LOCALIZATION (103 TEST IMAGES):
+  Mean Euclidean Error:       42.42 px
+  Median Euclidean Error:     25.67 px
+  Standard Deviation:         77.69 px
+  Mean Normalized Error:      0.00824 (0.824% of image diagonal)
+  Median Normalized Error:    0.00499 (0.499% of image diagonal)
+  PCK @ 1% (<= 51.5 px):      78.64%
+  PCK @ 2% (<= 103.0 px):     92.23%
+  PCK @ 5% (<= 257.4 px):     99.03%
+
+COMBINED ANATOMICAL LOCALIZATION:
+  Mean Combined Normalized Error: 0.00587 (0.587% of diagonal)
+  Mean Combined Pixel Error:      30.21 px
+
+SECONDARY COMPARISON — PURE ARGMAX (WITHOUT SUBPIXEL):
+  OD Mean Error:              20.85 px | OD PCK@2%: 99.03%
+  Fovea Mean Error:           44.01 px | Fovea PCK@2%: 92.23%
+  Combined Norm Error:        0.00630
+============================================================

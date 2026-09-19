@@ -1,0 +1,34 @@
+NETRASETU - C. LOCALIZATION DATASET INVENTORY
+Generated on: 2026-09-19 15:15:08
+
+1. DATASET OVERVIEW:
+- Dataset Name:         Official IDRiD C. Localization Dataset
+- Source Location:      data_sources/C. Localization
+- License:              CC-BY-4.0
+
+2. IMAGE COUNTS & STRUCTURE:
+- Training Images:      413 images (IDRiD_001.jpg to IDRiD_413.jpg)
+- Testing Images:       103 images (IDRiD_001.jpg to IDRiD_103.jpg)
+- Image Resolution:     4288 x 2848 pixels (Kowa VX-10alpha 50-degree field of view)
+- Image Format:         JPEG (.jpg)
+
+3. GROUND TRUTH ANNOTATIONS:
+- Task A: Optic Disc (OD) Center Location:
+  - Training Markups:   data_sources/C. Localization\C. Localization\2. Groundtruths\1. Optic Disc Center Location\a. IDRiD_OD_Center_Training Set_Markups.csv
+  - Valid Coordinates:  413 / 413 training images
+  - Testing Markups:    data_sources/C. Localization\C. Localization\2. Groundtruths\1. Optic Disc Center Location\b. IDRiD_OD_Center_Testing Set_Markups.csv
+  - Valid Coordinates:  103 / 103 testing images
+  - Columns:            ['Image No', 'X- Coordinate', 'Y - Coordinate']
+
+- Task B: Fovea Center Location:
+  - Training Markups:   data_sources/C. Localization\C. Localization\2. Groundtruths\2. Fovea Center Location\IDRiD_Fovea_Center_Training Set_Markups.csv
+  - Valid Coordinates:  413 / 413 training images
+  - Testing Markups:    data_sources/C. Localization\C. Localization\2. Groundtruths\2. Fovea Center Location\IDRiD_Fovea_Center_Testing Set_Markups.csv
+  - Valid Coordinates:  103 / 103 testing images
+  - Columns:            ['Image No', 'X- Coordinate', 'Y - Coordinate']
+
+4. FUTURE MODEL & TASK DETERMINATION:
+- Future Task 1:        Optic Disc Localization (Regression or Heatmap Detection: Center X, Y)
+- Future Task 2:        Fovea Center Localization (Regression or Heatmap Detection: Center X, Y)
+- Suitable for 5-Class: NO (This dataset contains geometric landmark coordinates, not disease grades)
+- Ready for Future:     YES (Fully verified 413 train / 103 test paired landmark annotations)

@@ -1,0 +1,42 @@
+NETRASETU - IDRiD DISEASE GRADING VERIFICATION REPORT
+Generated on: 2026-09-19 12:37:28
+
+1. DATASET PATHS:
+- Train Images: data\IDRiD_Grading\B. Disease Grading\1. Original Images\a. Training Set
+- Test Images:  data\IDRiD_Grading\B. Disease Grading\1. Original Images\b. Testing Set
+- Train CSV:    data\IDRiD_Grading\B. Disease Grading\2. Groundtruths\a. IDRiD_Disease Grading_Training Labels.csv
+- Test CSV:     data\IDRiD_Grading\B. Disease Grading\2. Groundtruths\b. IDRiD_Disease Grading_Testing Labels.csv
+
+2. COUNTS:
+- Training Images on disk: 413 (Expected: 413) [VERIFIED]
+- Testing Images on disk:  103 (Expected: 103) [VERIFIED]
+- Training CSV rows:      413 (Expected: 413) [VERIFIED]
+- Testing CSV rows:       103 (Expected: 103) [VERIFIED]
+
+3. TARGET COLUMN:
+- Classification Target: 'Retinopathy grade' [VERIFIED]
+- Ignored Column:        'Risk of macular edema' [VERIFIED]
+
+4. TRAINING CLASS DISTRIBUTION:
+- Class 0 (No DR):            134 (Expected: 134) [VERIFIED]
+- Class 1 (Mild DR):          20 (Expected: 20)  [VERIFIED]
+- Class 2 (Moderate DR):      136 (Expected: 136) [VERIFIED]
+- Class 3 (Severe DR):        74 (Expected: 74)  [VERIFIED]
+- Class 4 (Proliferative DR): 49 (Expected: 49)  [VERIFIED]
+- Total Training:             413 (Expected: 413) [VERIFIED]
+
+5. TESTING CLASS DISTRIBUTION:
+- Class 0 (No DR):            34 (Expected: 34) [VERIFIED]
+- Class 1 (Mild DR):          5 (Expected: 5)  [VERIFIED]
+- Class 2 (Moderate DR):      32 (Expected: 32) [VERIFIED]
+- Class 3 (Severe DR):        19 (Expected: 19) [VERIFIED]
+- Class 4 (Proliferative DR): 13 (Expected: 13) [VERIFIED]
+- Total Testing:              103 (Expected: 103) [VERIFIED]
+
+6. INTEGRITY & DATA SEPARATION:
+- Ground truth target values strictly in [0, 1, 2, 3, 4] [VERIFIED]
+- All training images have 1-to-1 matching labels [VERIFIED]
+- All testing images have 1-to-1 matching labels [VERIFIED]
+- Testing set locked for final evaluation only [VERIFIED]
+
+STATUS: ALL IDRiD VERIFICATION CHECKS PASSED PERFECTLY.

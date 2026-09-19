@@ -1,0 +1,38 @@
+{
+    "model_architecture": "ResNet-50",
+    "experiment": "Combined V2 (Quality-Filtered)",
+    "dataset": "APTOS (2161) + IDRiD GOOD (320) + IDRiD REVIEW (81) = 2562 total",
+    "idrid_good_used": 320,
+    "idrid_review_used": 81,
+    "idrid_reject_excluded": 12,
+    "train_split": 2177,
+    "val_split": 385,
+    "batch_size": 16,
+    "image_size": 224,
+    "learning_rate": 0.0001,
+    "weight_decay": 0.0001,
+    "epochs": 12,
+    "device": "cuda",
+    "gpu_name": "NVIDIA GeForce RTX 3050 6GB Laptop GPU",
+    "mixed_precision": true,
+    "class_counts": [
+        1171,
+        200,
+        492,
+        148,
+        166
+    ],
+    "class_weights": [
+        0.3718189597129822,
+        2.177000045776367,
+        0.88495934009552,
+        2.94189190864563,
+        2.622891664505005
+    ],
+    "best_epoch": 3,
+    "best_val_loss": 0.6116,
+    "best_val_accuracy_percent": 76.36,
+    "total_training_duration_seconds": 357.6,
+    "best_checkpoint_path": "C:\\NetraSetu\\models\\NetraSetu_ResNet50_combined_v2_best.pth",
+    "final_checkpoint_path": "C:\\NetraSetu\\models\\NetraSetu_ResNet50_combined_v2_final.pth"
+}

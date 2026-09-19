@@ -1,0 +1,14 @@
+NETRASETU FINAL TEST RESULTS
+============================
+
+Threshold: 0.2400
+Test Accuracy: 82.97%
+Sensitivity: 96.64%
+Specificity: 88.89%
+Precision: 80.45%
+F1 Score: 87.80%
+ROC-AUC: 0.9778
+
+Confusion Matrix:
+[[280  35]
+ [  5 144]]

@@ -1,0 +1,34 @@
+================================================================================
+NETRASETU — POST-EXECUTION CHECKPOINT INTEGRITY AUDIT
+================================================================================
+Audit Time: 2026-09-19 23:20:03
+
+SECTION 1: PRODUCTION & HISTORICAL CHECKPOINTS (Zero Mutation Rule)
+--------------------------------------------------------------------------------
+Filename                                   | Before SHA-256 (prefix) | After SHA-256 (prefix) | Status
+--------------------------------------------------------------------------------
+NetraSetu_ResNet50_best.pth                | 258aa88fe0243c72...       | 258aa88fe0243c72...       | INTACT [PASSED]
+NetraSetu_ResNet50_final.pth               | 29d037490e6593e5...       | 29d037490e6593e5...       | INTACT [PASSED]
+NetraSetu_ResNet50_combined_best.pth       | e243adb60675572c...       | e243adb60675572c...       | INTACT [PASSED]
+NetraSetu_ResNet50_combined_final.pth      | 244df1f20352a229...       | 244df1f20352a229...       | INTACT [PASSED]
+NetraSetu_ResNet50_combined_v2_best.pth    | 4e17497f78b7e9ef...       | 4e17497f78b7e9ef...       | INTACT [PASSED]
+NetraSetu_ResNet50_combined_v2_final.pth   | 2bcf92958d8fdb2e...       | 2bcf92958d8fdb2e...       | INTACT [PASSED]
+NetraSetu_IDRiD_Localization_best.pth      | 4e81d81bfd0125a3...       | 4e81d81bfd0125a3...       | INTACT [PASSED]
+NetraSetu_IDRiD_Localization_final.pth     | 87eedf42059727e2...       | 87eedf42059727e2...       | INTACT [PASSED]
+NetraSetu_IDRiD_UNet_best.pth              | 5a7cb2b141db375d...       | 5a7cb2b141db375d...       | INTACT [PASSED]
+NetraSetu_IDRiD_UNet_V2_best.pth           | 6c655be5b91bec20...       | 6c655be5b91bec20...       | INTACT [PASSED]
+NetraSetu_IDRiD_UNet_V2_final.pth          | 5e3ea1a790106501...       | 5e3ea1a790106501...       | INTACT [PASSED]
+--------------------------------------------------------------------------------
+
+SECTION 2: NEWLY TRAINED MODELS (Phase 1 & Phase 2 Deliverables)
+--------------------------------------------------------------------------------
+Filename                                   | Size (MB)    | SHA-256 Full Hash
+--------------------------------------------------------------------------------
+NetraSetu_IDRiD_UNet_V3_best.pth           |   159.51 MB  | a35b028741da50d22849a08a0aec5bc2f3286958f418efb3dde45bfd92f67434
+NetraSetu_IDRiD_UNet_V3_final.pth          |    53.21 MB  | 2cef5028c30c121bb5643c8291d3c7676f94a4543c686899cc4409f0bab4d5a3
+NetraSetu_DRIVE_Vessel_UNet_best.pth       |    88.96 MB  | 74bef47d118f550cb22520c6f5abfec0285491dbb35ffb902cfb5a400f94daa9
+NetraSetu_DRIVE_Vessel_UNet_final.pth      |    29.68 MB  | 91b23d1c3a7cd87cb9c88e40986ccd5ff735440b01c513b38d0860ec434390e7
+--------------------------------------------------------------------------------
+
+FINAL AUDIT VERDICT: ALL 11 BASELINE CHECKPOINTS INTACT & UNTOUCHED (PASSED)
+================================================================================

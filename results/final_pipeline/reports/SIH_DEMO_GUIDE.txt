@@ -1,0 +1,87 @@
+================================================================================
+NETRASETU — SMART INDIA HACKATHON 2026 OFFICIAL DEMONSTRATION GUIDE
+Problem Statement ID: 26038
+Project: NetraSetu — Explainable AI for Diabetic Retinopathy Screening in Rural India
+Target Presentation Duration: 5 to 7 Minutes
+================================================================================
+
+AUDIENCE & PRESENTATION RULES:
+--------------------------------------------------------------------------------
+WHAT TO EMPHASIZE (DO SAY):
+- "NetraSetu is an AI-assisted screening decision support system designed for rural India."
+- "The Image Quality Gate acts as an immediate fail-safe to prevent misdiagnosis from blurred or underexposed fundus photos."
+- "Our ResNet-50 baseline achieves 82.97% 5-class accuracy and 96.64% referable sensitivity on official APTOS test data."
+- "We calibrate model confidence using Temperature Scaling (T=0.9215) so clinical staff receive reliable probability estimates."
+- "The multi-modal explainability engine combines Grad-CAM attention with experimental lesion segmentation, vessel networks, and landmark localization."
+- "Our capacity simulator demonstrates that a single workstation can comfortably handle rural screening throughput."
+
+WHAT NEVER TO CLAIM (DO NOT SAY):
+- DO NOT say: "NetraSetu replaces doctors or provides a definitive diagnosis."
+- DO NOT say: "The system is clinically validated or approved by regulatory authorities."
+- DO NOT say: "Microaneurysm segmentation is clinically perfect" (State honestly that MA pixel segmentation is weak due to sub-15px sparsity).
+- DO NOT say: "We saved ₹28 lakh rupees in real life" (State: "Our parametric scenario models potential economic savings for rural families").
+- DO NOT say: "The AI has 100% accuracy or diagnostic guarantee."
+
+================================================================================
+5-7 MINUTE STRUCTURED DEMO FLOW:
+================================================================================
+
+MINUTE 1: INTRODUCTION & PROBLEM CONTEXT (0:00 - 1:00)
+- Presenter: "Namaste jury members. Diabetic Retinopathy is a leading cause of preventable blindness in India, where over 77 million people live with diabetes. In rural primary health centers (PHCs), there is a severe shortage of ophthalmologists. Patients often travel 50–100 km for screening, only to find out weeks later that their fundus photograph was blurry or ungradable. NetraSetu solves this by providing instant point-of-care quality verification, calibrated severity staging, and explainable multi-modal reports."
+
+MINUTE 2: DEMO 1 — NORMAL/GOOD FUNDUS SCREENING (1:00 - 2:30)
+- Action: Open Web UI at http://127.0.0.1:5000/
+- Click: Curated sample "Normal Retina Demo" (or upload a good APTOS fundus).
+- Show:
+  1. Quality Gate: Status = "GOOD" (Blur variance > 20, contrast and illumination verified).
+  2. Severity Staging: "Grade 0: No Diabetic Retinopathy".
+  3. Calibrated Confidence: Clear probability distribution post-temperature scaling (T=0.9215).
+  4. Screening Triage: "NON-REFERABLE" (Risk < 24%).
+  5. Grad-CAM Attention: Highlights salient macula/disc regions.
+  6. Generated Report: Click "Download Screening Report" to preview clean printable clinical layout.
+- Narration: "Notice how the system validates image quality first before running deep classification, ensuring that no artefactual diagnosis occurs."
+
+MINUTE 3: DEMO 2 — QUALITY GATE REJECTION & RECAPTURE ALERT (2:30 - 3:30)
+- Action: Upload an intentionally degraded or severely blurred image (e.g. results/final_pipeline/qa/test_reject.jpg).
+- Show:
+  1. Quality Gate: Status = "REJECT" (Flags: "Severe motion/optical blur").
+  2. Fail-Safe Intervention: Status banner immediately displays "NEEDS RECAPTURE".
+  3. Safe Halting: Normal downstream screening is blocked; zero false normal result is emitted.
+  4. Clinical Action Prompt: "Recapture retinal image before clinical triage."
+- Narration: "This is NetraSetu's safety-first architecture. Rather than hallucinating a false negative on an ungradable photo, it immediately instructs the ASHA worker or technician to take a fresh photo while the patient is still present in the clinic."
+
+MINUTE 4: DEMO 3 — IDRiD RESEARCH MODE & EXPLAINABILITY (3:30 - 5:00)
+- Action: Demonstrate Research Mode (or click sample "Moderate DR Demo" / IDRiD case).
+- Show:
+  1. Multi-Modal Evidence Fusion: Side-by-side visualization showing:
+     - Grad-CAM heatmap attention
+     - Optic Disc and Fovea Centralis localization markers
+     - UNet V3 lesion segmentation contours (Red = Hemorrhages, Cyan = Hard Exudates)
+     - DRIVE Retinal blood vessel tree density
+  2. Referral Triage: "REFERABLE (Risk >= 24%)" alerting the clinician to moderate pathology.
+  3. Explainable Report: Open the 1080p composite summary card showing all 4 diagnostic panels and pathology area metrics.
+- Narration: "For rural healthcare providers, explainability is essential. NetraSetu does not act as a black box; it points out exactly where retinal exudates and hemorrhages are detected relative to the optic disc and fovea."
+
+MINUTE 5-6: DEMO 4 — DASHBOARD, REVIEW QUEUE & CAPACITY (5:00 - 6:30)
+- Action: Switch to Dashboard & Analytics tabs.
+- Show:
+  1. Screening History & Specialist Review Queue: Demonstrates tele-ophthalmology workflow where flagged referable cases are queued for remote ophthalmologist review.
+  2. System Telemetry (/api/system_status): Shows live status of all 11 modules and confirms baseline production lock.
+  3. Rural Capacity Model: Show the 100k-250k patient throughput chart demonstrating 325 ms latency and ~82.3% routine triage reduction at the PHC level.
+- Narration: "Our parametric engineering model indicates that a single edge workstation operates at under 1% nominal compute capacity to screen 100,000 patients annually, allowing rural healthcare networks to scale without expensive server clusters."
+
+MINUTE 7: CONCLUSION & SUMMARY (6:30 - 7:00)
+- Presenter: "To summarize: NetraSetu combines production safety with explainable AI. The baseline classifier remains intact with 82.97% accuracy, while our research pipeline provides calibrated confidence and multi-modal evidence maps to support healthcare workers across rural India. Thank you!"
+
+================================================================================
+READY-TO-USE DEMO ASSET CHEATSHEET:
+--------------------------------------------------------------------------------
+1. Good Sample 1:       data/APTOS/raw/train_images/002c21358ce6.png
+2. Good Sample 2:       data/APTOS/raw/train_images/0024cdab0c1e.png
+3. Rejected Sample:     results/final_pipeline/qa/test_reject.jpg
+4. IDRiD Sample:        data/IDRiD_Grading/B. Disease Grading/1. Original Images/a. Training Set/IDRiD_002.jpg
+5. HTML Report Demo:    results/final_pipeline/screening_output/SELFTEST-001_screening_report.html
+6. 1080p Summary Card:  results/final_pipeline/screening_output/SELFTEST-001_composite_summary.png
+7. Capacity Chart:      results/final_pipeline/capacity/capacity_plot.png
+8. API System Status:   http://127.0.0.1:5000/api/system_status
+================================================================================

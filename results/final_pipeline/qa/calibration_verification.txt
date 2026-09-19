@@ -1,0 +1,34 @@
+================================================================================
+NETRASETU — CONFIDENCE CALIBRATION VERIFICATION AUDIT
+================================================================================
+Audit Timestamp: 2026-09-19 23:38:02
+Source File: results/final_pipeline/calibration/temperature_scaling.json
+
+1. CALIBRATION PARAMETERS:
+   - Evaluated Model:         NetraSetu_ResNet50_best.pth (Production Baseline)
+   - Optimal Temperature (T): 0.9215 (Expected: ~0.9215) -> VERIFIED [OK]
+   - Validation Dataset:      APTOS_processed_val (463 images)
+   - Optimization Method:     L-BFGS NLL Minimization (Post-hoc Logit Scaling)
+
+2. ERROR METRICS BEFORE vs AFTER CALIBRATION:
+   - Expected Calibration Error (ECE):
+       Before Calibration: 0.0422 (Expected: ~0.0422)
+       After Calibration:  0.0352 (Expected: ~0.0352)
+       Relative Error Reduction: 16.6% -> VERIFIED [OK]
+
+   - Negative Log-Likelihood (NLL):
+       Before Calibration: 0.4541 (Expected: ~0.4541)
+       After Calibration:  0.4503 (Expected: ~0.4503) -> VERIFIED [OK]
+
+   - Brier Multi-Class Score:
+       Before Calibration: 0.2256 (Expected: ~0.2256)
+       After Calibration:  0.2239 (Expected: ~0.2239) -> VERIFIED [OK]
+
+3. PRODUCTION SAFETY & INTEGRITY VERIFICATION:
+   - Are neural network weights modified by calibration?: NO
+   - Mechanism: Post-processing logit division (calibrated_logits = logits / 0.9215).
+   - Test data leakage during calibration?: NO (Calibration tuned exclusively on 463 validation samples).
+   - Production Referral Threshold: 0.24 (Maintained at 0.24).
+
+FINAL CALIBRATION VERDICT: PASSED — CALIBRATION METRICS ACCURATE & ZERO WEIGHT MUTATION
+================================================================================

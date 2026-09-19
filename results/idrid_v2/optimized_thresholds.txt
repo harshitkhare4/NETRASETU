@@ -1,0 +1,8 @@
+NETRASETU IDRiD U-NET V2
+Validation-based optimized thresholds
+Threshold criterion: maximum mean Dice
+
+Microaneurysm: 0.34
+Hemorrhage: 0.30
+Hard Exudate: 0.64
+Soft Exudate: 0.64

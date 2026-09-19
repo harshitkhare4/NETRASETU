@@ -1,0 +1,30 @@
+================================================================================
+NETRASETU — PRODUCTION SAFETY AUDIT
+================================================================================
+Audit Timestamp: 2026-09-19 23:27:30
+
+1. PRODUCTION CLASSIFIER:
+   File: NetraSetu_ResNet50_best.pth
+   Expected SHA-256: 258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6
+   Current SHA-256:  258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6
+   Size:             94396575 bytes
+   Unchanged:        YES
+
+2. PRODUCTION FINAL CHECKPOINT:
+   File: NetraSetu_ResNet50_final.pth
+   Expected SHA-256: 29d037490e6593e56cc5cfe6aa38d97751f688f1648c614927c856e2a57dff3c
+   Current SHA-256:  29d037490e6593e56cc5cfe6aa38d97751f688f1648c614927c856e2a57dff3c
+   Size:             94396901 bytes
+   Unchanged:        YES
+
+3. PRODUCTION REFERABLE THRESHOLD:
+   Configured in src/inference.py: 0.24 (Present: True)
+   Referenced in src/inference_service.py: Present (True)
+   Unchanged:        YES
+
+SUMMARY:
+Production classifier unchanged: YES
+Production final checkpoint unchanged: YES
+Production threshold unchanged: YES
+FINAL SAFETY VERDICT: PASSED — ZERO PRODUCTION MUTATION
+================================================================================

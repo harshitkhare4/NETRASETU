@@ -1,0 +1,21 @@
+NETRASETU IDRiD TEST RESULTS
+============================
+
+Microaneurysm
+Dice: 0.0000
+IoU: 0.0000
+
+Hemorrhage
+Dice: 0.2277
+IoU: 0.1285
+
+Hard Exudate
+Dice: 0.4565
+IoU: 0.2957
+
+Soft Exudate
+Dice: 0.4591
+IoU: 0.2980
+
+Mean Dice: 0.2858
+Mean IoU: 0.1805

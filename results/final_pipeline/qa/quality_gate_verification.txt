@@ -1,0 +1,23 @@
+================================================================================
+NETRASETU — QUALITY GATE & RECAPTURE VERIFICATION AUDIT
+================================================================================
+Audit Timestamp: 2026-09-19 23:32:16
+
+CASE 1: GOOD APTOS FUNDUS (002c21358ce6.png)
+- Quality Status:      GOOD (Blur: 42.17, Contrast: 46.5, Brightness: 85.5)
+- Downstream Execution: EXECUTED (Predicted: No DR (Grade 0), Calib Conf: 85.3%)
+- Normal/Expected:     PASSED
+
+CASE 2: SEVERELY BLURRED FUNDUS (REJECT TEST)
+- Quality Status:      REJECT (Blur: 0.85, Reasons: Severe motion/optical blur)
+- Downstream Execution: HALTED (Status: NEEDS RECAPTURE, Action: Stop primary screening. Recapture retinal image before clinical triage.)
+- False Normal Shown?: NO (Pipeline completely halted; zero downstream prediction emitted)
+- Normal/Expected:     PASSED
+
+CASE 3: IDRiD FUNDUS (IDRiD_003.jpg)
+- Quality Status:      REVIEW (Blur: 9.33, Reasons: Mild/borderline blur)
+- Downstream Execution: EXECUTED WITH AUDIT NOTICE (Predicted: No DR (Grade 0))
+- Normal/Expected:     PASSED
+
+FINAL VERDICT: QUALITY GATE ENFORCES FAIL-SAFE SCREENING & BLOCKS INCONCLUSIVE IMAGES
+================================================================================

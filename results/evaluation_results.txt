@@ -1,0 +1,19 @@
+NETRASETU MODEL EVALUATION
+===========================
+
+Test Accuracy: 82.97%
+Sensitivity: 87.92%
+Specificity: 96.19%
+Precision: 91.61%
+F1 Score: 89.73%
+
+Confusion Matrix:
+[[259   8   1   0   0]
+ [  4  32  10   1   0]
+ [  2  13  70   2   9]
+ [  0   1   6   9   6]
+ [  1   1   7   7  15]]
+
+Referable DR Confusion Matrix:
+[[303  12]
+ [ 18 131]]
