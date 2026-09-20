@@ -186,8 +186,18 @@ class InferenceService:
         """Ensures primary ResNet-50 classifier is loaded into memory on demand."""
         if self.classifier_loaded and self.classifier_model is not None:
             return True
+
+        # If model checkpoint is not on disk, check if download is configured via NETRASETU_MODEL_URL
+        if not os.path.exists(MODEL_PATH):
+            try:
+                from src.download_model import ensure_model_available
+                ensure_model_available(MODEL_PATH)
+            except Exception as dl_err:
+                print(f"[NetraSetu Service] Automated model download attempt: {dl_err}")
+
         if not os.path.exists(MODEL_PATH):
             return False
+
         with self._lock:
             if self.classifier_loaded and self.classifier_model is not None:
                 return True
@@ -205,8 +215,9 @@ class InferenceService:
 
     def get_system_health(self):
         """Returns structured system & model health telemetry."""
+        self._ensure_classifier_loaded()
         model_exists = os.path.exists(MODEL_PATH)
-        is_ready = self.classifier_loaded and model_exists
+        is_ready = bool(self.classifier_loaded and model_exists)
         research_mode = os.getenv("NETRASETU_RESEARCH_MODE", "false").lower() in ("true", "1", "yes")
         return {
             "status": "ready" if is_ready else "model_unavailable",

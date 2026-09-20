@@ -92,6 +92,22 @@ def get_configured_model_path():
     return os.path.join(PROJECT_ROOT, "models", "NetraSetu_ResNet50_best.pth")
 
 
+def check_or_retrieve_model():
+    """Checks model presence; attempts automated download if NETRASETU_MODEL_URL is configured."""
+    model_path = get_configured_model_path()
+    if os.path.exists(model_path):
+        return True, model_path
+
+    try:
+        from src.download_model import ensure_model_available
+        if ensure_model_available(model_path):
+            return True, model_path
+    except Exception as e:
+        logger.error(f"Automated model retrieval error: {e}")
+
+    return False, model_path
+
+
 # Safe startup logging (no secrets, tokens, or credentials)
 _cfg_model_path = get_configured_model_path()
 _model_file_exists = os.path.exists(_cfg_model_path)
@@ -188,8 +204,8 @@ def analyze_sample(sample_id):
     if sample_id not in SAMPLES:
         return jsonify({"error": f"Unknown sample ID: {sample_id}"}), 404
 
-    model_path = get_configured_model_path()
-    if not os.path.exists(model_path):
+    model_ready, model_path = check_or_retrieve_model()
+    if not model_ready:
         return jsonify({
             "error": "Model unavailable",
             "status": "model_unavailable",
@@ -244,8 +260,8 @@ def analyze():
     if not is_allowed_file(filename):
         return jsonify({"error": "Unsupported file format. Please upload JPG, JPEG, or PNG."}), 400
 
-    model_path = get_configured_model_path()
-    if not os.path.exists(model_path):
+    model_ready, model_path = check_or_retrieve_model()
+    if not model_ready:
         return jsonify({
             "error": "Model unavailable",
             "status": "model_unavailable",
@@ -294,8 +310,8 @@ def analyze_camera():
     if not data_url:
         return jsonify({"error": "Missing 'image_data' base64 string in request payload."}), 400
 
-    model_path = get_configured_model_path()
-    if not os.path.exists(model_path):
+    model_ready, model_path = check_or_retrieve_model()
+    if not model_ready:
         return jsonify({
             "error": "Model unavailable",
             "status": "model_unavailable",

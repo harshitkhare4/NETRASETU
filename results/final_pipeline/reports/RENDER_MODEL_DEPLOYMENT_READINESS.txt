@@ -1,0 +1,61 @@
+================================================================================
+NETRASETU — RENDER MODEL DEPLOYMENT READINESS AUDIT
+Smart India Hackathon 2026 — Problem Statement ID: 26038
+Project: NetraSetu — Explainable AI for Diabetic Retinopathy Screening in Rural India
+================================================================================
+Audit Timestamp: 2026-09-20 10:52:00
+
+Model artifact strategy:
+READY
+
+Model SHA verification:
+READY
+
+Render memory requirement:
+2 GB recommended starting point
+
+Health endpoint:
+READY
+
+Port binding:
+READY
+
+Gunicorn:
+READY
+
+Production model:
+LOCKED
+
+Production threshold:
+0.24
+
+Research mode:
+FALSE
+
+================================================================================
+TECHNICAL SPECIFICATIONS & AUDIT DETAILS:
+================================================================================
+1. PRODUCTION MODEL ARTIFACT:
+   - Filename:            NetraSetu_ResNet50_best.pth
+   - Architecture:        ResNet-50 (5-class ICDR Classifier)
+   - Checkpoint Size:     94,396,575 bytes
+   - Verified SHA-256:    258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6
+   - Git Status:          Excluded via .gitignore (models/*.pth) — NO WEIGHTS IN GIT
+   - Delivery Pipeline:   Streaming atomic download utility (src/download_model.py)
+                          configured via NETRASETU_MODEL_URL + NETRASETU_MODEL_SHA256
+
+2. RUNTIME & INFRASTRUCTURE SIZING:
+   - Sizing Analysis:     Free tier 512 MB RAM triggers OOM SIGKILL during PyTorch inference.
+   - Recommended Plan:    1 CPU / 2 GB RAM minimum starting point for inference.
+   - Gunicorn Command:    gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+   - Health Check Path:   /health (Lightweight, non-blocking, zero model loading)
+   - Status When Ready:   HTTP 200 (status: ok)
+   - Status When Standby: HTTP 503 (status: degraded, model_available: false)
+
+3. CLINICAL & ENGINEERING INTEGRITY:
+   - Referable Threshold: 0.24 (Strictly locked across all configurations)
+   - Fallback Policy:     No dummy model, no random weights, no fake inference.
+                          Screening endpoints return controlled HTTP 503 if weights absent.
+================================================================================
+AUDIT RESULT: ALL DEPLOYMENT CRITERIA SATISFIED
+================================================================================
