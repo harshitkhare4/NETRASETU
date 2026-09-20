@@ -1,20 +1,20 @@
 ================================================================================
 NETRASETU — FINAL CHECKPOINT INTEGRITY & PRODUCTION SAFETY AUDIT
 Smart India Hackathon 2026 | Problem Statement ID: 26038
-Date: 2026-09-19 23:44:25
+Date: 2026-09-20 09:27:45
 ================================================================================
 
 PROTECTED CHECKPOINT INTEGRITY VERIFICATION:
 --------------------------------------------------------------------------------
 1. Production Model: NetraSetu_ResNet50_best.pth
-   - File Path: models\NetraSetu_ResNet50_best.pth
+   - File Path: C:\NetraSetu\models\NetraSetu_ResNet50_best.pth
    - File Size: 94396575 bytes (90.02 MB)
    - Expected SHA-256: 258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6
    - Actual SHA-256:   258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6
    - Match Status:     BYTE-FOR-BYTE IDENTICAL [VERIFIED]
 
 2. Production Final: NetraSetu_ResNet50_final.pth
-   - File Path: models\NetraSetu_ResNet50_final.pth
+   - File Path: C:\NetraSetu\models\NetraSetu_ResNet50_final.pth
    - File Size: 94396901 bytes (90.02 MB)
    - Expected SHA-256: 29d037490e6593e56cc5cfe6aa38d97751f688f1648c614927c856e2a57dff3c
    - Actual SHA-256:   29d037490e6593e56cc5cfe6aa38d97751f688f1648c614927c856e2a57dff3c
