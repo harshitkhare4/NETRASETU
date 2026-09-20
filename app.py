@@ -28,7 +28,13 @@ from src.db import DEMO_MODE
 # FLASK CONFIGURATION
 # ============================================================
 
+# Ensure runtime directories exist on startup (Render / Docker / local)
+os.makedirs(os.path.join(PROJECT_ROOT, "uploads"), exist_ok=True)
+os.makedirs(os.path.join(PROJECT_ROOT, "results", "inference"), exist_ok=True)
+os.makedirs(os.path.join(PROJECT_ROOT, "data"), exist_ok=True)
+
 app = Flask(__name__, template_folder="templates", static_folder="static")
+app.secret_key = os.environ.get("SECRET_KEY", "netrasetu-sih2026-production-key")
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16 MB max upload
 ALLOWED_EXTENSIONS = {"jpg", "jpeg", "png"}
 
@@ -85,7 +91,7 @@ with app.app_context():
 
 
 # ============================================================
-# PRIMARY ROUTES
+# ROUTE HANDLERS
 # ============================================================
 
 @app.route("/")
@@ -94,8 +100,27 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/api/health", methods=["GET"])
+@app.route("/health", methods=["GET"])
 def health():
+    """
+    Lightweight health endpoint for Render and external HTTP monitors.
+    Returns immediately without loading models, running inference, or performing heavy operations.
+    """
+    research_mode = os.getenv("NETRASETU_RESEARCH_MODE", "false").lower() in ("true", "1", "yes")
+    model_env = os.getenv("NETRASETU_MODEL_PATH", "")
+    model_name = os.path.basename(model_env) if model_env else "NetraSetu_ResNet50_best.pth"
+
+    return jsonify({
+        "status": "ok",
+        "service": "NetraSetu",
+        "mode": "research" if research_mode else "production",
+        "model": model_name,
+        "referable_threshold": 0.24
+    }), 200
+
+
+@app.route("/api/health", methods=["GET"])
+def api_health():
     """Returns system status, device telemetry, and model readiness."""
     try:
         svc = get_inference_service()

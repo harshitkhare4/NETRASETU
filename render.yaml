@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: netrasetu
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.14
+      - key: NETRASETU_RESEARCH_MODE
+        value: "false"
+      - key: NETRASETU_MODEL_PATH
+        value: models/NetraSetu_ResNet50_best.pth

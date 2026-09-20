@@ -1,0 +1,46 @@
+================================================================================
+NETRASETU — RENDER DEPLOYMENT READINESS AUDIT
+Smart India Hackathon 2026 | Problem Statement ID: 26038
+Date: 2026-09-20 09:55:00
+================================================================================
+
+Render configuration:
+READY (render.yaml created with web service, Gunicorn startCommand, and /health healthcheck)
+
+Health endpoint:
+READY (GET /health verified; returns HTTP 200 JSON in < 10 ms without loading heavy models)
+
+Gunicorn:
+READY (gunicorn>=21.2.0 added to requirements.txt; start command: gunicorn app:app)
+
+Requirements:
+READY (requirements.txt verified with CPU-compatible dependencies for Linux / Render)
+
+Environment variables:
+READY (.env.example updated with NETRASETU_MODEL_PATH and NETRASETU_RESEARCH_MODE=false)
+
+Production model:
+LOCKED (NetraSetu_ResNet50_best.pth | SHA-256: 258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6)
+
+Production threshold:
+0.24
+
+Research mode default:
+FALSE (NETRASETU_RESEARCH_MODE=false; baseline APTOS ResNet-50 strictly enforced)
+
+GitHub:
+PUSHED (Synced with origin/master at https://github.com/harshitkhare4/NETRASETU)
+
+Production regression:
+PASSED (8/8 regression tests verified, zero baseline regressions, 0 false normals)
+
+================================================================================
+DEPLOYMENT TELEMETRY & SPECIFICATIONS:
+- Healthcheck Route:          GET /health
+- Detailed Telemetry Route:   GET /api/health
+- Service Mode:               production
+- WSGI Server:                Gunicorn (gunicorn app:app)
+- External Monitoring:        UptimeRobot compatible (external HTTP ping recommended)
+- Runtime Auto-Creation:      uploads/, results/inference/, data/ created on container startup
+- Fail-Safe Enforcement:      Missing weights strictly halts inference; never runs untrained models
+================================================================================

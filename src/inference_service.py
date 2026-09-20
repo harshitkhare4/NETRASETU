@@ -178,16 +178,23 @@ class InferenceService:
 
     def get_system_health(self):
         """Returns structured system & model health telemetry."""
+        model_exists = os.path.exists(MODEL_PATH)
+        is_ready = self.classifier_loaded and model_exists
+        research_mode = os.getenv("NETRASETU_RESEARCH_MODE", "false").lower() in ("true", "1", "yes")
         return {
-            "status": "ready" if self.classifier_loaded else "error",
+            "status": "ready" if is_ready else "model_unavailable",
+            "service": "NetraSetu",
+            "mode": "research" if research_mode else "production",
+            "model": os.path.basename(MODEL_PATH),
             "device": str(self.device),
             "gpu": self.gpu_name,
             "cuda_available": torch.cuda.is_available(),
-            "classifier_loaded": self.classifier_loaded,
+            "classifier_loaded": bool(self.classifier_loaded and model_exists),
             "classifier_model_path": MODEL_PATH,
-            "gradcam_available": True,
+            "gradcam_available": bool(self.classifier_loaded and model_exists),
             "segmentation_available": os.path.exists(UNET_MODEL_PATH),
             "locked_referable_threshold": REFERABLE_THRESHOLD,
+            "referable_threshold": REFERABLE_THRESHOLD,
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
         }
 

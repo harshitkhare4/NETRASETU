@@ -16,11 +16,16 @@ from pytorch_grad_cam.utils.image import show_cam_on_image
 # NETRASETU - END-TO-END INFERENCE
 # ============================================================
 
-ROOT = r"C:\NetraSetu"
-
-MODEL_PATH = os.path.join(
-    ROOT, "models", "NetraSetu_ResNet50_best.pth"
+ROOT = os.getenv(
+    "NETRASETU_ROOT",
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 )
+
+_default_model_path = os.path.join(ROOT, "models", "NetraSetu_ResNet50_best.pth")
+MODEL_PATH = os.getenv("NETRASETU_MODEL_PATH", _default_model_path)
+if not os.path.isabs(MODEL_PATH):
+    MODEL_PATH = os.path.normpath(os.path.join(ROOT, MODEL_PATH))
+
 
 OUTPUT_DIR = os.path.join(
     ROOT, "results", "inference"
@@ -56,6 +61,8 @@ REFERABLE_THRESHOLD = 0.24
 # ============================================================
 
 def build_model():
+    if not os.path.exists(MODEL_PATH):
+        raise FileNotFoundError(f"Production model weights not found at: {MODEL_PATH}")
 
     model = models.resnet50(weights=None)
 
