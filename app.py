@@ -82,12 +82,30 @@ def is_allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-with app.app_context():
-    try:
-        service = get_inference_service()
-        logger.info(f"NetraSetu Inference Service initialized. GPU: {service.gpu_name}")
-    except Exception as e:
-        logger.error(f"Failed to initialize Inference Service: {e}")
+def get_configured_model_path():
+    """Resolves configured model path relative to project root."""
+    model_env = os.getenv("NETRASETU_MODEL_PATH", "")
+    if model_env:
+        if not os.path.isabs(model_env):
+            return os.path.normpath(os.path.join(PROJECT_ROOT, model_env))
+        return model_env
+    return os.path.join(PROJECT_ROOT, "models", "NetraSetu_ResNet50_best.pth")
+
+
+# Safe startup logging (no secrets, tokens, or credentials)
+_cfg_model_path = get_configured_model_path()
+_model_file_exists = os.path.exists(_cfg_model_path)
+_research_mode_active = os.getenv("NETRASETU_RESEARCH_MODE", "false").lower() in ("true", "1", "yes")
+
+logger.info("=" * 60)
+logger.info("NETRASETU STARTUP INITIALIZATION")
+logger.info(f"  Python Version : {sys.version.split()[0]}")
+logger.info(f"  PORT           : {os.getenv('PORT', '5000')}")
+logger.info(f"  Model Path     : {_cfg_model_path}")
+logger.info(f"  Model Exists   : {'YES' if _model_file_exists else 'NO'}")
+logger.info(f"  Research Mode  : {'ENABLED' if _research_mode_active else 'DISABLED (Production)'}")
+logger.info(f"  Database       : {db.DB_PATH}")
+logger.info("=" * 60)
 
 
 # ============================================================
@@ -107,16 +125,27 @@ def health():
     Returns immediately without loading models, running inference, or performing heavy operations.
     """
     research_mode = os.getenv("NETRASETU_RESEARCH_MODE", "false").lower() in ("true", "1", "yes")
-    model_env = os.getenv("NETRASETU_MODEL_PATH", "")
-    model_name = os.path.basename(model_env) if model_env else "NetraSetu_ResNet50_best.pth"
+    model_path = get_configured_model_path()
+    model_name = os.path.basename(model_path)
+    model_available = os.path.exists(model_path)
 
-    return jsonify({
-        "status": "ok",
-        "service": "NetraSetu",
-        "mode": "research" if research_mode else "production",
-        "model": model_name,
-        "referable_threshold": 0.24
-    }), 200
+    if model_available:
+        return jsonify({
+            "status": "ok",
+            "service": "NetraSetu",
+            "mode": "research" if research_mode else "production",
+            "model": model_name,
+            "referable_threshold": 0.24
+        }), 200
+    else:
+        return jsonify({
+            "status": "degraded",
+            "service": "NetraSetu",
+            "mode": "research" if research_mode else "production",
+            "model": model_name,
+            "model_available": False,
+            "message": "Production classifier model is unavailable"
+        }), 503
 
 
 @app.route("/api/health", methods=["GET"])
@@ -159,6 +188,15 @@ def analyze_sample(sample_id):
     if sample_id not in SAMPLES:
         return jsonify({"error": f"Unknown sample ID: {sample_id}"}), 404
 
+    model_path = get_configured_model_path()
+    if not os.path.exists(model_path):
+        return jsonify({
+            "error": "Model unavailable",
+            "status": "model_unavailable",
+            "model": os.path.basename(model_path),
+            "message": "Production classifier model is unavailable on this server. Screening cannot be performed without verified model weights."
+        }), 503
+
     sample_meta = SAMPLES[sample_id]
     sample_path = sample_meta["path"]
 
@@ -183,6 +221,10 @@ def analyze_sample(sample_id):
             "description": sample_meta["description"]
         }
         return jsonify(result), 200
+    except RuntimeError as re:
+        if "classifier weights not available" in str(re) or "classifier is not loaded" in str(re):
+            return jsonify({"error": "Model unavailable", "status": "model_unavailable", "message": str(re)}), 503
+        return jsonify({"error": "Runtime error", "message": str(re)}), 500
     except Exception as e:
         logger.error(f"Error analyzing sample '{sample_id}': {e}", exc_info=True)
         return jsonify({"error": "Failed to process sample image", "message": str(e)}), 500
@@ -201,6 +243,15 @@ def analyze():
     filename = secure_filename(file.filename)
     if not is_allowed_file(filename):
         return jsonify({"error": "Unsupported file format. Please upload JPG, JPEG, or PNG."}), 400
+
+    model_path = get_configured_model_path()
+    if not os.path.exists(model_path):
+        return jsonify({
+            "error": "Model unavailable",
+            "status": "model_unavailable",
+            "model": os.path.basename(model_path),
+            "message": "Production classifier model is unavailable on this server. Screening cannot be performed without verified model weights."
+        }), 503
 
     override_quality = (request.form.get("override_quality", "false").lower() == "true") or (request.args.get("override_quality", "false").lower() == "true")
 
@@ -221,6 +272,10 @@ def analyze():
 
     except ValueError as ve:
         return jsonify({"error": str(ve)}), 400
+    except RuntimeError as re:
+        if "classifier weights not available" in str(re) or "classifier is not loaded" in str(re):
+            return jsonify({"error": "Model unavailable", "status": "model_unavailable", "message": str(re)}), 503
+        return jsonify({"error": "Runtime error", "message": str(re)}), 500
     except Exception as e:
         logger.error(f"Inference error in /api/analyze: {e}", exc_info=True)
         return jsonify({
@@ -239,12 +294,25 @@ def analyze_camera():
     if not data_url:
         return jsonify({"error": "Missing 'image_data' base64 string in request payload."}), 400
 
+    model_path = get_configured_model_path()
+    if not os.path.exists(model_path):
+        return jsonify({
+            "error": "Model unavailable",
+            "status": "model_unavailable",
+            "model": os.path.basename(model_path),
+            "message": "Production classifier model is unavailable on this server. Screening cannot be performed without verified model weights."
+        }), 503
+
     try:
         svc = get_inference_service()
         result = svc.analyze_camera_frame(data_url, override_quality=override_quality)
         return jsonify(result), 200
     except ValueError as ve:
         return jsonify({"error": str(ve)}), 400
+    except RuntimeError as re:
+        if "classifier weights not available" in str(re) or "classifier is not loaded" in str(re):
+            return jsonify({"error": "Model unavailable", "status": "model_unavailable", "message": str(re)}), 503
+        return jsonify({"error": "Runtime error", "message": str(re)}), 500
     except Exception as e:
         logger.error(f"Error in /api/analyze-camera: {e}", exc_info=True)
         return jsonify({

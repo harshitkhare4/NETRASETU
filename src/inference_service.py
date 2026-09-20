@@ -158,14 +158,20 @@ class InferenceService:
             self.gpu_name = torch.cuda.get_device_name(0) if torch.cuda.is_available() else "CPU"
             print(f"[NetraSetu Service] Device: {self.device} ({self.gpu_name})")
 
-            # Load primary ResNet-50 classifier once
-            try:
-                print("[NetraSetu Service] Loading ResNet-50 primary classifier...")
-                self.classifier_model = build_model()
-                self.classifier_loaded = True
-                print("[NetraSetu Service] Primary classifier loaded into memory successfully.")
-            except Exception as e:
-                print(f"[NetraSetu Service] ERROR loading classifier: {e}")
+            # Check for primary ResNet-50 classifier weights
+            if os.path.exists(MODEL_PATH):
+                try:
+                    print("[NetraSetu Service] Loading ResNet-50 primary classifier...")
+                    self.classifier_model = build_model()
+                    self.classifier_loaded = True
+                    print("[NetraSetu Service] Primary classifier loaded into memory successfully.")
+                except Exception as e:
+                    print(f"[NetraSetu Service] ERROR loading classifier: {e}")
+                    self.classifier_model = None
+                    self.classifier_loaded = False
+            else:
+                print(f"[NetraSetu Service] NOTICE: Primary classifier not found at {MODEL_PATH}.")
+                print("[NetraSetu Service] Service will start in standby mode without model weights.")
                 self.classifier_model = None
                 self.classifier_loaded = False
 
@@ -175,6 +181,27 @@ class InferenceService:
             self._unet_lock = threading.Lock()
 
             self._initialized = True
+
+    def _ensure_classifier_loaded(self):
+        """Ensures primary ResNet-50 classifier is loaded into memory on demand."""
+        if self.classifier_loaded and self.classifier_model is not None:
+            return True
+        if not os.path.exists(MODEL_PATH):
+            return False
+        with self._lock:
+            if self.classifier_loaded and self.classifier_model is not None:
+                return True
+            try:
+                print("[NetraSetu Service] Loading ResNet-50 primary classifier...")
+                self.classifier_model = build_model()
+                self.classifier_loaded = True
+                print("[NetraSetu Service] Primary classifier loaded into memory successfully.")
+                return True
+            except Exception as e:
+                print(f"[NetraSetu Service] ERROR loading classifier: {e}")
+                self.classifier_model = None
+                self.classifier_loaded = False
+                return False
 
     def get_system_health(self):
         """Returns structured system & model health telemetry."""
@@ -237,8 +264,8 @@ class InferenceService:
         - If Quality is REVIEW and not override_quality: Halt primary screening and issue NEEDS RECAPTURE.
         - If Quality is REVIEW and override_quality: Run inference with explicit Research / Demo Override warnings.
         """
-        if not self.classifier_loaded or self.classifier_model is None:
-            raise RuntimeError("ResNet-50 classifier is not loaded.")
+        if not self._ensure_classifier_loaded():
+            raise RuntimeError(f"ResNet-50 classifier weights not available at: {MODEL_PATH}")
 
         start_time = time.time()
 
