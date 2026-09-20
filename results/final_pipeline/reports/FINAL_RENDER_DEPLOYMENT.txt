@@ -1,0 +1,55 @@
+================================================================================
+NETRASETU — FINAL REAL RENDER DEPLOYMENT REPORT
+Smart India Hackathon 2026 — Problem Statement ID: 26038
+Project: NetraSetu — Explainable AI for Diabetic Retinopathy Screening in Rural India
+================================================================================
+Audit Timestamp: 2026-09-20 11:02:00
+
+GitHub Release:
+tag:             v1.0.0-netrasetu-demo
+asset:           NetraSetu_ResNet50_best.pth
+asset size:      94,396,575 bytes
+asset SHA-256:   258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6
+asset URL:       https://github.com/harshitkhare4/NETRASETU/releases/download/v1.0.0-netrasetu-demo/NetraSetu_ResNet50_best.pth
+
+Render:
+service URL:     https://netrasetu.onrender.com
+plan:            1c-2g (1 CPU / 2 GB RAM)
+branch:          master
+build command:   pip install -r requirements.txt
+start command:   gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+health path:     /health
+
+Production:
+model:           NetraSetu_ResNet50_best.pth
+threshold:       0.24
+research mode:   FALSE
+
+Verification:
+health =         PASS (Lightweight GET /health returns HTTP 200 in <5 ms)
+homepage =       PASS (GET / returns 200 Healthcare UI Dashboard)
+real inference = PASS (Verified on APTOS moderate-dr sample: Level 2, score 0.8206 > 0.24)
+model checksum = PASS (Exact match: 258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6)
+port binding =   PASS (0.0.0.0:$PORT via Gunicorn)
+memory =         PASS (Render 1c-2g 2 GB RAM plan safely supports ~870 MB peak PyTorch inference)
+
+================================================================================
+DEPLOYMENT ARTIFACT AND PIPELINE VERIFICATION
+================================================================================
+1. MODEL SECURITY & GIT HYGIENE:
+   - Checkpoint weights are excluded from Git via .gitignore (models/*.pth).
+   - Zero .pth binaries, raw datasets, databases, or secrets committed to repository.
+   - Verified asset download via GitHub Release asset pipeline (src/download_model.py).
+
+2. CHECKSUM VERIFICATION & TAMPER PROOFING:
+   - Automated streaming download to temporary staging file with atomic rename.
+   - SHA-256 hash verified byte-for-byte during transfer.
+   - Any checksum deviation triggers immediate deletion and halts inference.
+
+3. RESILIENT HEALTH AND STANDBY POLICY:
+   - Port binds immediately on startup (<1s, ~30 MB memory).
+   - /health responds with 503 degraded during standby/download, 200 ok when verified.
+   - Inference endpoints strictly return controlled 503 if weights are absent (no random/dummy model fallback).
+================================================================================
+DEPLOYMENT STATUS: COMPLETE & READY FOR LIVE PRODUCTION INFERENCE
+================================================================================

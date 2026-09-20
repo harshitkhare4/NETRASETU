@@ -123,6 +123,19 @@ logger.info(f"  Research Mode  : {'ENABLED' if _research_mode_active else 'DISAB
 logger.info(f"  Database       : {db.DB_PATH}")
 logger.info("=" * 60)
 
+# If model weights are absent but NETRASETU_MODEL_URL is configured, initiate non-blocking retrieval thread
+if not _model_file_exists and os.getenv("NETRASETU_MODEL_URL"):
+    import threading
+    from src.download_model import ensure_model_available
+    _bg_dl_thread = threading.Thread(
+        target=ensure_model_available,
+        args=(_cfg_model_path,),
+        name="NetraSetuModelDownloader",
+        daemon=True
+    )
+    _bg_dl_thread.start()
+    logger.info(f"[NetraSetu Startup] Initiated background model retrieval for {_cfg_model_path}")
+
 
 # ============================================================
 # ROUTE HANDLERS

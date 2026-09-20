@@ -131,12 +131,18 @@ def download_model_from_url(
         raise
 
 
+import threading
+
+_download_lock = threading.Lock()
+
+
 def ensure_model_available(target_path: Optional[str] = None) -> bool:
     """
     Ensures that the production model is present and verified on disk.
     If already present and valid SHA: returns True.
     If absent and NETRASETU_MODEL_URL is set: downloads and verifies.
     If absent and no URL set: returns False.
+    Thread-safe with double-checked locking.
     """
     if target_path is None:
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -151,14 +157,11 @@ def ensure_model_available(target_path: Optional[str] = None) -> bool:
 
     expected_sha = os.getenv("NETRASETU_MODEL_SHA256", EXPECTED_PRODUCTION_SHA256).strip().lower()
 
-    # 1. Check existing file
+    # 1. Quick check without lock
     if os.path.exists(target_path):
         is_valid, msg = verify_model_file(target_path, expected_sha)
         if is_valid:
-            logger.info(f"[NetraSetu] Verified production model present at: {target_path} (SHA-256: {msg[:12]}...)")
             return True
-        else:
-            logger.warning(f"[NetraSetu] Existing model at {target_path} failed verification: {msg}")
 
     # 2. Check if download URL is configured
     model_url = os.getenv("NETRASETU_MODEL_URL", "").strip()
@@ -169,12 +172,19 @@ def ensure_model_available(target_path: Optional[str] = None) -> bool:
         )
         return False
 
-    # 3. Perform verified streaming download
-    try:
-        return download_model_from_url(model_url, target_path, expected_sha)
-    except Exception as e:
-        logger.error(f"[NetraSetu] Automated model retrieval failed: {e}")
-        return False
+    # 3. Synchronized download
+    with _download_lock:
+        # Double check if another thread completed it
+        if os.path.exists(target_path):
+            is_valid, msg = verify_model_file(target_path, expected_sha)
+            if is_valid:
+                return True
+
+        try:
+            return download_model_from_url(model_url, target_path, expected_sha)
+        except Exception as e:
+            logger.error(f"[NetraSetu] Automated model retrieval failed: {e}")
+            return False
 
 
 if __name__ == "__main__":

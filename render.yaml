@@ -2,6 +2,7 @@ services:
   - type: web
     name: netrasetu
     runtime: python
+    plan: 1c-2g
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
     healthCheckPath: /health
@@ -13,3 +14,7 @@ services:
         value: "false"
       - key: NETRASETU_MODEL_PATH
         value: models/NetraSetu_ResNet50_best.pth
+      - key: NETRASETU_MODEL_URL
+        value: https://github.com/harshitkhare4/NETRASETU/releases/download/v1.0.0-netrasetu-demo/NetraSetu_ResNet50_best.pth
+      - key: NETRASETU_MODEL_SHA256
+        value: 258aa88fe0243c72f4c3f890515efb93da8a1b1bbc824b04f349e23966681ad6
